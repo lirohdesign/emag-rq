@@ -38,7 +38,7 @@ app.get('/print', function (req, res) {
 //});
 
 app.get('/:key', function (req, res) {
-  if (req.params.key.slice(0,5) = 'code:'){
+  if (req.params.key.slice(0,5) = 'code+'){
     console.log(req.params.key.slice(0,5));
     var full_pth = 'http://' + ip.address() + ':' + port + '/' + req.params.key
     console.log(full_pth);
