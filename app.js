@@ -42,7 +42,9 @@ app.get('/:key', function (req, res) {
     var key_string = req.params.key.replace(/code:/g,'');
     console.log('key_string = ' + key_string);
     console.log(req.params.key.slice(0,5));
-    var full_pth = 'http://' + ip.address() + ':' + port + '/' + key_string //fix this point here
+    //var full_pth = 'http://' + ip.address() + ':' + port + '/' + key_string //fix this point here
+    var full_pth = 'https://emag-rq.herokuapp.com/' + key_string
+
     console.log(full_pth);
     var code = qr.image(full_pth, { type: 'svg' })
     res.type('svg');
