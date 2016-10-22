@@ -25,17 +25,17 @@ app.get('/print', function (req, res) {
   console.log('print sent ...');
 });
 
-app.get('/:key', function (req, res) {
-  jsonfile.readFile( "data.json", 'utf8', function (err, data) {
-    for (var i = 0; i < data.length; i++) {
-      if (data[i]['key'] == req.params.key) {
-        res.end(JSON.stringify(data[i].clue, null, 4));
-        console.log('key sent ...');
-      }
-    }
-  })
-  console.log('data sent...')
-});
+//app.get('/:key', function (req, res) {
+//  jsonfile.readFile( "data.json", 'utf8', function (err, data) {
+//    for (var i = 0; i < data.length; i++) {
+//      if (data[i]['key'] == req.params.key) {
+//        res.end(JSON.stringify(data[i].clue, null, 4));
+//        console.log('key sent ...');
+//      }
+//    }
+//  })
+//  console.log('data sent...')
+//});
 
 app.get('/:key', function (req, res) {
   if (req.params.key.slice(0,5) = 'code:'){
