@@ -1,0 +1,35 @@
+#viral {
+  animation: blink-animation 1s steps(2, start) 2;
+  font-size: calc(10vw + 10vh);
+  font-family: Courier;
+  background-color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes blink-animation {
+  to {
+    visibility: collapse;;
+  }
+}
+
+.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: auto;
+}
+
+  .c{
+    text-align: center;
+  }
+
+#destruct {
+  font-family: courier;
+  justify-content: center;
+  align-items: center;
+  font-size: calc(4vw + 4vh);
+}

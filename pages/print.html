@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="http://localhost:8081/static/style.css" media="screen" title="no title">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript">
+              $(document).ready(function () {
+                console.log("warming up...");
+                $.getJSON("http://localhost:8081/read_all", function (data) {
+                  console.log("got JSON");
+                  for (var i = 0; i < data.length; i++) {
+                      console.log(data[i].key);
+                      $('<img>', {
+                        src : "http://localhost:3000/" + data[i].key
+                      }).appendTo('figure')
+                      $('<figcaption>', {
+                        class: 'c',
+                        text : data[i].key
+                      }).appendTo('figure')
+                  }
+                });
+              });
+    </script>
+    <title></title>
+  </head>
+  <body>
+    <figure class="fullscreen"></figure>
+  </body>
+</html>
