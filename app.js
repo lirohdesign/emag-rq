@@ -7,7 +7,7 @@ var qr = require('qr-image');
 var ip = require('ip')
 
 app.use('/static', express.static(__dirname + '/static'));
-console.log(express.static(__dirname + '/static');
+console.log(express.static(__dirname + '/static'));
 
 app.get('/read_all', function (req, res) {
    jsonfile.readFile( "data.json", 'utf8', function (err, data) {
