@@ -6,8 +6,7 @@ var path = require('path');
 var qr = require('qr-image');
 var ip = require('ip')
 
-app.use('/static', express.static(__dirname + '/static'));
-console.log(express.static(__dirname + '/static'));
+app.use('/static', express.static(__dirname + '/static'));//try to figure out what is going on with the static links
 
 app.get('/read_all', function (req, res) {
    jsonfile.readFile( "data.json", 'utf8', function (err, data) {
@@ -40,8 +39,10 @@ app.get('/print', function (req, res) {
 
 app.get('/:key', function (req, res) {
   if (req.params.key.slice(0,5) == 'code:'){
+    var key_string = req.params.key.replace(/code:/g,'');
+    console.log('key_string = ' + key_string);
     console.log(req.params.key.slice(0,5));
-    var full_pth = 'http://' + ip.address() + ':' + port + '/' + req.params.key //fix this point here
+    var full_pth = 'http://' + ip.address() + ':' + port + '/' + key_string //fix this point here
     console.log(full_pth);
     var code = qr.image(full_pth, { type: 'svg' })
     res.type('svg');
