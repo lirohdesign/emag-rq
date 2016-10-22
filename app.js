@@ -9,18 +9,18 @@ app.use('/static', express.static(__dirname + '/static'));
 app.get('/read_all', function (req, res) {
    jsonfile.readFile( "data.json", 'utf8', function (err, data) {
       res.end( JSON.stringify(data, null, 4) );
-      console.log('data sent ...');
+      console.log('read_all sent ...');
     });
 });
 
 app.get('/page', function (req, res) {
   res.sendFile(path.join(__dirname + '/index.html'));
-  console.log('data sent ...');
+  console.log('page sent ...');
 });
 
 app.get('/print', function (req, res) {
   res.sendFile(path.join(__dirname + '/pages/print.html'));
-  console.log('data sent ...');
+  console.log('print sent ...');
 });
 
 app.get('/:key', function (req, res) {
@@ -28,6 +28,7 @@ app.get('/:key', function (req, res) {
     for (var i = 0; i < data.length; i++) {
       if (data[i]['key'] == req.params.key) {
         res.end(JSON.stringify(data[i].clue, null, 4));
+        console.log('key sent ...');
       }
     }
   })
