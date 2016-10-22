@@ -35,27 +35,7 @@ app.get('/:key', function (req, res) {
   console.log('data sent...')
 });
 
-//var server = app.listen(8081, function () {
-//   var host = server.address().address
-//   var port = server.address().port
-//   console.log("EMAG listening at http://%s:%s", host, port)
-//})
-
-
 var port = process.env.PORT || 8080;
-
-// set the view engine to ejs
-//app.set('view engine', 'ejs');
-
-// make express look in the public directory for assets (css/js/img)
-//app.use(express.static(__dirname + '/public'));
-
-// set the home page route
-//app.get('/', function(req, res) {
-
-    // ejs render automatically looks in the views folder
-//    res.render('index');
-//});
 
 app.listen(port, function() {
     console.log('Our app is running on http://localhost:' + port);
