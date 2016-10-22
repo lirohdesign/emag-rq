@@ -43,7 +43,10 @@ app.get('/:key', function (req, res) {
     console.log('key_string = ' + key_string);
     console.log(req.params.key.slice(0,5));
     //var full_pth = 'http://' + ip.address() + ':' + port + '/' + key_string //fix this point here
-    var full_pth = 'https://emag-rq.herokuapp.com/' + key_string
+      var fullUrl = req.protocol + '://' + req.get('host') + '/'; //+ req.originalUrl;
+    //var full_pth = 'https://emag-rq.herokuapp.com/' + key_string
+    console.log(fullUrl);
+    var full_pth = fullUrl + key_string
 
     console.log(full_pth);
     var code = qr.image(full_pth, { type: 'svg' })
