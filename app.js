@@ -3,6 +3,8 @@ var app = express();
 var fs = require("fs");
 var jsonfile = require('jsonfile');
 var path = require('path');
+var qr = require('qr-image');
+var ip = require('ip')
 
 app.use('/static', express.static(__dirname + '/static'));
 
@@ -34,6 +36,28 @@ app.get('/:key', function (req, res) {
   })
   console.log('data sent...')
 });
+
+app.get('/:key', function (req, res) {
+  if (req.params.key.slice(0,5) = 'code:'){
+    var full_pth = 'http://' + ip.address() + ':' + port + '/' + req.params.key
+    var code = qr.image(full_pth, { type: 'svg' })
+    res.type('svg');
+    code.pipe(res);
+  }
+  else {
+    jsonfile.readFile( "data.json", 'utf8', function (err, data) {
+      for (var i = 0; i < data.length; i++) {
+        if (data[i]['key'] == req.params.key) {
+          res.end(JSON.stringify(data[i].clue, null, 4));
+          console.log('key sent ...');
+        }
+      }
+    });
+
+  }
+});
+
+
 
 var port = process.env.PORT || 8080;
 
