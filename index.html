@@ -4,10 +4,8 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="/static/style.css" media="screen" title="no title">
     <script src="/static/staging.js"></script>
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
-    <script src="http://localhost/static/jquery-3.1.1.js" charset="utf-8"></script>
-
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!--<script src="/static/jquery-3.1.1.js" charset="utf-8"></script>-->
 
     <script type="text/javascript">
         window.onload = function () {
@@ -40,7 +38,7 @@
                 $('#destruct').hide()
                 console.log('boom!');
                 $('<img>', {
-                  src : "http://localhost/static/explosion.gif", alt: "https://media.giphy.com/media/12KiGLydHEdak8/giphy.gif"
+                  src : "/static/explosion.gif", alt: "https://media.giphy.com/media/12KiGLydHEdak8/giphy.gif"
                 }).appendTo('#explosion')
               }, 16000);
 
