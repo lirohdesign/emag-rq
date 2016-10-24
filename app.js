@@ -6,19 +6,6 @@ var path = require('path');
 var qr = require('qr-image');
 var ip = require('ip')
 
-/**
-* Array.prototype.[method name] allows you to define/overwrite an objects method
-* needle is the item you are searching for
-* this is a special variable that refers to "this" instance of an Array.
-* returns true if needle is in the array, and false otherwise
-*/
-Array.prototype.contains = function ( needle ) {
-for (i in this) {
-if (this[i] == needle) return true;
-}
-return false;
-}
-
 app.use('/static', express.static(__dirname + '/static'));//try to figure out what is going on with the static links
 
 app.get('/read_all', function (req, res) {
