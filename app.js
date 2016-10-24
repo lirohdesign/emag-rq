@@ -6,6 +6,19 @@ var path = require('path');
 var qr = require('qr-image');
 var ip = require('ip')
 
+/**
+* Array.prototype.[method name] allows you to define/overwrite an objects method
+* needle is the item you are searching for
+* this is a special variable that refers to "this" instance of an Array.
+* returns true if needle is in the array, and false otherwise
+*/
+Array.prototype.contains = function ( needle ) {
+for (i in this) {
+if (this[i] == needle) return true;
+}
+return false;
+}
+
 app.use('/static', express.static(__dirname + '/static'));//try to figure out what is going on with the static links
 
 app.get('/read_all', function (req, res) {
@@ -25,51 +38,36 @@ app.get('/print', function (req, res) {
   console.log('print sent ...');
 });
 
-//app.get('/:key', function (req, res) {
-//  jsonfile.readFile( "data.json", 'utf8', function (err, data) {
-//    for (var i = 0; i < data.length; i++) {
-//      if (data[i]['key'] == req.params.key) {
-//        res.end(JSON.stringify(data[i].clue, null, 4));
-//        console.log('key sent ...');
-//      }
-//    }
-//  })
-//  console.log('data sent...')
-//});
-
 app.get('/:key', function (req, res) {
+
   if (req.params.key.slice(0,5) == 'code:'){
-    var key_string = req.params.key.replace(/code:/g,'');
-    console.log('key_string = ' + key_string);
-    console.log(req.params.key.slice(0,5));
-    //var full_pth = 'http://' + ip.address() + ':' + port + '/' + key_string //fix this point here
-      var fullUrl = req.protocol + '://' + req.get('host') + '/'; //+ req.originalUrl;
-    //var full_pth = 'https://emag-rq.herokuapp.com/' + key_string
-    console.log(fullUrl);
-    var full_pth = fullUrl + key_string
-
-    console.log(full_pth);
-    var code = qr.image(full_pth, { type: 'svg' })
-    res.type('svg');
-    code.pipe(res);
-  }
-  else {
-    jsonfile.readFile( "data.json", 'utf8', function (err, data) {
-      for (var i = 0; i < data.length; i++) {
-        if (data[i]['key'] == req.params.key) {
-          res.end(JSON.stringify(data[i].clue, null, 4));
-          console.log('key sent ...');
-        }
+    var code_text;
+    var key_string = req.params.key.replace(/code:/g,'')
+    var data = jsonfile.readFileSync( "data.json", 'utf8')
+    for (var i = 0; i < data.length; i++) {
+        if (data[i].key === key_string) {
+          code_text = req.protocol + '://' + req.get('host') + '/' + key_string;
+          break;
+      } else {
+          code_text = key_string
       }
-    });
+    };
+      var code = qr.image(code_text, { type: 'svg' })
+      res.type('svg');
+      code.pipe(res);
 
-  }
+    } else {
+      jsonfile.readFile( "data.json", 'utf8', function (err, data) {
+        for (var i = 0; i < data.length; i++) {
+          if (data[i].key == req.params.key) {
+            res.send(JSON.stringify(data[i].clue, null, 4));
+          }
+        };
+      });
+    }
 });
 
-
-
 var port = process.env.PORT || 8080;
-
 app.listen(port, function() {
-    console.log('Our app is running on http://localhost:' + port);
+    console.log('EDOC_RQ is running on http://localhost:' + port);
 });

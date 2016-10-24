@@ -2,43 +2,43 @@
   { "key": "1",
     "location": "steps leading to clock tower",
     "coordinates": "",
-    "clue": ["by putting forward the hands of the clock you shall not advance the hour [victor hugo]"],
+    "clue": ["by putting forward the hands of the clock you shall not advance the hour [victor hugo]","clue two"],
     "description": [],
-    "time allocated": "15:00"
+    "time_allocated": 15
   },
   { "key": "2",
     "location": "lamppost",
     "coordinates": "",
     "clue": ["it will not go out of my mind that if we pass this post and lantern either we shall find strange adventures or else some great change in our fortunes [the lion the witch and the wardrobe]"],
     "description": [],
-    "time allocated": "15:00"
+    "time_allocated": 15
   },
   { "key": "3",
     "location": "sample gates",
     "coordinates": "",
     "clue": ["the enemy is within the gates it is with our own luxury our own folly our own criminality that we have to contend [marcus tullius cicero]"],
     "description": [],
-    "time allocated": "15:00"
+    "time_allocated": 15
   },
   { "key": "4",
     "location": "dunn meadow rock or tree",
     "coordinates": "",
     "clue": ["you will find something more in woods than in books trees and stones will teach you that which you can never learn from masters [saint bernard]"],
     "description": [],
-    "time allocated": "15:00"
+    "time_allocated": 15
   },
   { "key": "0",
     "location": "",
     "coordinates": "",
     "clue": [""],
     "description": ["VIRAL","a VIRUS has been installed on your device in fifteen minutes you will lose all of your data forever"],
-    "time allocated": "15:00"
+    "time_allocated": 15
   },
   { "key": "1000",
     "location": "",
     "coordinates": "",
     "clue": [""],
     "description": ["you have successfully removed the virus","thanks for playing", "if you would like to play again scan a code", "if you would like to begin round two please download our free app"],
-    "time allocated": "00:00"
+    "time_allocated": 0
   }
 ]

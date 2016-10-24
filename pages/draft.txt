@@ -10,3 +10,74 @@
     "by doing so, you will greatly advance mankind"
     "the calibration must be completed within three hours, or the data will be obsolete"
     "are you up for the task?"
+
+
+
+location
+  little coal emptying box in the basement in the chimney
+  cistern outside
+  hooks in the smokehouse
+  hole in the floor in the office
+  little hidden box inside the grainary
+
+
+
+app.get('/:key', function (req, res) {
+  if (req.params.key.slice(0,5) == 'code:'){
+    var key_string = req.params.key.replace(/code:/g,'');
+    console.log('key_string = ' + key_string);
+    console.log(req.params.key.slice(0,5));
+    //var full_pth = 'http://' + ip.address() + ':' + port + '/' + key_string //fix this point here
+      var fullUrl = req.protocol + '://' + req.get('host') + '/'; //+ req.originalUrl;
+    //var full_pth = 'https://emag-rq.herokuapp.com/' + key_string
+    console.log(fullUrl);
+    var full_pth = fullUrl + key_string
+
+    console.log(full_pth);
+    var code = qr.image(full_pth, { type: 'svg' })
+    res.type('svg');
+    code.pipe(res);
+  }
+  else {
+    jsonfile.readFile( "data.json", 'utf8', function (err, data) {
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].key == req.params.key) {
+          var solve_time = data[i].time_allocated/data[i].clue.length
+          console.log('solve time ' + solve_time)
+          for (var n = 0; n < data[i].clue.length; n++) {
+            if (n == 0) {
+              console.log(JSON.stringify(data[i].clue[n], null, 4));
+              res.write(JSON.stringify(data[i].clue[n], null, 4));
+            }
+            else {
+              var clue_data = JSON.stringify(data[i].clue[n], null, 4)
+              setTimeout(function(){
+                res.write(clue_data)
+                console.log(clue_data);
+              }, solve_time * 1000);
+            }
+          }
+          //res.end(JSON.stringify(data[i].clue[0], null, 4));
+          //res.end(JSON.parse(JSON.stringify(data[i].clue), null, 4));
+          console.log('key sent ...');
+          res.end()
+        }
+      }
+    });
+
+  }
+});
+
+
+
+//app.get('/:key', function (req, res) {
+//  jsonfile.readFile( "data.json", 'utf8', function (err, data) {
+//    for (var i = 0; i < data.length; i++) {
+//      if (data[i]['key'] == req.params.key) {
+//        res.end(JSON.stringify(data[i].clue, null, 4));
+//        console.log('key sent ...');
+//      }
+//    }
+//  })
+//  console.log('data sent...')
+//});
