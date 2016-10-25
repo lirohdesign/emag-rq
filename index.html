@@ -8,6 +8,24 @@
     <!--<script src="/static/jquery-3.1.1.js" charset="utf-8"></script>-->
 
     <script type="text/javascript">
+      var game_url = "https://emag-rq.herokuapp.com/"
+
+      $(document).ready(function () {
+        console.log("warming up...");
+        $.getJSON(game_url + "read_all", function (data) {
+          console.log("got JSON");
+          for (var i = 0; i < data.length; i++) {
+              if (data[i].key == 0){
+                $<('#description', {
+                  text: data[i].description
+                }).appendTo('body')
+              }
+              console.log(data[i].key);
+            }
+        });
+      });
+
+
         window.onload = function () {
           $('#destruct').hide()
 
@@ -50,5 +68,8 @@
         <div class=""; id="destruct";>Self destruct in <span id="time"></span></div>
         <div class="fullscreen"; id="viral";>VIRAL</div>
         <div class="fullscreen"; id="explosion";></div>
+        <div class="fullscreen"; id="description";></div>
+        <div class="fullscreen"; id="clue";></div>
+
   </body>
 </html>
