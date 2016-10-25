@@ -2,28 +2,29 @@
 <html>
   <head>
     <meta charset="utf-8">
+
     <link rel="shortcut icon" href="/static/chair3.ico">
     <link rel="stylesheet" href="/static/style.css" media="screen" title="no title">
+
     <script src="/static/staging.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <!--<script src="/static/jquery-3.1.1.js" charset="utf-8"></script>-->
 
     <script type="text/javascript">
-      var game_url = "https://emag-rq.herokuapp.com/"
+
+    var game_url = "https://emag-rq.herokuapp.com/"
 
       $(document).ready(function () {
-        console.log("warming up...");
         $.getJSON(game_url + "read_all", function (data) {
-          console.log("got JSON");
           for (var i = 0; i < data.length; i++) {
               if (data[i].key == 0){
-                $('<div>', {
-                  id: "description",
-                  class: "fullscreen",
-                  text: data[i].description
-                }).appendTo('body')
+                for (var j = 0; j < data[i].description.length; j++){
+                  $('<p>', {
+                    id: "description_notes",
+                    class: "",
+                    text: data[i].description[j]
+                  }).appendTo('#description')
+                }
               }
-              console.log(data[i].key);
             }
         });
       });
