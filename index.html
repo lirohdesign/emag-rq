@@ -13,24 +13,26 @@
 
     var game_url = "https://emag-rq.herokuapp.com/"
 
-      $(document).ready(function () {
-        $.getJSON(game_url + "read_all", function (data) {
-          for (var i = 0; i < data.length; i++) {
-              if (data[i].key == 0){
-                for (var j = 0; j < data[i].description.length; j++){
-                  $('<p>', {
-                    id: "description_notes",
-                    class: "",
-                    text: data[i].description[j]
-                  }).appendTo('#description')
+        window.onload = function () {
+
+          $.getJSON(game_url + "read_all", function (data) {
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].key == 0){
+                  for (var j = 0; j < data[i].description.length; j++){
+                      //setTimeout(
+                        //function(){
+                          $('<p>', {
+                            id: "description_notes",
+                            class: "",
+                            text: data[i].description[j]
+                          }).appendTo('#description')
+                    //}, 2000); http://stackoverflow.com/questions/5226285/settimeout-in-for-loop-does-not-print-consecutive-values
+                  }
                 }
               }
-            }
-        });
-      });
+          });
 
 
-        window.onload = function () {
           $('#destruct').hide()
 
           setTimeout(
@@ -69,11 +71,13 @@
     <title>VIRAL</title>
   </head>
   <body>
-        <div class=""; id="destruct";>Self destruct in <span id="time"></span></div>
-        <div class="fullscreen"; id="viral";>VIRAL</div>
+        <!--<div class=""; id="destruct";>Self destruct in <span id="time"></span></div>-->
+        <div class=""; id="viral";>VIRAL</div>
         <div class="fullscreen"; id="explosion";></div>
-        <div class="fullscreen"; id="description";></div>
-        <div class="fullscreen"; id="clue";></div>
+        <div class=""; id="description";></div>
+        <div class=""; id="clue";>
+          <p class=""; id="destruct";>Self destruct in <span id="time"></span></p>
+        </div>
 
   </body>
 </html>

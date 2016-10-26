@@ -10,9 +10,12 @@
   "author": "Ben Shelby",
   "license": "MIT",
   "dependencies": {
-    "csvtojson": "^1.0.0",
     "express": "^4.14.0",
-    "jsonfile": "^2.3.1"
+    "jsonfile": "^2.3.1",
+    "qr-image": "",
+    "ip": "",
+    "cookie-session": "",
+    "cookie-parser": ""
   },
   "notes": "express, jsonfile, qr-image"
 }

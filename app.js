@@ -5,7 +5,15 @@ var jsonfile = require('jsonfile');
 var path = require('path');
 var qr = require('qr-image');
 var ip = require('ip')
+var cookieSession = require('cookie-session')
+var cookieParser = require('cookie-parser')
 
+
+app.use(cookieParser())
+
+app.use(cookieSession({
+  secret: '1234567890QWERTY'
+}))
 
 // Add headers
 app.use(function (req, res, next) {
@@ -30,23 +38,49 @@ app.use(function (req, res, next) {
 app.use('/static', express.static(__dirname + '/static'));//try to figure out what is going on with the static links
 
 app.get('/read_all', function (req, res) {
+
+   if(req.session.lastPage) {
+      console.log('Last page was: ' + req.session.lastPage + '. ');
+   }
+   req.session.lastPage = '/read_all'
+
    jsonfile.readFile( "data.json", 'utf8', function (err, data) {
-      res.end( JSON.stringify(data, null, 4) );
+      res.write( JSON.stringify(data, null, 4) );
       console.log('read_all sent ...');
+      console.log('Cookies: ', req.cookies)
     });
 });
 
 app.get('/page', function (req, res) {
+
+  if(req.session.lastPage) {
+      console.log('Last page was: ' + req.session.lastPage + '. ');
+  }
+  req.session.lastPage = '/page'
+
   res.sendFile(path.join(__dirname + '/index.html'));
   console.log('page sent ...');
+  console.log('Cookies: ', req.cookies)
 });
 
 app.get('/print', function (req, res) {
+
+    if(req.session.lastPage) {
+        console.log('Last page was: ' + req.session.lastPage + '. ');
+    }
+    req.session.lastPage = '/print'
+
   res.sendFile(path.join(__dirname + '/pages/print.html'));
   console.log('print sent ...');
+  console.log('Cookies: ', req.cookies)
 });
 
 app.get('/:key', function (req, res) {
+
+   if(req.session.lastPage) {
+      console.log('Last page was: ' + req.session.lastPage + '. ');
+   }
+   req.session.lastPage = '/' + req.params.key
 
   if (req.params.key.slice(0,5) == 'code:'){
     var code_text;
@@ -73,6 +107,7 @@ app.get('/:key', function (req, res) {
         };
       });
     }
+  console.log('Cookies: ', req.cookies)
 });
 
 var port = process.env.PORT || 8080;
