@@ -2,7 +2,7 @@
   animation: blink-animation 1s steps(2, start) 2;
   font-size: calc(10vw + 10vh);
   font-family: Courier;
-  background-color: red;
+  background-color: gray;
   display: flex;
   justify-content: center;
   align-items: center;
