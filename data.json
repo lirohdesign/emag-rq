@@ -31,7 +31,7 @@
     "location": "",
     "coordinates": "",
     "clue": [""],
-    "description": ["VIRAL","in fifteen minutes your device will self destruct", "to prevent a minor explosion", "you must find all the codes and enter their coordinates"],
+    "description": ["Boom!","Self destruct in fifteen minutes", "to prevent a minor explosion", "you must find all the codes and enter their coordinates"],
     "time_allocated": 15
   },
   { "key": "1000",
