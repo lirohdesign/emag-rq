@@ -10,6 +10,7 @@ var cookieParser = require('cookie-parser')
 var redis = require('redis')
 var requestIp = require('request-ip');
 
+
 app.use(requestIp.mw())
 app.use(cookieParser())
 app.use(cookieSession({secret: '1234567890QWERTY'}))
@@ -67,7 +68,7 @@ app.get('/print', function (req, res) {
 });
 
 app.get('/:key', function (req, res) {
-  var client = redis.createClient()
+  var client = redis.createClient(process.env.REDIS_URL)
   req.session.lastPage = req.params.key
 
   if(req.session.lastPage) {
