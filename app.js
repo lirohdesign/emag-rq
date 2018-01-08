@@ -7,8 +7,10 @@ var qr = require('qr-image');
 var ip = require('ip')
 var cookieSession = require('cookie-session')
 var cookieParser = require('cookie-parser')
+var redis = require('redis')
+var requestIp = require('request-ip');
 
-
+app.use(requestIp.mw())
 app.use(cookieParser())
 app.use(cookieSession({secret: '1234567890QWERTY'}))
 app.use('/static', express.static(__dirname + '/static'));//try to figure out what is going on with the static links
@@ -43,7 +45,6 @@ app.get('/read_all', function (req, res) {
     //res.write( JSON.stringify(data, null, 4) );
     res.json(data);
     console.log('read_all sent ...');
-    //console.log('Cookies: ', req.cookies)
   });
 });
 
@@ -54,7 +55,6 @@ app.get('/page', function (req, res) {
   }
   res.sendFile(path.join(__dirname + '/index.html'));
   console.log('page sent ...');
-  //console.log('Cookies: ', req.cookies)
 });
 
 app.get('/print', function (req, res) {
@@ -64,14 +64,16 @@ app.get('/print', function (req, res) {
   }
   res.sendFile(path.join(__dirname + '/pages/print.html'));
   console.log('print sent ...');
-  //console.log('Cookies: ', req.cookies)
 });
 
 app.get('/:key', function (req, res) {
+  var client = redis.createClient()
   req.session.lastPage = req.params.key
+
   if(req.session.lastPage) {
     console.log('Most recent request was: ' + req.session.lastPage + '. ');
    }
+
   if (req.params.key.slice(0,5) == 'code:'){
     var code_text;
     var key_string = req.params.key.replace(/code:/g,'')
@@ -88,19 +90,36 @@ app.get('/:key', function (req, res) {
     res.type('svg');
     code.pipe(res);
     } else {
-      jsonfile.readFile( "data.json", 'utf8', function (err, data) {
-        for (var i = 0; i < data.length; i++) {
-          if (data[i].key == req.params.key) {
-            res.send(JSON.stringify(data[i].clue, null, 4));
-          }
-        };
+
+      client.hget(req.clientIp, req.params.key, function(err, obj){
+        if (obj == null){
+          console.log('first view');
+          jsonfile.readFile( "data.json", 'utf8', function (err, data) {
+            for (var i = 0; i < data.length; i++) {
+              if (data[i].key == req.params.key) {
+                res.send(JSON.stringify(data[i].clue, null, 4));
+              }
+            };
+          });
+
+        } else {
+          jsonfile.readFile( "data.json", 'utf8', function (err, data) {
+            for (var i = 0; i < data.length; i++) {
+              if (data[i].key == req.params.key) {
+                res.send('You have already found this clue' + JSON.stringify(data[i].clue, null, 4));
+                console.dir(obj);
+              }
+            };
+          });
+        }
       });
     }
   //console.log('Cookies: ', req.cookies)
+  client.hset(req.clientIp, req.params.key, Date())
+  client.quit()
 });
 
 var port = process.env.PORT || 8080;
-
 app.listen(port, function() {
   console.log('EDOC_RQ is running on http://localhost:' + port);
 });

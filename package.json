@@ -1,7 +1,7 @@
 {
   "name": "emag_rq",
   "version": "1.0.0",
-  "description": "This app uses a Node.js server on the local wifi to run API call back functions. These functions push data from a JSON file when specific keys are requested. The goal is to place QR codes containing URL/key as clues to a scavenger hunt game. ",
+  "description": "This app uses a Node.js server to run API call back functions. These functions push data from a JSON file when specific keys are requested. The goal is to place QR codes containing URL/keys as clues to a scavenger hunt game. ",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -20,7 +20,8 @@
     "ip": "^1.1.5",
     "jsonfile": "^2.3.1",
     "qr-image": "^3.2.0",
-    "redis": "^2.8.0"
+    "redis": "^2.8.0",
+    "request-ip": "^2.0.2"
   },
   "notes": "express, jsonfile, qr-image"
 }
