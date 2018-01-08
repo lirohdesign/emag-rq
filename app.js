@@ -9,7 +9,7 @@ var cookieSession = require('cookie-session')
 var cookieParser = require('cookie-parser')
 var redis = require('redis')
 var requestIp = require('request-ip');
-
+var endOfLine = require('os').EOL;
 
 app.use(requestIp.mw())
 app.use(cookieParser())
@@ -67,6 +67,15 @@ app.get('/print', function (req, res) {
   console.log('print sent ...');
 });
 
+app.get('/reset', function (req, res) {
+  var client = redis.createClient(process.env.REDIS_URL)
+  client.flushall(function (err, success){
+    res.send('game has been reset');
+    console.log('reset sent ...');
+  })
+});
+
+
 app.get('/:key', function (req, res) {
   var client = redis.createClient(process.env.REDIS_URL)
   req.session.lastPage = req.params.key
@@ -105,6 +114,7 @@ app.get('/:key', function (req, res) {
 
         } else {
           jsonfile.readFile( "data.json", 'utf8', function (err, data) {
+
             for (var i = 0; i < data.length; i++) {
               if (data[i].key == req.params.key) {
                 res.send('You have already found this clue' + JSON.stringify(data[i].clue, null, 4));
