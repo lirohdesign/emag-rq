@@ -48,3 +48,11 @@ CountDownTimer.parse = function(seconds) {
     'seconds': (seconds % 60) | 0
   };
 };
+
+function Format_Time(display) {
+  return function (minutes, seconds) {
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+      display.textContent = minutes + ':' + seconds;
+  };
+}

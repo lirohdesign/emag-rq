@@ -23,13 +23,22 @@
   overflow: auto;
 }
 
+#photo_link {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: auto;
+}
+
   .c{
     text-align: center;
   }
 
-#destruct {
+#timer {
   font-family: courier;
-  justify-content: center;
-  align-items: center;
+  /*justify-content: center;*/
+  /*align-items: center;*/
   font-size: calc(4vw + 4vh);
 }
