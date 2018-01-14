@@ -6,7 +6,7 @@ html
       window.onload = function() {
 
         var display = document.querySelector('#time')
-        timer = new CountDownTimer(#{pg_json_record.time_allocated}*60);
+        timer = new CountDownTimer(#{pg_json_record.time_allocated});
 
         timer.onTick(format(display)).start();
 
@@ -46,4 +46,8 @@ html
 
         p The code you seek can be found here: #{x.location}.
 
-        p Self destruct in #[span(id='time')]
+
+        if pg_json_record.time_allocated <= 0
+          p There is no time limit for this clue
+        else
+          p Self destruct in #[span(id='time')]

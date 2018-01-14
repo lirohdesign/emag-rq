@@ -45,7 +45,7 @@
     "coordinates": "",
     "clue": ["Test Clue 1", "Test Clue 2","Test Clue 3","Test Clue 4"],
     "description": ["Self destruct in fifteen minutes", "to prevent a minor explosion", "you must find all the codes and enter their coordinates"],
-    "time_allocated": "15",
+    "time_allocated": "",
     "photo_link": "/static/explosion.gif",
     "logic": "Circular"
   },
@@ -55,7 +55,7 @@
     "coordinates":"",
     "clue": [""],
     "description": ["you have successfully removed the virus","thanks for playing", "if you would like to play again scan a code", "if you would like to begin round two please download our free app"],
-    "time_allocated":"",
+    "time_allocated":"15",
     "photo_link": "/static/explosion.gif",
     "logic":""
   }
