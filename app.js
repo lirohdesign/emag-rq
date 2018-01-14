@@ -1,5 +1,5 @@
 var express = require('express');
-var app = express();
+let app = express();
 var fs = require("fs");
 var jsonfile = require('jsonfile');
 var path = require('path');
@@ -10,11 +10,20 @@ var cookieParser = require('cookie-parser')
 var redis = require('redis')
 var requestIp = require('request-ip');
 var endOfLine = require('os').EOL;
+const pug = require('pug');
+
+
+app.set("view engine", "pug");
+app.set("views", path.join(__dirname, "views"));
+
+//what is the difference between app.set and app.use
+//what is the difference between let, cont, and var
 
 app.use(requestIp.mw())
 app.use(cookieParser())
 app.use(cookieSession({secret: '1234567890QWERTY'}))
-app.use('/static', express.static(__dirname + '/static'));//try to figure out what is going on with the static links
+//i may not actually be using any cookies
+app.use('/static', express.static(__dirname + '/static'));
 
 // Add headers
 app.use(function (req, res, next) {
@@ -37,36 +46,6 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.get('/read_all', function (req, res) {
-  req.session.lastPage = '/read_all'
-  if(req.session.lastPage) {
-    console.log('Most recent request was: ' + req.session.lastPage + '. ');
-  }
-  jsonfile.readFile( "data.json", 'utf8', function (err, data) {
-    //res.write( JSON.stringify(data, null, 4) );
-    res.json(data);
-    console.log('read_all sent ...');
-  });
-});
-
-app.get('/page', function (req, res) {
-  req.session.lastPage = '/page'
-  if(req.session.lastPage) {
-    console.log('Most recent request was: ' + req.session.lastPage + '. ');
-  }
-  res.sendFile(path.join(__dirname + '/index.html'));
-  console.log('page sent ...');
-});
-
-app.get('/print', function (req, res) {
-  req.session.lastPage = '/print'
-  if(req.session.lastPage) {
-    console.log('Most recent request was: ' + req.session.lastPage + '. ');
-  }
-  res.sendFile(path.join(__dirname + '/pages/print.html'));
-  console.log('print sent ...');
-});
-
 app.get('/reset', function (req, res) {
   var client = redis.createClient(process.env.REDIS_URL)
   client.flushall(function (err, success){
@@ -75,56 +54,40 @@ app.get('/reset', function (req, res) {
   })
 });
 
-
 app.get('/:key', function (req, res) {
   var client = redis.createClient(process.env.REDIS_URL)
-  req.session.lastPage = req.params.key
+  var key_string = req.params.key.replace(/code:/g,'')
+  var page_url = req.protocol + '://' + req.get('host') + '/' + key_string;
+  var qr_url= req.protocol + '://' + req.get('host') + '/code:';
 
-  if(req.session.lastPage) {
-    console.log('Most recent request was: ' + req.session.lastPage + '. ');
-   }
+//this section creates QR codes when a code: URL is passed
+  if (req.params.key.slice(0,5) == 'code:'){ //may want to consider adding logic here to create codes only if items exist in JSON file
 
-  if (req.params.key.slice(0,5) == 'code:'){
-    var code_text;
-    var key_string = req.params.key.replace(/code:/g,'')
-    var data = jsonfile.readFileSync( "data.json", 'utf8')
-    for (var i = 0; i < data.length; i++) {
-      if (data[i].key === key_string) {
-        code_text = req.protocol + '://' + req.get('host') + '/' + key_string;
-        break;
-      } else {
-        code_text = key_string
-      }
-    };
-    var code = qr.image(code_text, { type: 'svg' })
+    var code = qr.image(page_url, { type: 'svg' })
     res.type('svg');
     code.pipe(res);
-    } else {
 
-      client.hget(req.clientIp, req.params.key, function(err, obj){
-        if (obj == null){
-          console.log('first view');
-          jsonfile.readFile( "data.json", 'utf8', function (err, data) {
+  } else {
+//this section creates pages from template.pug based on the URL key
+    client.hget(req.clientIp, req.params.key, function(err, usr_pg_view){
+
+        jsonfile.readFile( "data.json", 'utf8', function (err, data) {
+          var pg_json_record = {}
             for (var i = 0; i < data.length; i++) {
-              if (data[i].key == req.params.key) {
-                res.send(JSON.stringify(data[i].clue, null, 4));
-              }
+                if (data[i].key == req.params.key){
+                  pg_json_record = data[i]
+                };
             };
+          res.render('template', {
+              qr_code: qr_url,
+              json_data: data,
+              previous_view: usr_pg_view,
+              request: req.params.key,
+              pg_json_record: pg_json_record
           });
-
-        } else {
-          jsonfile.readFile( "data.json", 'utf8', function (err, data) {
-
-            for (var i = 0; i < data.length; i++) {
-              if (data[i].key == req.params.key) {
-                res.send('You have already found this clue' + JSON.stringify(data[i].clue, null, 4));
-                console.dir(obj);
-              }
-            };
-          });
-        }
-      });
-    }
+        });
+    });
+  }
   //console.log('Cookies: ', req.cookies)
   client.hset(req.clientIp, req.params.key, Date())
   client.quit()

@@ -1,0 +1,22 @@
+Circular
+  Let's say there are 4 codes to find.
+  Code 3 is scanned first. Clues for code 4 are provided.
+  The order of the game will be 3,4,2,1
+  When all codes have been found the game is complete.
+
+Random
+  This is intended for smaller spaces.
+  The order of the clues is completely random.
+  When all codes have been found the game is complete.
+
+Linear
+  The first code in this game set always points to the starting point.
+  It does not matter which code is scanned.
+  If the starting point has not been located, the clues will always lead to the start point.
+  The game then continues in sequential order.
+  If code 2 was scanned first, it will lead to the starting point at Code 1.
+  The order of the game will be 2,1,2,3,4
+  When the all codes have been found in sequential order, the game is complete.
+
+
+Make people work for the coordinates

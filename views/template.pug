@@ -1,0 +1,49 @@
+html
+  head
+    script(src='static/timer.js')
+
+    script.
+      window.onload = function() {
+
+        var display = document.querySelector('#time')
+        timer = new CountDownTimer(#{pg_json_record.time_allocated}*60);
+
+        timer.onTick(format(display)).start();
+
+        function format(display) {
+            return function (minutes, seconds) {
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+                display.textContent = minutes + ':' + seconds;
+            };
+        };
+      };
+  body
+
+    if request == 'print'
+      ul
+          for x in json_data
+              li
+                img(src=qr_code + x.key)
+    else
+
+    for x in json_data
+      if request == x.key
+        p This is the request number #{request}.
+
+        if previous_view == null
+          h1 You have found code #{x.key}!
+        else
+          h1 You have already found code #{x.key}!
+
+        .clue_image
+          img(src=x.photo_link)
+
+        p Here is your next clue:
+        ul
+            for clue in x.clue
+                li= clue
+
+        p The code you seek can be found here: #{x.location}.
+
+        p Self destruct in #[span(id='time')]
