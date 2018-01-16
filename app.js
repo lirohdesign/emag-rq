@@ -1,5 +1,5 @@
 var express = require('express');
-let app = express();
+var app = express();
 var fs = require("fs");
 var jsonfile = require('jsonfile');
 var path = require('path');
@@ -10,7 +10,7 @@ var cookieParser = require('cookie-parser')
 var redis = require('redis')
 var requestIp = require('request-ip');
 var endOfLine = require('os').EOL;
-const pug = require('pug');
+var pug = require('pug');
 
 
 app.set("view engine", "pug");
