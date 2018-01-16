@@ -2,53 +2,60 @@ html
   head
     script(src='static/timer.js')
 
-    script.
-      window.onload = function() {
+    if request == null
+      script.
+    else
 
-        var display = document.querySelector('#time')
-        timer = new CountDownTimer(#{pg_json_record.time_allocated});
+      script.
+          window.onload = function() {
 
-        timer.onTick(format(display)).start();
+            var display = document.querySelector('#time')
 
-        function format(display) {
-            return function (minutes, seconds) {
-                minutes = minutes < 10 ? "0" + minutes : minutes;
-                seconds = seconds < 10 ? "0" + seconds : seconds;
-                display.textContent = minutes + ':' + seconds;
+              timer = new CountDownTimer(#{pg_json_record.time_allocated});
+
+              timer.onTick(format(display)).start();
+
+              function format(display) {
+                  return function (minutes, seconds) {
+                      minutes = minutes < 10 ? "0" + minutes : minutes;
+                      seconds = seconds < 10 ? "0" + seconds : seconds;
+                      display.textContent = minutes + ':' + seconds;
+                  };
             };
-        };
-      };
+          };
   body
-    h1 Welcome to emag-rq. This application is currently under development.
-
-    if request == 'print'
+    if request == null
+      h1 #{root_route[0]}
+      h2 #{root_route[1]}
+      a(href=root_route[2]) #{root_route[2]}
+    else if request == 'print'
       ul
           for x in json_data
               li
                 img(src=qr_code + x.key)
     else
 
-    for x in json_data
-      if request == x.key
-        p This is the request number #{request}.
+      for x in json_data
+        if request == x.key
+          p This is the request number #{request}.
 
-        if previous_view == null
-          h1 You have found code #{x.key}!
-        else
-          h1 You have already found code #{x.key}!
+          if previous_view == null
+            h1 You have found code #{x.key}!
+          else
+            h1 You have already found code #{x.key}!
 
-        .clue_image
-          img(src=x.photo_link)
+          .clue_image
+            img(src=x.photo_link)
 
-        p Here is your next clue:
-        ul
-            for clue in x.clue
-                li= clue
+          p Here is your next clue:
+          ul
+              for clue in x.clue
+                  li= clue
 
-        p The code you seek can be found here: #{x.location}.
+          p The code you seek can be found here: #{x.location}.
 
 
-        if pg_json_record.time_allocated <= 0
-          p There is no time limit for this clue
-        else
-          p Self destruct in #[span(id='time')]
+          if pg_json_record.time_allocated <= 0
+            p There is no time limit for this clue
+          else
+            p Self destruct in #[span(id='time')]

@@ -54,6 +54,13 @@ app.get('/reset', function (req, res) {
   })
 });
 
+app.get('/', function(req, res){
+  res.render('template', {
+      root_route: ['Welcome to emag-rq. This application is currently under development.','Follow the link below to print the codes and start the game','https://emag-rq.herokuapp.com/print']
+  });
+});
+
+
 app.get('/:key', function (req, res) {
   var client = redis.createClient(process.env.REDIS_URL)
   var key_string = req.params.key.replace(/code:/g,'')
