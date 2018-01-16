@@ -1,8 +1,11 @@
 # emag_rq
 bones of a scavenger hunt game
 
+the development example of this game is currently deployed on heroku
+https://emag-rq.herokuapp.com/
 
-Here are the basics of what this app does:
+
+here are the basics of what this app does:
 
 1. app.js uses data stored in data.json to create qr codes or fill in variables in the template.pug
 2. the qr codes are created based on the text that comes after the callback '/code:'
