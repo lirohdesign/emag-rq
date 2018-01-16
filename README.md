@@ -4,9 +4,8 @@ bones of a scavenger hunt game
 
 Here are the basics of what this app does:
 
-1. app.js reads from data.json and sends an object back when a key is requested
-    this looks like http://localhost/8081/key
-2. generate_qrcode.js converts keys and creates a unique QR code
-    the code contains text that looks like http://localhost/8081/key
-3. index.html runs the timer and general plot of the game
-4. pages/print.html is a page that allows for easy printing of all the qr codes
+1. app.js uses data stored in data.json to create qr codes or fill in variables in the template.pug
+2. the qr codes are created based on the text that comes after the callback '/code:'
+    - for example https://emag-rq.herokuapp.com/code:monkey will create a qr containing the text 'monkey'
+3. to print all the codes available in the game database: https://emag-rq.herokuapp.com/print
+4. to view an example of a clue during the scavenger hunt game check our: https://emag-rq.herokuapp.com/1
