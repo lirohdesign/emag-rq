@@ -1,5 +1,5 @@
 [
-  { "key": "1",
+  { "key": 1,
     "title":"",
     "location": "steps leading to clock tower",
     "coordinates": "",
@@ -9,7 +9,7 @@
     "photo_link":"",
     "logic":""
   },
-  { "key": "2",
+  { "key": 2,
     "title":"",
     "location": "lamppost",
     "coordinates": "",
@@ -19,7 +19,7 @@
     "photo_link":"",
     "logic":""
   },
-  { "key": "3",
+  { "key": 3,
     "title":"",
     "location": "sample gates",
     "coordinates": "",
@@ -29,7 +29,7 @@
     "photo_link":"",
     "logic":""
   },
-  { "key": "4",
+  { "key": 4,
     "title":"",
     "location": "dunn meadow rock or tree",
     "coordinates": "",
