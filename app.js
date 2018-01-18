@@ -12,6 +12,7 @@ var requestIp = require('request-ip');
 var endOfLine = require('os').EOL;
 var pug = require('pug');
 
+var urlCrypt = require('url-crypt')('w$^DhPeB$Hu&*t3xT87KdBjVaNzKE%NGYw7sPxRdWFp4');
 
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
@@ -60,45 +61,28 @@ app.get('/', function(req, res){
   });
 });
 
-
-app.get('/:key', function (req, res) {
-  var client = redis.createClient(process.env.REDIS_URL)
-  var key_string = req.params.key.replace(/code:/g,'')
-  var page_url = req.protocol + '://' + req.get('host') + '/' + key_string;
-  var qr_url= req.protocol + '://' + req.get('host') + '/code:';
-
-//this section creates QR codes when a code: URL is passed
-  if (req.params.key.slice(0,5) == 'code:'){ //may want to consider adding logic here to create codes only if items exist in JSON file
-
-    var code = qr.image(page_url, { type: 'svg' })
-    res.type('svg');
-    code.pipe(res);
-
-  } else {
-//this section creates pages from template.pug based on the URL key
-    client.hget(req.clientIp, req.params.key, function(err, usr_pg_view){
-
-        jsonfile.readFile( "data.json", 'utf8', function (err, data) {
-          var pg_json_record = {}
-            for (var i = 0; i < data.length; i++) {
-                if (data[i].key == req.params.key){
-                  pg_json_record = data[i]
-                };
-            };
-          res.render('template', {
-              qr_code: qr_url,
-              json_data: data,
-              previous_view: usr_pg_view,
-              request: req.params.key,
-              pg_json_record: pg_json_record
-          });
-        });
+app.get('/goat', function(req, res){
+  jsonfile.readFile( "data.json", 'utf8', function (err, data) {
+        var base64 = urlCrypt.cryptObj(data[0].key)
+        var page_url = req.protocol + '://' + req.get('host') + '/' + data[0].key;
+        console.log(page_url);
+        var crypt_url = req.protocol + '://' + req.get('host') + '/' + base64;
+        var code = qr.image(crypt_url, { type: 'svg' })
+        res.type('svg');
+        code.pipe(res);
+        console.log(crypt_url);
+      });
     });
-  }
-  //console.log('Cookies: ', req.cookies)
-  client.hset(req.clientIp, req.params.key, Date())
-  client.quit()
-});
+
+    app.get('/:key', function (req, res) {
+      console.log(req.params.key);
+      if (req.params.key.length > 15){
+        console.log('go');
+        data_key = urlCrypt.decryptObj(req.params.key)
+        console.log(data_key);
+      };
+    });
+
 
 var port = process.env.PORT || 8080;
 app.listen(port, function() {
