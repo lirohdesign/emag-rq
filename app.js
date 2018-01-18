@@ -7,7 +7,7 @@ var qr = require('qr-image');
 var ip = require('ip')
 var cookieSession = require('cookie-session')
 var cookieParser = require('cookie-parser')
-var redis = require('redis')
+//var redis = require('redis')
 var requestIp = require('request-ip');
 var endOfLine = require('os').EOL;
 var pug = require('pug');
@@ -48,7 +48,7 @@ app.use(function (req, res, next) {
 });
 
 app.get('/reset', function (req, res) {
-  var client = redis.createClient(process.env.REDIS_URL)
+  //var client = redis.createClient(process.env.REDIS_URL)
   client.flushall(function (err, success){
     res.send('game has been reset');
     console.log('reset sent ...');
