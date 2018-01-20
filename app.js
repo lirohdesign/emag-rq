@@ -72,8 +72,8 @@ app.get('/print', function(req, res){
 
 app.get('/goat', function(req, res){
   jsonfile.readFile( "data.json", 'utf8', function (err, data) {
-        var base64 = urlCrypt.cryptObj(data[0].key)
-        var page_url = req.protocol + '://' + req.get('host') + '/' + data[0].key;
+        var base64 = urlCrypt.cryptObj(data[0].game_data.key)
+        var page_url = req.protocol + '://' + req.get('host') + '/' + data[0].game_data.key;
         console.log(page_url);
         var crypt_url = req.protocol + '://' + req.get('host') + '/' + base64;
         var code = qr.image(crypt_url, { type: 'svg' })
@@ -90,21 +90,32 @@ app.get('/:key', function (req, res) {
   var crypt_url = req.protocol + '://' + req.get('host') + '/' + urlCrypt.cryptObj(key_string);
   var qr_url= req.protocol + '://' + req.get('host') + '/code:';
 
-  if (req.params.key.length > 15){
+
+if (req.params.key.slice(0,5) == 'code:') {
+  //this section creates QR codes when a code: URL is passed
+   //may want to consider adding logic here to create codes only if items exist in JSON file
+
+      var code = qr.image(crypt_url, { type: 'svg' })
+      res.type('svg');
+      code.pipe(res);
+      console.log(crypt_url);;
+
+  } else {
+
     data_key = urlCrypt.decryptObj(req.params.key)
     //this section creates pages from template.pug based on the URL key
         client.hget(req.clientIp, data_key, function(err, usr_pg_view){
-
+            console.log(usr_pg_view);
             jsonfile.readFile( "data.json", 'utf8', function (err, data) {
               var pg_json_record = {}
-                for (var i = 0; i < data.length; i++) {
-                    if (data[i].key == data_key){
-                      pg_json_record = data[i]
+                for (var i = 0; i < data[0].game_data.length; i++) {
+                    if (data[0].game_data[i].key == data_key){
+                      pg_json_record = data[0].game_data[i];
                     };
                 };
               res.render('template', {
                   qr_code: qr_url,
-                  json_data: data,
+                  json_data: data[0].game_data,
                   previous_view: usr_pg_view,
                   request: data_key,
                   pg_json_record: pg_json_record
@@ -114,20 +125,8 @@ app.get('/:key', function (req, res) {
 
     console.log(data_key);
     client.hset(req.clientIp, data_key, Date())
-  } else if (req.params.key.slice(0,5) == 'code:') {
 
-//this section creates QR codes when a code: URL is passed
- //may want to consider adding logic here to create codes only if items exist in JSON file
-
-    var code = qr.image(crypt_url, { type: 'svg' })
-    res.type('svg');
-    code.pipe(res);
-    console.log(crypt_url);;
-  } else {
-    console.log('Error at else statement in app.get(/:key)');
   }
-  //console.log('Cookies: ', req.cookies)
-  client.hset(req.clientIp, req.params.key, Date())
   client.quit()
 });
 
