@@ -12,7 +12,12 @@ var requestIp = require('request-ip');
 var endOfLine = require('os').EOL;
 var pug = require('pug');
 
-var urlCrypt = require('url-crypt')('w$^DhPeB$Hu&*t3xT87KdBjVaNzKE%NGYw7sPxRdWFp4');
+
+//config.js link
+var env = process.env.NODE_ENV || 'development';
+var config = require('./config')[env];
+
+var urlCrypt = require('url-crypt')(config.crypt_key);
 
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
@@ -123,7 +128,7 @@ if (req.params.key.slice(0,5) == 'code:') {
             });
         });
 
-    console.log(data_key);
+    //console.log(data_key);
     client.hset(req.clientIp, data_key, Date())
 
   }
