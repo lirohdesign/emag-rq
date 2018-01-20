@@ -61,19 +61,22 @@ app.get('/reset', function (req, res) {
 });
 
 app.get('/', function(req, res){
+  console.log(req.params);
   res.render('template', {
-      root_route: ['Welcome to emag-rq. This application is currently under development.','Follow the link below to print the codes and start the game','https://emag-rq.herokuapp.com/print']
+      root_route: ['Welcome to emag-rq. This application is currently under development.','Follow the link below to print the codes and start the game','https://emag-rq.herokuapp.com/print'],
+      request: null
   });
 });
 
-app.get('/print', function(req, res){
+/*app.get('/print', function(req, res){
   jsonfile.readFile( "data.json", 'utf8', function (err, data) {
     res.render('template', {
-        json_data: data
+        json_data: data[0].game_data,
+        request: "print"
     });
   });
 });
-
+*/
 
 app.get('/goat', function(req, res){
   jsonfile.readFile( "data.json", 'utf8', function (err, data) {
@@ -94,6 +97,7 @@ app.get('/:key', function (req, res) {
   var key_string = req.params.key.replace(/code:/g,'');
   var crypt_url = req.protocol + '://' + req.get('host') + '/' + urlCrypt.cryptObj(key_string);
   var qr_url= req.protocol + '://' + req.get('host') + '/code:';
+  var data_key = ""
 
 
 if (req.params.key.slice(0,5) == 'code:') {
@@ -107,31 +111,36 @@ if (req.params.key.slice(0,5) == 'code:') {
 
   } else {
 
-    data_key = urlCrypt.decryptObj(req.params.key)
-    //this section creates pages from template.pug based on the URL key
-        client.hget(req.clientIp, data_key, function(err, usr_pg_view){
-            console.log(usr_pg_view);
-            jsonfile.readFile( "data.json", 'utf8', function (err, data) {
-              var pg_json_record = {}
-                for (var i = 0; i < data[0].game_data.length; i++) {
-                    if (data[0].game_data[i].key == data_key){
-                      pg_json_record = data[0].game_data[i];
-                    };
-                };
-              res.render('template', {
-                  qr_code: qr_url,
-                  json_data: data[0].game_data,
-                  previous_view: usr_pg_view,
-                  request: data_key,
-                  pg_json_record: pg_json_record
-              });
-            });
-        });
+    if (req.params.key == 'print'){
+      data_key = req.params.key;
+    } else {
+      data_key = urlCrypt.decryptObj(req.params.key)
+    }
 
+    //this section creates pages from template.pug based on the URL key
+    client.hget(req.clientIp, data_key, function(err, usr_pg_view){
+        console.log(usr_pg_view);
+        jsonfile.readFile( "data.json", 'utf8', function (err, data) {
+          var pg_json_record = {}
+            for (var i = 0; i < data[0].game_data.length; i++) {
+                if (data[0].game_data[i].key == data_key){
+                  pg_json_record = data[0].game_data[i];
+                };
+            };
+          res.render('template', {
+              qr_code: qr_url,
+              json_data: data[0].game_data,
+              previous_view: usr_pg_view,
+              request: data_key,
+              pg_json_record: pg_json_record,
+              root_route: ['Welcome to emag-rq. This application is currently under development.','Follow the link below to print the codes and start the game','https://emag-rq.herokuapp.com/print']
+          });
+        });
+    });
     //console.log(data_key);
     client.hset(req.clientIp, data_key, Date())
-
   }
+
   client.quit()
 });
 
