@@ -21,7 +21,7 @@ production: {
         db:     ''
     },
     //crypt key
-    crypt_key: ""
+    crypt_key: "w$^DhPeB$Hu&*t3xT87KdBjVaNzKE%NGYw7sPxRdWFp4"
     }
 };
 module.exports = config;

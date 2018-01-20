@@ -14,7 +14,7 @@ var pug = require('pug');
 
 
 //config.js link
-var env = process.env.NODE_ENV || 'development';
+var env = process.env.NODE_ENV || 'production';
 var config = require('./config')[env];
 
 var urlCrypt = require('url-crypt')(config.crypt_key);
