@@ -7,7 +7,7 @@ var qr = require('qr-image');
 var ip = require('ip')
 var cookieSession = require('cookie-session')
 var cookieParser = require('cookie-parser')
-//var redis = require('redis')
+var redis = require('redis')
 var requestIp = require('request-ip');
 var endOfLine = require('os').EOL;
 var pug = require('pug');
@@ -48,7 +48,7 @@ app.use(function (req, res, next) {
 });
 
 app.get('/reset', function (req, res) {
-  //var client = redis.createClient(process.env.REDIS_URL)
+  var client = redis.createClient(process.env.REDIS_URL)
   client.flushall(function (err, success){
     res.send('game has been reset');
     console.log('reset sent ...');
@@ -60,6 +60,15 @@ app.get('/', function(req, res){
       root_route: ['Welcome to emag-rq. This application is currently under development.','Follow the link below to print the codes and start the game','https://emag-rq.herokuapp.com/print']
   });
 });
+
+app.get('/print', function(req, res){
+  jsonfile.readFile( "data.json", 'utf8', function (err, data) {
+    res.render('template', {
+        json_data: data
+    });
+  });
+});
+
 
 app.get('/goat', function(req, res){
   jsonfile.readFile( "data.json", 'utf8', function (err, data) {
@@ -74,15 +83,53 @@ app.get('/goat', function(req, res){
       });
     });
 
-    app.get('/:key', function (req, res) {
-      console.log(req.params.key);
-      if (req.params.key.length > 15){
-        console.log('go');
-        data_key = urlCrypt.decryptObj(req.params.key)
-        console.log(data_key);
-      };
-    });
+app.get('/:key', function (req, res) {
+  var client = redis.createClient(process.env.REDIS_URL)
 
+  var key_string = req.params.key.replace(/code:/g,'');
+  var crypt_url = req.protocol + '://' + req.get('host') + '/' + urlCrypt.cryptObj(key_string);
+  var qr_url= req.protocol + '://' + req.get('host') + '/code:';
+
+  if (req.params.key.length > 15){
+    data_key = urlCrypt.decryptObj(req.params.key)
+    //this section creates pages from template.pug based on the URL key
+        client.hget(req.clientIp, data_key, function(err, usr_pg_view){
+
+            jsonfile.readFile( "data.json", 'utf8', function (err, data) {
+              var pg_json_record = {}
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].key == data_key){
+                      pg_json_record = data[i]
+                    };
+                };
+              res.render('template', {
+                  qr_code: qr_url,
+                  json_data: data,
+                  previous_view: usr_pg_view,
+                  request: data_key,
+                  pg_json_record: pg_json_record
+              });
+            });
+        });
+
+    console.log(data_key);
+    client.hset(req.clientIp, data_key, Date())
+  } else if (req.params.key.slice(0,5) == 'code:') {
+
+//this section creates QR codes when a code: URL is passed
+ //may want to consider adding logic here to create codes only if items exist in JSON file
+
+    var code = qr.image(crypt_url, { type: 'svg' })
+    res.type('svg');
+    code.pipe(res);
+    console.log(crypt_url);;
+  } else {
+    console.log('Error at else statement in app.get(/:key)');
+  }
+  //console.log('Cookies: ', req.cookies)
+  client.hset(req.clientIp, req.params.key, Date())
+  client.quit()
+});
 
 var port = process.env.PORT || 8080;
 app.listen(port, function() {
