@@ -17,11 +17,10 @@ var pug = require('pug');
 var env = process.env.NODE_ENV || 'production';
 var config = require('./config')[env];
 
-//var urlCrypt = require('url-crypt')(config.crypt_key);
-//import SimpleCrypto from "simple-crypto-js"
-//var simpleCrypto = new SimpleCrypto(config.crypt_key);
+//encrypt the url, so people do not cheat the game by entering the database numbers
 var SimpleCrypto = require("simple-crypto-js").default
 var simpleCrypto = new SimpleCrypto(config.crypt_key)
+
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 
@@ -73,9 +72,7 @@ app.get('/', function(req, res){
 
 app.get('/goat', function(req, res){
   jsonfile.readFile( "data.json", 'utf8', function (err, data) {
-        //var base64 = urlCrypt.cryptObj(data[0].game_data.key)
         var base64 = simpleCrypto.encrypt(data[0].game_data.key)
-
         var page_url = req.protocol + '://' + req.get('host') + '/' + data[0].game_data.key;
         console.log(page_url);
         var crypt_url = req.protocol + '://' + req.get('host') + '/' + base64;
