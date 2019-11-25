@@ -23,6 +23,7 @@
     "qr-image": "^3.2.0",
     "redis": "^2.8.0",
     "request-ip": "^2.0.2",
+    "simple-crypto-js": "^2.2.0",
     "url-crypt": "^1.2.1"
   },
   "notes": "express, jsonfile, qr-image"
