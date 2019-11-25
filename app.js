@@ -18,8 +18,9 @@ var env = process.env.NODE_ENV || 'production';
 var config = require('./config')[env];
 
 //var urlCrypt = require('url-crypt')(config.crypt_key);
-import SimpleCrypto from "simple-crypto-js"
-var simpleCrypto = new SimpleCrypto(config.crypt_key);
+//import SimpleCrypto from "simple-crypto-js"
+//var simpleCrypto = new SimpleCrypto(config.crypt_key);
+var simpleCrypto = require("simple-crypto-js")(config.crypt_key).default
 
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
