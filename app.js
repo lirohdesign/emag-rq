@@ -72,7 +72,7 @@ app.get('/', function(req, res){
 
 app.get('/goat', function(req, res){
   jsonfile.readFile( "data.json", 'utf8', function (err, data) {
-        console.log(data[0].game_data.key);
+        console.log(data[0].game_data);
         var base64 = simpleCrypto.encrypt(data[0].game_data.key)
         console.log(base64)
         var page_url = req.protocol + '://' + req.get('host') + '/' + data[0].game_data.key;
