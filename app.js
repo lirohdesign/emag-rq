@@ -17,7 +17,8 @@ var pug = require('pug');
 var env = process.env.NODE_ENV || 'production';
 var config = require('./config')[env];
 
-var urlCrypt = require('url-crypt')(config.crypt_key);
+//var urlCrypt = require('url-crypt')(config.crypt_key);
+var simpleCrypto = require('SimpleCrypto')(config.crypt_key);
 
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
@@ -70,13 +71,15 @@ app.get('/', function(req, res){
 
 app.get('/goat', function(req, res){
   jsonfile.readFile( "data.json", 'utf8', function (err, data) {
-        var base64 = urlCrypt.cryptObj(data[0].game_data.key)
+        //var base64 = urlCrypt.cryptObj(data[0].game_data.key)
+        var base64 = simpleCrypto.encrypt(data[0].game_data.key)
+
         var page_url = req.protocol + '://' + req.get('host') + '/' + data[0].game_data.key;
         console.log(page_url);
         var crypt_url = req.protocol + '://' + req.get('host') + '/' + base64;
         var code = qr.image(crypt_url, { type: 'svg' })
-        //res.type('svg');
-        //code.pipe(res);
+        res.type('svg');
+        code.pipe(res);
         console.log(crypt_url);
       });
     });
@@ -85,7 +88,7 @@ app.get('/:key', function (req, res) {
   var client = redis.createClient(process.env.REDIS_URL)
 
   var key_string = req.params.key.replace(/code:/gi,'');
-  var crypt_url = req.protocol + '://' + req.get('host') + '/' + urlCrypt.cryptObj(key_string);
+  var crypt_url = req.protocol + '://' + req.get('host') + '/' + simpleCrypto.encrypt(key_string);
   var qr_url= req.protocol + '://' + req.get('host') + '/code:';
   var data_key = ""
 
@@ -104,7 +107,7 @@ if (req.params.key.slice(0,5) == 'code:') {
     if (req.params.key == 'print'){
       data_key = req.params.key;
     } else {
-      data_key = urlCrypt.decryptObj(req.params.key)
+      data_key = simpleCrypto.decrypt(req.params.key)
     }
 
     //this section creates pages from template.pug based on the URL key
