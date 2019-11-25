@@ -72,12 +72,13 @@ app.get('/', function(req, res){
 
 app.get('/goat', function(req, res){
   jsonfile.readFile( "data.json", 'utf8', function (err, data) {
-        var base64 = simpleCrypto.encrypt(data[0].game_data.key.1)
+        console.log(data[0].game_data.key);
+        var base64 = simpleCrypto.encrypt(data[0].game_data.key)
         console.log(base64)
-        var page_url = req.protocol + '://' + req.get('host') + '/' + data[0].game_data.key.1;
+        var page_url = req.protocol + '://' + req.get('host') + '/' + data[0].game_data.key;
         console.log(page_url);
         var crypt_url = req.protocol + '://' + req.get('host') + '/' + base64;
-        var code = qr.image(crypt_url, { type: 'svg' })
+        //var code = qr.image(crypt_url, { type: 'svg' })
         //res.type('svg');
         //code.pipe(res);
         console.log(crypt_url);
