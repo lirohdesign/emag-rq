@@ -68,16 +68,6 @@ app.get('/', function(req, res){
   });
 });
 
-/*app.get('/print', function(req, res){
-  jsonfile.readFile( "data.json", 'utf8', function (err, data) {
-    res.render('template', {
-        json_data: data[0].game_data,
-        request: "print"
-    });
-  });
-});
-*/
-
 app.get('/goat', function(req, res){
   jsonfile.readFile( "data.json", 'utf8', function (err, data) {
         var base64 = urlCrypt.cryptObj(data[0].game_data.key)
@@ -85,8 +75,8 @@ app.get('/goat', function(req, res){
         console.log(page_url);
         var crypt_url = req.protocol + '://' + req.get('host') + '/' + base64;
         var code = qr.image(crypt_url, { type: 'svg' })
-        res.type('svg');
-        code.pipe(res);
+        //res.type('svg');
+        //code.pipe(res);
         console.log(crypt_url);
       });
     });
@@ -94,7 +84,7 @@ app.get('/goat', function(req, res){
 app.get('/:key', function (req, res) {
   var client = redis.createClient(process.env.REDIS_URL)
 
-  var key_string = req.params.key.replace(/code:/g,'');
+  var key_string = req.params.key.replace(/code:/gi,'');
   var crypt_url = req.protocol + '://' + req.get('host') + '/' + urlCrypt.cryptObj(key_string);
   var qr_url= req.protocol + '://' + req.get('host') + '/code:';
   var data_key = ""
