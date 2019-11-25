@@ -78,9 +78,9 @@ app.get('/goat', function(req, res){
         var page_url = req.protocol + '://' + req.get('host') + '/' + data[0].game_data[0].key;
         console.log(page_url);
         var crypt_url = req.protocol + '://' + req.get('host') + '/' + base64;
-        //var code = qr.image(crypt_url, { type: 'svg' })
-        //res.type('svg');
-        //code.pipe(res);
+        var code = qr.image(crypt_url, { type: 'svg' })
+        res.type('svg');
+        code.pipe(res);
         console.log(crypt_url);
       });
     });
