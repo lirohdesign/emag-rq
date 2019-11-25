@@ -52,7 +52,7 @@
       "clue": ["Test Clue 1", "Test Clue 2","Test Clue 3","Test Clue 4"],
       "description": ["Self destruct in fifteen minutes", "to prevent a minor explosion", "you must find all the codes and enter their coordinates"],
       "time_allocated": "",
-      "photo_link": "/static/explosion.gif",
+      "photo_link": "/static/countdown.gif",
       "logic": "Circular"
     },
     { "key": "End",
