@@ -12,6 +12,25 @@ var requestIp = require('request-ip');
 var endOfLine = require('os').EOL;
 var pug = require('pug');
 
+//react attempt
+var http = require("http");
+var socketIo = require("socket.io");
+var axios = require("axios");
+var port = process.env.PORT || 4001;
+var index = require("./routes/index.js");
+app.use(index);
+var server = http.createServer(app);
+var io = socketIo(server); // < Interesting!
+var getApiAndEmit = async socket => {
+  try {
+    const res = await axios.get(
+      "https://api.darksky.net/forecast/2947b6a443bbf214667bfe5694d6e4da/43.7695,11.2558"
+    ); // Getting the data from DarkSky
+    socket.emit("FromAPI", res.data.currently.temperature); // Emitting a new message. It will be consumed by the client
+  } catch (error) {
+    console.error(`Error: ${error.code}`);
+  }
+};
 
 //config.js link
 var env = process.env.NODE_ENV || 'production';
@@ -138,7 +157,36 @@ if (req.params.key.slice(0,5) == 'code:') {
   client.quit()
 });
 
-var port = process.env.PORT || 8080;
-app.listen(port, function() {
-  console.log('EDOC_RQ is running on http://localhost:' + port);
+
+//react attempt
+
+io.on("connection", socket => {
+  console.log("New client connected"), setInterval(
+    () => getApiAndEmit(socket),
+    10000
+  );
+  socket.on("disconnect", () => console.log("Client disconnected"));
 });
+
+let interval;
+io.on("connection", socket => {
+  console.log("New client connected");
+  if (interval) {
+    clearInterval(interval);
+  }
+  interval = setInterval(() => getApiAndEmit(socket), 10000);
+  socket.on("disconnect", () => {
+    console.log("Client disconnected");
+  });
+});
+
+    server.listen(port, () => console.log(`Listening on port ${port}`));
+
+
+//back to original uncomment below if needed
+
+
+//var port = process.env.PORT || 8080;
+//app.listen(port, function() {
+//  console.log('EDOC_RQ is running on http://localhost:' + port);
+//});
