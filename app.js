@@ -157,14 +157,14 @@ if (req.params.key.slice(0,5) == 'code:') {
         console.log(usr_pg_view);
         jsonfile.readFile( "data.json", 'utf8', function (err, data) {
           var pg_json_record = {}
-            for (var i = 0; i < data[gameID].game_data.length; i++) {
-                if (data[gameID].game_data[i].key == data_key){
-                  pg_json_record = data[gameID].game_data[i];
+            for (var i = 0; i < data[2].game_data.length; i++) {
+                if (data[2].game_data[i].key == data_key){
+                  pg_json_record = data[2].game_data[i];
                 };
             };
           res.render('template', {
               qr_code: qr_url,
-              json_data: data[gameID].game_data,
+              json_data: data[2].game_data,
               previous_view: usr_pg_view,
               request: data_key,
               pg_json_record: pg_json_record,
