@@ -12,6 +12,9 @@ var requestIp = require('request-ip');
 var endOfLine = require('os').EOL;
 var pug = require('pug');
 
+//assigning a variable to the game numbers for future use.
+var gameID = 2
+
 //react attempt
 var http = require("http");
 var socketIo = require("socket.io");
@@ -91,86 +94,46 @@ app.get('/', function(req, res){
 
 app.get('/goat', function(req, res){
   io.on('connect', onConnect);
-
-function onConnect(socket){
-
-  // sending to the client
-  socket.emit('hello', 'can you hear me?', 1, 2, 'abc');
-
-  // sending to all clients except sender
-  socket.broadcast.emit('broadcast', 'hello friends!');
-
-  // sending to all clients in 'game' room except sender
-  socket.to('game').emit('nice game', "let's play a game");
-
-  // sending to all clients in 'game1' and/or in 'game2' room, except sender
-  socket.to('game1').to('game2').emit('nice game', "let's play a game (too)");
-
-  // sending to all clients in 'game' room, including sender
-  io.in('game').emit('big-announcement', 'the game will start soon');
-
-  // sending to all clients in namespace 'myNamespace', including sender
-  io.of('myNamespace').emit('bigger-announcement', 'the tournament will start soon');
-
-  // sending to a specific room in a specific namespace, including sender
-  io.of('myNamespace').to('room').emit('event', 'message');
-
-  // sending to individual socketid (private message)
-  io.to(`${socketId}`).emit('hey', 'I just met you');
-
-  // WARNING: `socket.to(socket.id).emit()` will NOT work, as it will send to everyone in the room
-  // named `socket.id` but the sender. Please use the classic `socket.emit()` instead.
-
-  // sending with acknowledgement
-  socket.emit('question', 'do you think so?', function (answer) {});
-
-  // sending without compression
-  socket.compress(false).emit('uncompressed', "that's rough");
-
-  // sending a message that might be dropped if the client is not ready to receive messages
-  socket.volatile.emit('maybe', 'do you really need it?');
-
-  // specifying whether the data to send has binary data
-  socket.binary(false).emit('what', 'I have no binaries!');
-
-  // sending to all clients on this node (when using multiple nodes)
-  io.local.emit('hi', 'my lovely babies');
-
-  // sending to all connected clients
-  io.emit('an event sent to all connected clients');
-
-};
-
-  //react attempt
-  //io.on("connection", socket => {
-  //  console.log("New client connected"), setInterval(
-  //    () => getApiAndEmit(socket),
-  //    10000
-  //  );
-  //  socket.on("disconnect", () => console.log("Client disconnected"));
-  //});
-
-  //let interval;
-  //io.on("connection", socket => {
-  //  console.log("New client connected");
-  //  if (interval) {
-  //    clearInterval(interval);
-  //  }
-  //  interval = setInterval(() => getApiAndEmit(socket), 10000);
-  //  socket.on("disconnect", () => {
-  //    console.log("Client disconnected");
-  //  });
-  //});
-    });
+  function onConnect(socket){
+    // sending to the client
+    socket.emit('hello', 'can you hear me?', 1, 2, 'abc');
+    // sending to all clients except sender
+    socket.broadcast.emit('broadcast', 'hello friends!');
+    // sending to all clients in 'game' room except sender
+    socket.to('game').emit('nice game', "let's play a game");
+    // sending to all clients in 'game1' and/or in 'game2' room, except sender
+    socket.to('game1').to('game2').emit('nice game', "let's play a game (too)");
+    // sending to all clients in 'game' room, including sender
+    io.in('game').emit('big-announcement', 'the game will start soon');
+    // sending to all clients in namespace 'myNamespace', including sender
+    io.of('myNamespace').emit('bigger-announcement', 'the tournament will start soon');
+    // sending to a specific room in a specific namespace, including sender
+    io.of('myNamespace').to('room').emit('event', 'message');
+    // sending to individual socketid (private message)
+    io.to(`${socketId}`).emit('hey', 'I just met you');
+    // WARNING: `socket.to(socket.id).emit()` will NOT work, as it will send to everyone in the room
+    // named `socket.id` but the sender. Please use the classic `socket.emit()` instead.
+    // sending with acknowledgement
+    socket.emit('question', 'do you think so?', function (answer) {});
+    // sending without compression
+    socket.compress(false).emit('uncompressed', "that's rough");
+    // sending a message that might be dropped if the client is not ready to receive messages
+    socket.volatile.emit('maybe', 'do you really need it?');
+    // specifying whether the data to send has binary data
+    socket.binary(false).emit('what', 'I have no binaries!');
+    // sending to all clients on this node (when using multiple nodes)
+    io.local.emit('hi', 'my lovely babies');
+    // sending to all connected clients
+    io.emit('an event sent to all connected clients');
+    };
+  });
 
 app.get('/:key', function (req, res) {
   var client = redis.createClient(process.env.REDIS_URL)
-
   var key_string = req.params.key.replace(/code:/gi,'');
   var crypt_url = req.protocol + '://' + req.get('host') + '/' + simpleCrypto.encrypt(key_string);
   var qr_url= req.protocol + '://' + req.get('host') + '/code:';
   var data_key = ""
-
 
 if (req.params.key.slice(0,5) == 'code:') {
   //this section creates QR codes when a code: URL is passed
@@ -194,14 +157,14 @@ if (req.params.key.slice(0,5) == 'code:') {
         console.log(usr_pg_view);
         jsonfile.readFile( "data.json", 'utf8', function (err, data) {
           var pg_json_record = {}
-            for (var i = 0; i < data[0].game_data.length; i++) {
-                if (data[0].game_data[i].key == data_key){
-                  pg_json_record = data[0].game_data[i];
+            for (var i = 0; i < data[gameID].game_data.length; i++) {
+                if (data[gameID].game_data[i].key == data_key){
+                  pg_json_record = data[gameID].game_data[i];
                 };
             };
           res.render('template', {
               qr_code: qr_url,
-              json_data: data[0].game_data,
+              json_data: data[gameID].game_data,
               previous_view: usr_pg_view,
               request: data_key,
               pg_json_record: pg_json_record,
