@@ -22,8 +22,8 @@ var env = process.env.NODE_ENV || 'production';
 var config = require('./config')[env];
 
 //encrypt the url, so people do not cheat the game by entering the database numbers
-var SimpleCrypto = require("simple-crypto-js").default
-var simpleCrypto = new SimpleCrypto(config.crypt_key)
+//make this again later
+
 
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
@@ -71,6 +71,7 @@ app.get('/', function(req, res){
   res.render('template', {
       root_route: ['Welcome to emag-rq. This application is currently under development.','Follow the link below to print the codes and start the game','https://emag-rq.herokuapp.com/print'],
       request: null
+
   });
 });
 
