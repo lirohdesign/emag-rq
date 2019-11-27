@@ -54,5 +54,36 @@ app.get('/goat', function(req, res){
     };
   });
 
-  //react attempt
       server.listen(port, () => console.log(`Listening on port ${port}`));
+
+        //react attempt
+
+
+
+        //switching out simpleCrypto because it is not reliable
+
+
+      app.get('/:key', function (req, res) {
+        var client = redis.createClient(process.env.REDIS_URL)
+        var key_string = req.params.key.replace(/code:/g,'');
+        var encode_key_string = encodeURIComponent(key_string)
+        var crypt_url = req.protocol + '://' + req.get('host') + '/' + simpleCrypto.encrypt(encode_key_string);
+        var qr_url= req.protocol + '://' + req.get('host') + '/code:';
+        var data_key = ""
+
+      if (req.params.key.slice(0,5) == 'code:') {
+        //this section creates QR codes when a code: URL is passed
+         //may want to consider adding logic here to create codes only if items exist in JSON file
+
+            var code = qr.image(crypt_url, { type: 'svg' })
+            res.type('svg');
+            code.pipe(res);
+            console.log(crypt_url);;
+
+        } else {
+
+          if (req.params.key == 'print'){
+            data_key = req.params.key;
+          } else {
+            data_key = simpleCrypto.decrypt(decodeURIComponent(req.params.key))
+          }

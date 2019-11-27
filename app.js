@@ -79,8 +79,7 @@ app.get('/', function(req, res){
 app.get('/:key', function (req, res) {
   var client = redis.createClient(process.env.REDIS_URL)
   var key_string = req.params.key.replace(/code:/g,'');
-  var encode_key_string = encodeURIComponent(key_string)
-  var crypt_url = req.protocol + '://' + req.get('host') + '/' + simpleCrypto.encrypt(encode_key_string);
+  var crypt_url = req.protocol + '://' + req.get('host') + '/' + encodeURIComponent(key_string)//simpleCrypto.encrypt(encode_key_string);
   var qr_url= req.protocol + '://' + req.get('host') + '/code:';
   var data_key = ""
 
@@ -98,7 +97,7 @@ if (req.params.key.slice(0,5) == 'code:') {
     if (req.params.key == 'print'){
       data_key = req.params.key;
     } else {
-      data_key = simpleCrypto.decrypt(decodeURIComponent(req.params.key))
+      data_key = decodeURIComponent(req.params.key)//simpleCrypto.decrypt(decodeURIComponent(req.params.key))
     }
 
     //this section creates pages from template.pug based on the URL key
@@ -138,6 +137,6 @@ if (req.params.key.slice(0,5) == 'code:') {
 
 var port = process.env.PORT || 8080;
 app.listen(port, function() {
-  console.log('EDOC_RQ is running on' + process.env);
+  console.log('EDOC_RQ is running);
 //  console.log('EDOC_RQ is running on http://localhost:' + port);
 });
