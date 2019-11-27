@@ -149,7 +149,7 @@
       "coordinates": "",
       "clue": ["Face a heading of 300", "Walk 4 paces","Turn to a heading of 190","Continue a few paces and carefully descend 13 paces", "locate a maple tree heading 090", "go stand on the west side of the tree", "look North and find a way up","climb halfway and look about"],
       "description": ["", "", ""],
-      "time_allocated": "600",
+      "time_allocated": "30",
       "photo_link": "",
       "logic": "Single File"
     },
@@ -159,7 +159,7 @@
       "coordinates": "",
       "clue": ["Go to a tree with leaves in the NE"],
       "description":[],
-      "time_allocated": "600",
+      "time_allocated": "30",
       "photo_link":"",
       "logic":""
     },
@@ -169,7 +169,7 @@
       "coordinates": "",
       "clue": ["On your way to a perfect wood pecker's tower...","look for 4 trunks lined up North and South.", "Explore the area.","You may find something on the south side of the largest log."],
       "description":[],
-      "time_allocated": "600",
+      "time_allocated": "30",
       "photo_link":"",
       "logic":""
     },
@@ -179,7 +179,7 @@
       "coordinates": "",
       "clue": ["Walk to the Blackest Tree", "Heading of 115","Face the Sunset", "Examine the blocks" ],
       "description":[],
-      "time_allocated": "600",
+      "time_allocated": "30",
       "photo_link":"",
       "logic":""
     },
@@ -189,7 +189,7 @@
       "coordinates": "",
       "clue": ["We are finished in the woods.","Return to civilization and find a green door","While standing by the door, find a heading of 195 and walk until you find a burried pipe."],
       "description":[],
-      "time_allocated": "600",
+      "time_allocated": "30",
       "photo_link":"",
       "logic":""
     },
@@ -199,7 +199,7 @@
       "coordinates": "Middle of Nothing",
       "clue": ["Stand between the twin trees dues East.", "Heading 120","Walk 25 Paces.","Continue 25 more paces to the East.","Turn to the North and WATCH YOUR NEXT FEW STEPS!"],
       "description":[],
-      "time_allocated": "600",
+      "time_allocated": "30",
       "photo_link": "",
       "logic":""
     },
