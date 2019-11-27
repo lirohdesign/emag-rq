@@ -22,8 +22,9 @@ var env = process.env.NODE_ENV || 'production';
 var config = require('./config')[env];
 
 //encrypt the url, so people do not cheat the game by entering the database numbers
-var SimpleCrypto = require("simple-crypto-js").default
-var simpleCrypto = new SimpleCrypto(config.crypt_key)
+var AES = require("crypto-js/aes")
+
+
 
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
@@ -79,7 +80,7 @@ app.get('/', function(req, res){
 app.get('/:key', function (req, res) {
   var client = redis.createClient(process.env.REDIS_URL)
   var key_string = req.params.key.replace(/code:/g,'');
-  var crypt_url = req.protocol + '://' + req.get('host') + '/' + encodeURIComponent(key_string)//simpleCrypto.encrypt(encode_key_string);
+  var crypt_url = req.protocol + '://' + req.get('host') + '/' + AES.encrypt(key_string)//simpleCrypto.encrypt(encode_key_string);
   console.log(crypt_url);
   var qr_url= req.protocol + '://' + req.get('host') + '/code:';
   var data_key = ""
@@ -98,7 +99,7 @@ if (req.params.key.slice(0,5) == 'code:') {
     if (req.params.key == 'print'){
       data_key = req.params.key;
     } else {
-      data_key = decodeURIComponent(req.params.key)//simpleCrypto.decrypt(decodeURIComponent(req.params.key))
+      data_key = AES.decrypt(req.params.key)//simpleCrypto.decrypt(decodeURIComponent(req.params.key))
     }
 
     //this section creates pages from template.pug based on the URL key
