@@ -45,7 +45,7 @@ html
             h4 Current location: #{x.location}
           else
             h1 You have already found this clue.
-
+            h4 Current location: #{x.location}
           .clue_image
             img(src=x.photo_link)
 
@@ -60,8 +60,8 @@ html
 
 
           if pg_json_record.time_allocated <= 0
-            p There is no time limit for this clue
+            p
           else if pg_json_record.time_allocated == null
-            p There is no time limit for this clue
+            p
           else
-            p Self destruct in #[span(id='time')]
+            p Get a hint in #[span(id='time')]
