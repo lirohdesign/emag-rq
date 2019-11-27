@@ -53,3 +53,6 @@ app.get('/goat', function(req, res){
     io.emit('an event sent to all connected clients');
     };
   });
+
+  //react attempt
+      server.listen(port, () => console.log(`Listening on port ${port}`));
