@@ -130,14 +130,13 @@ if (req.params.key.slice(0,5) == 'code:') {
 
 
 
-//react attempt
-    app.listen(port, () => console.log(`Listening on port ${port}`));
 
 
 //back to original uncomment below if needed
 
 
-//var port = process.env.PORT || 8080;
-//app.listen(port, function() {
+var port = process.env.PORT || 8080;
+app.listen(port, function() {
+  console.log('EDOC_RQ is running on' + process.env);
 //  console.log('EDOC_RQ is running on http://localhost:' + port);
-//});
+});
