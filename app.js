@@ -131,7 +131,7 @@ if (req.params.key.slice(0,5) == 'code:') {
 
 
 //react attempt
-    server.listen(port, () => console.log(`Listening on port ${port}`));
+    app.listen(port, () => console.log(`Listening on port ${port}`));
 
 
 //back to original uncomment below if needed
