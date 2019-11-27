@@ -80,6 +80,7 @@ app.get('/:key', function (req, res) {
   var client = redis.createClient(process.env.REDIS_URL)
   var key_string = req.params.key.replace(/code:/g,'');
   var crypt_url = req.protocol + '://' + req.get('host') + '/' + encodeURIComponent(key_string)//simpleCrypto.encrypt(encode_key_string);
+  console.log(crypt_url);
   var qr_url= req.protocol + '://' + req.get('host') + '/code:';
   var data_key = ""
 
