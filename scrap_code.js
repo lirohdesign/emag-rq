@@ -1,3 +1,23 @@
+//react attempt
+var http = require("http");
+var socketIo = require("socket.io");
+var axios = require("axios");
+var port = process.env.PORT || 4001;
+var index = require("./routes/index.js");
+app.use(index);
+var server = http.createServer(app);
+var io = socketIo(server); // < Interesting!
+//var getApiAndEmit = async socket => {
+//  try {
+//    const res = await axios.get(
+//      "https://api.darksky.net/forecast/2947b6a443bbf214667bfe5694d6e4da/43.7695,11.2558"
+//    ); // Getting the data from DarkSky
+//    socket.emit("FromAPI", res.data.currently.temperature); // Emitting a new message. It will be consumed by the client
+//  } catch (error) {
+//    console.error(`Error: ${error.code}`);
+//  }
+//};
+
 app.get('/goat', function(req, res){
   io.on('connect', onConnect);
   function onConnect(socket){
