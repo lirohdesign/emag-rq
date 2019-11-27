@@ -154,7 +154,7 @@
       "location": "Front Door - Ben's House",
       "coordinates": "",
       "clue": [],
-      "description": ["", "", ""],
+      "description": [],
       "time_allocated": "30",
       "photo_link": "",
       "logic": "Single File"
@@ -164,7 +164,7 @@
       "location": "Landing on the Back Porch",
       "coordinates": "",
       "clue": ["Face a heading of 300", "Walk 4 paces","Turn to a heading of 190","Continue a few paces and carefully descend 13 paces", "locate a maple tree heading 090", "go stand on the west side of the tree", "look North and find a way up","climb halfway and look about"],
-      "description": ["", "", ""],
+      "description": [],
       "time_allocated": "30",
       "photo_link": "",
       "logic": "Single File"
