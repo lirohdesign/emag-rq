@@ -60,7 +60,8 @@ html
                 ul(style="list-style-type:none")
                   li
                     h1 #{clue}
-                p#giveaway(style={display: 'none'}) You have run out of time. The code you seek can be found here: #{y.location}
+
+          p#giveaway(style={display: 'none'}) You have run out of time. The code you seek can be found here: #{y.location}
 
 
           if pg_json_record.time_allocated <= 0

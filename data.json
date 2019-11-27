@@ -5,6 +5,7 @@
 "password": "",
 "user_name": "",
 "description_for_start": ["Welcome to emag-rq. This application is currently under development.","Follow the link below to print the codes and start the game","https://emag-rq.herokuapp.com/print"],
+"start_location":,
 "game_data": [
     { "key": 1,
       "title":"",
@@ -75,6 +76,7 @@
 "password": "",
 "user_name": "",
 "description_for_start": [],
+"start_location":,
 "game_data": [
     { "key": 1,
       "title":"",
@@ -145,7 +147,18 @@
 "password": "",
 "user_name": "",
 "description_for_start": ["Welcome to emag-rq. This application is currently under development.","Follow the link below to print the codes and start the game","https://emag-rq.herokuapp.com/print"],
+"start_location":,"Being your Journey at the Door."
 "game_data": [
+    { "key": 0,
+      "title":"",
+      "location": "Front Door - Ben's House",
+      "coordinates": "",
+      "clue": [],
+      "description": ["", "", ""],
+      "time_allocated": "30",
+      "photo_link": "",
+      "logic": "Single File"
+    },
     { "key": 0,
       "title":"",
       "location": "Landing on the Back Porch",
