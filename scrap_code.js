@@ -61,7 +61,8 @@ app.get('/goat', function(req, res){
 
 
         //switching out simpleCrypto because it is not reliable
-
+        var SimpleCrypto = require("simple-crypto-js").default
+        var simpleCrypto = new SimpleCrypto(config.crypt_key)
 
       app.get('/:key', function (req, res) {
         var client = redis.createClient(process.env.REDIS_URL)
