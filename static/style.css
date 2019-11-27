@@ -1,3 +1,8 @@
+body {font-size: 16px}
+p {font-size: 120%}
+h1 {font-size: 250%}
+
+
 #viral {
   animation: blink-animation 1s steps(2, start) 2;
   font-size: calc(10vw + 10vh);
