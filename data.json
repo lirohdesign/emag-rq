@@ -159,7 +159,7 @@
       "photo_link": "",
       "logic": "Single File"
     },
-    { "key": 0,
+    { "key": 1,
       "title":"",
       "location": "Landing on the Back Porch",
       "coordinates": "",
@@ -169,7 +169,7 @@
       "photo_link": "",
       "logic": "Single File"
     },
-    { "key": 1,
+    { "key": 2,
       "title":"",
       "location": "East Side of Oak by the Fire Pit",
       "coordinates": "",
@@ -179,7 +179,7 @@
       "photo_link":"",
       "logic":""
     },
-    { "key": 2,
+    { "key": 3,
       "title":"",
       "location": "South Side of Giant Silver Maple Trunk",
       "coordinates": "",
@@ -189,7 +189,7 @@
       "photo_link":"",
       "logic":""
     },
-    { "key": 3,
+    { "key": 4,
       "title":"",
       "location": "Block Pile in the Woods",
       "coordinates": "",
@@ -199,7 +199,7 @@
       "photo_link":"",
       "logic":""
     },
-    { "key": 4,
+    { "key": 5,
       "title":"",
       "location": "Buried Pipe",
       "coordinates": "",
@@ -209,7 +209,7 @@
       "photo_link":"",
       "logic":""
     },
-    { "key": 5,
+    { "key": 6,
       "title":"",
       "location": "Middle of Nothing",
       "coordinates": "",
@@ -219,7 +219,7 @@
       "photo_link": "",
       "logic":""
     },
-    { "key": 6,
+    { "key": 7,
       "title":"",
       "location":"Ask Ben for help if you did not find the last item.",
       "coordinates":"",
