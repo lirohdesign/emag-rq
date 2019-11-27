@@ -5,7 +5,7 @@
 "password": "",
 "user_name": "",
 "description_for_start": ["Welcome to emag-rq. This application is currently under development.","Follow the link below to print the codes and start the game","https://emag-rq.herokuapp.com/print"],
-"start_location":,
+"start_location":"",
 "game_data": [
     { "key": 1,
       "title":"",
@@ -76,7 +76,7 @@
 "password": "",
 "user_name": "",
 "description_for_start": [],
-"start_location":,
+"start_location":"",
 "game_data": [
     { "key": 1,
       "title":"",
