@@ -137,6 +137,6 @@ if (req.params.key.slice(0,5) == 'code:') {
 
 var port = process.env.PORT || 8080;
 app.listen(port, function() {
-  console.log('EDOC_RQ is running);
+  console.log('EDOC_RQ is running');
 //  console.log('EDOC_RQ is running on http://localhost:' + port);
 });
