@@ -79,7 +79,8 @@ app.get('/', function(req, res){
 app.get('/:key', function (req, res) {
   var client = redis.createClient(process.env.REDIS_URL)
   var key_string = req.params.key.replace(/code:/g,'');
-  var crypt_url = req.protocol + '://' + req.get('host') + '/' + simpleCrypto.encrypt(key_string);
+  var encode_key_string = ncodeURIComponent(key_string)
+  var crypt_url = req.protocol + '://' + req.get('host') + '/' + simpleCrypto.encrypt(encode_key_string);
   var qr_url= req.protocol + '://' + req.get('host') + '/code:';
   var data_key = ""
 
@@ -97,7 +98,7 @@ if (req.params.key.slice(0,5) == 'code:') {
     if (req.params.key == 'print'){
       data_key = req.params.key;
     } else {
-      data_key = simpleCrypto.decrypt(req.params.key)
+      data_key = simpleCrypto.decrypt(decodeURIComponent(req.params.key))
     }
 
     //this section creates pages from template.pug based on the URL key
