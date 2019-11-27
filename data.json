@@ -147,7 +147,7 @@
 "password": "",
 "user_name": "",
 "description_for_start": ["Welcome to emag-rq. This application is currently under development.","Follow the link below to print the codes and start the game","https://emag-rq.herokuapp.com/print"],
-"start_location":,"Being your Journey at the Door.",
+"start_location":"Being your Journey at the Door.",
 "game_data": [
     { "key": 0,
       "title":"",
