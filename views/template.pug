@@ -34,7 +34,7 @@ html
       ul(style="list-style-type:none")
           for x in json_data
               li
-                p #{x.location}
+                p #{x.key + 1}:#{x.location}
                 img(src=qr_code + x.key, style="width:336px;height:336px;")
     else
 
@@ -47,8 +47,7 @@ html
           else
             h1 You have already found this clue.
             h4 Current location: #{x.location}
-          .clue_image
-            img(src=x.photo_link)
+
 
           h1 NEXT CLUE:
           for y in json_data
@@ -59,7 +58,8 @@ html
                     h1 #{clue}
 
               p#giveaway(style={display: 'none'}) You have run out of time. The code you seek can be found here: #{y.location}
-
+              .clue_image
+                img(src=y.photo_link)
 
           if pg_json_record.time_allocated <= 0
             p
