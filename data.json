@@ -348,7 +348,7 @@
       "clue": ["You wake up and you are hungry","Let's make some breakfast"],
       "description": [],
       "time_allocated": "600",
-      "photo_link": "static\picsforgame\complete_bowl_1.jpg",
+      "photo_link": "static\picsforgame\complete_bowl.jpg",
       "logic": "Single File"
     },
     { "key": 2,
