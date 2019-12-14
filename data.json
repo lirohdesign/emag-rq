@@ -407,7 +407,7 @@
       "coordinates":"",
       "clue": ["Now that you are finished eating,","where do you get ready?"],
       "description": [""],
-      "time_allocated":"600",
+      "time_allocated":"",
       "photo_link": "/static/picsforgame/get_dressed.png",
       "logic":""
     },
@@ -417,7 +417,7 @@
       "coordinates":"",
       "clue": ["Where do you keep your clothes?","You better pick something out to wear."],
       "description": [""],
-      "time_allocated":"600",
+      "time_allocated":"",
       "photo_link": "/static/picsforgame/dresser.png",
       "logic":""
     },
@@ -427,7 +427,7 @@
       "coordinates":"",
       "clue": ["So you have had breadfast and you are all dressed.","It would probably be a good idea to clean your teeth before you go."],
       "description": [""],
-      "time_allocated":"600",
+      "time_allocated":"",
       "photo_link": "/static/picsforgame/brush_teeth.jpg",
       "logic":""
     },
@@ -437,7 +437,7 @@
       "coordinates":"",
       "clue": ["Stomp your feet!","You should probably put on your shoes."],
       "description": [""],
-      "time_allocated":"600",
+      "time_allocated":"",
       "photo_link": "/static/picsforgame/tie_shoes.jpg",
       "logic":""
     },
@@ -447,7 +447,7 @@
       "coordinates":"",
       "clue": ["It's cold outside!","Don't forget your coat."],
       "description": [""],
-      "time_allocated":"600",
+      "time_allocated":"",
       "photo_link": "/static/picsforgame/coat.gif",
       "logic":""
     },
@@ -457,7 +457,7 @@
       "coordinates":"",
       "clue": ["A backpack is most important for storing books and homework.","You should look inside to make sure you did not forget anything."],
       "description": [""],
-      "time_allocated":"600",
+      "time_allocated":"",
       "photo_link": "/static/picsforgame/backpack.jpg",
       "logic":""
     },
@@ -467,7 +467,7 @@
       "coordinates":"",
       "clue": ["You found the final clue. Look inside to collect your prize!"],
       "description": [""],
-      "time_allocated":"600",
+      "time_allocated":"",
       "photo_link": "/static/picsforgame/gift.gif",
       "logic":""
     }
