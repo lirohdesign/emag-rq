@@ -348,7 +348,7 @@
       "clue": ["You wake up and you are hungry","Let's make some breakfast"],
       "description": [],
       "time_allocated": "600",
-      "photo_link": "static\picsforgame\complete_bowl.jpg",
+      "photo_link": "/static/picsforgame/complete_bowl_1.jpg",
       "logic": "Single File"
     },
     { "key": 2,
@@ -358,7 +358,7 @@
       "clue": [""],
       "description":[],
       "time_allocated": "600",
-      "photo_link":"static\picsforgame\bowl.jpg",
+      "photo_link":"/static/picsforgame/bowl.jpg",
       "logic":""
     },
     { "key": 3,
@@ -368,7 +368,7 @@
       "clue": [""],
       "description":[],
       "time_allocated": "600",
-      "photo_link":"static\picsforgame\spoon.jpg",
+      "photo_link":"/static/picsforgame/spoon.jpg",
       "logic":""
     },
     { "key": 4,
@@ -378,7 +378,7 @@
       "clue": ["" ],
       "description":[],
       "time_allocated": "600",
-      "photo_link":"static\picsforgame\cereal_box.jpg",
+      "photo_link":"/static/picsforgame/cereal_box.jpg",
       "logic":""
     },
     { "key": 5,
@@ -388,7 +388,7 @@
       "clue": [""],
       "description":[],
       "time_allocated": "600",
-      "photo_link":"static\picsforgame\milk.jpg",
+      "photo_link":"/static/picsforgame/milk.jpg",
       "logic":""
     },
     { "key": 6,
@@ -398,7 +398,7 @@
       "clue": ["Let's go EAT!"],
       "description":[],
       "time_allocated": "600",
-      "photo_link": "static\picsforgame\table.png",
+      "photo_link": "/static/picsforgame/table.png",
       "logic":""
     },
     { "key": 7,
@@ -408,7 +408,7 @@
       "clue": ["Where do you get ready?"],
       "description": [""],
       "time_allocated":"600",
-      "photo_link": "static\picsforgame\get_dressed.png",
+      "photo_link": "/static/picsforgame/get_dressed.png",
       "logic":""
     },
     { "key": 8,
@@ -418,7 +418,7 @@
       "clue": [""],
       "description": [""],
       "time_allocated":"600",
-      "photo_link": "static\picsforgame\dresser.png",
+      "photo_link": "/static/picsforgame/dresser.png",
       "logic":""
     },
     { "key": 9,
@@ -428,7 +428,7 @@
       "clue": ["Clean your teeth"],
       "description": [""],
       "time_allocated":"600",
-      "photo_link": "static\picsforgame\brush_teeth.jpg",
+      "photo_link": "/static/picsforgame/brush_teeth.jpg",
       "logic":""
     },
     { "key": 10,
@@ -438,7 +438,7 @@
       "clue": ["Stomp your feet!"],
       "description": [""],
       "time_allocated":"600",
-      "photo_link": "static\picsforgame\tie_shoes.jpg",
+      "photo_link": "/static/picsforgame/tie_shoes.jpg",
       "logic":""
     },
     { "key": 11,
@@ -448,7 +448,7 @@
       "clue": ["It's cold outside!"],
       "description": [""],
       "time_allocated":"600",
-      "photo_link": "static\picsforgame\coat.gif",
+      "photo_link": "/static/picsforgame/coat.gif",
       "logic":""
     },
     { "key": 12,
@@ -458,7 +458,7 @@
       "clue": [""],
       "description": [""],
       "time_allocated":"600",
-      "photo_link": "static\picsforgame\backpack.jpg",
+      "photo_link": "/static/picsforgame/backpack.jpg",
       "logic":""
     },
     { "key": 13,
@@ -468,7 +468,7 @@
       "clue": ["You found the final clue. Look inside to collect your prize!"],
       "description": [""],
       "time_allocated":"600",
-      "photo_link": "static\picsforgame\gift.gif",
+      "photo_link": "/static/picsforgame/gift.gif",
       "logic":""
     }
   ]
