@@ -348,7 +348,7 @@
       "clue": ["Welcome to the Christmas Scavenger Hunt!","Let's pretend you are getting ready for school.","Follow the clues and the pictures to the end of the game","You wake up and you are hungry","Let's make some breakfast","Where do you cook?"],
       "description": [],
       "time_allocated": "",
-      "photo_link": "/static/picsforgame/complete_bowl.jpg",
+      "photo_link": "https://giphy.com/gifs/xT1R9XrOb44Ec8qQ48/html5",
       "logic": "Single File"
     },
     { "key": 2,
@@ -368,7 +368,7 @@
       "clue": ["Excellent choice for a cereal bowl.","Now you will need the perfect eating tool:"],
       "description":[],
       "time_allocated": "",
-      "photo_link":"/static/picsforgame/spoon.jpg",
+      "photo_link":"https://giphy.com/gifs/14fbNNlDpxjEnS/html5",
       "logic":""
     },
     { "key": 4,
@@ -378,7 +378,7 @@
       "clue": ["This would be a good time to choose your favorite cereal."],
       "description":[],
       "time_allocated": "",
-      "photo_link":"/static/picsforgame/cereal_box.jpg",
+      "photo_link":"https://giphy.com/gifs/3ohuA769lZMyAMX1MQ/html5",
       "logic":""
     },
     { "key": 5,
@@ -388,7 +388,7 @@
       "clue": ["Do you eat your cereal dry?","Or do you pour milk on it?"],
       "description":[],
       "time_allocated": "",
-      "photo_link":"/static/picsforgame/milk.jpg",
+      "photo_link":"https://giphy.com/gifs/87LCYXJrnmaA0/html5",
       "logic":""
     },
     { "key": 6,
@@ -398,7 +398,7 @@
       "clue": ["Let's go EAT!","Find your seat at the table and look for the next clues."],
       "description":[],
       "time_allocated": "",
-      "photo_link": "/static/picsforgame/table.png",
+      "photo_link": "https://giphy.com/gifs/9JcztHIVutZcZmJxP0/html5",
       "logic":""
     },
     { "key": 7,
@@ -408,7 +408,7 @@
       "clue": ["Now that you are finished eating,","where do you get ready?"],
       "description": [""],
       "time_allocated":"",
-      "photo_link": "/static/picsforgame/get_dressed.png",
+      "photo_link": "https://giphy.com/gifs/PSvMzf5eLjwBO/html5",
       "logic":""
     },
     { "key": 8,
@@ -418,7 +418,7 @@
       "clue": ["Where do you keep your clothes?","You better pick something out to wear."],
       "description": [""],
       "time_allocated":"",
-      "photo_link": "/static/picsforgame/dresser.png",
+      "photo_link": "https://giphy.com/gifs/nKhQFxAzduWpa/html5",
       "logic":""
     },
     { "key": 9,
@@ -428,7 +428,7 @@
       "clue": ["So you have had breadfast and you are all dressed.","It would probably be a good idea to clean your teeth before you go."],
       "description": [""],
       "time_allocated":"",
-      "photo_link": "/static/picsforgame/brush_teeth.jpg",
+      "photo_link": "https://giphy.com/gifs/140oXAhFWVrylG/html5",
       "logic":""
     },
     { "key": 10,
@@ -438,7 +438,7 @@
       "clue": ["Stomp your feet!","You should probably put on your shoes."],
       "description": [""],
       "time_allocated":"",
-      "photo_link": "/static/picsforgame/tie_shoes.jpg",
+      "photo_link": "https://giphy.com/gifs/3o8dFvb2LsIFxx7oYw/html5",
       "logic":""
     },
     { "key": 11,
@@ -448,7 +448,7 @@
       "clue": ["It's cold outside!","Don't forget your coat."],
       "description": [""],
       "time_allocated":"",
-      "photo_link": "/static/picsforgame/coat.gif",
+      "photo_link": "https://giphy.com/gifs/xUySTZENzCdcLCQaHe/html5",
       "logic":""
     },
     { "key": 12,
@@ -458,7 +458,7 @@
       "clue": ["A backpack is most important for storing books and homework.","You should look inside to make sure you did not forget anything."],
       "description": [""],
       "time_allocated":"",
-      "photo_link": "/static/picsforgame/backpack.jpg",
+      "photo_link": "https://giphy.com/gifs/2uwsK3ECTf3BP9lhOF/html5",
       "logic":""
     },
     { "key": 13,
