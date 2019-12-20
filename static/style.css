@@ -35,7 +35,8 @@ h1 {font-size: 250%}
   bottom: 0;
   right: 0;
   overflow: auto;
-  width: 100%
+  width: 100%;
+  height: auto;
 }
 
   .c{
