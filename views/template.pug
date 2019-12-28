@@ -48,9 +48,10 @@ html
 
           if previous_view == null
             h3 You have found clue: #{(parseFloat(x.key) + 1)}!
+              p(style={'font-size':'25%'}) Current location: #{x.location}
           else
             h3 You have already found this clue.
-
+              p(style={'font-size':'25%'}) Current location: #{x.location}
           h4 NEXT CLUE:
           for y in json_data
             if (parseFloat(request) + 1) == y.key
@@ -69,4 +70,3 @@ html
             p
           else
             p Get a hint in #[span(id='time')]
-          p(style={'font-size':'25%'}) Current location: #{x.location}
