@@ -32,11 +32,14 @@ html
       h2 #{root_route[1]}
       a(href=root_route[2],) #{root_route[2]}
     else if request == 'print'
+      h1 CAUTION: this print page is set to print each code on a separate page for ease of use with index cards.
+      h2 Consider printing multiple pages per sheet if you are printing on regular office paper.
       ul(style="list-style-type:none")
           for x in json_data
               li
-                p #{x.key + 1}:#{x.location}
-                img(src=qr_code + x.key, style="width:336px;height:336px;")
+                div(class='pagebreak')
+                  p #{x.key + 1}:#{x.location}
+                  img(src=qr_code + x.key, style="width:336px;height:336px;")
     else
 
       for x in json_data

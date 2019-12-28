@@ -49,3 +49,7 @@ h1 {font-size: 250%}
   /*align-items: center;*/
   font-size: calc(4vw + 4vh);
 }
+
+@media print {
+    .pagebreak { page-break-after: always; }
+}
