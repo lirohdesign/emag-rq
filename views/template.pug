@@ -54,13 +54,13 @@ html
             h4 Current location: #{x.location}
 
 
-          h1 NEXT CLUE:
+          h4 NEXT CLUE:
           for y in json_data
             if (parseFloat(request) + 1) == y.key
               for clue in y.clue
                 ul(style="list-style-type:none")
                   li
-                    h1 #{clue}
+                    p #{clue}
 
               p#giveaway(style={display: 'none'}) You have run out of time. The code you seek can be found here: #{y.location}
               .clue_image
