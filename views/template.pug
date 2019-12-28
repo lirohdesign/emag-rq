@@ -35,10 +35,10 @@ html
       div.no-print
         p CAUTION: this print page is set to print each code on a separate page for ease of use with index cards.
         p Consider printing multiple pages per sheet if you are printing on regular office paper.
-      ul(style="list-style-type:none").c
+      ul(style="list-style-type:none")
           for x in json_data
               li
-                div.pagebreak
+                div.pagebreak.c
                   p #{x.key + 1}:#{x.location}
                   img(src=qr_code + x.key, style="width:336px;height:336px;")
     else
