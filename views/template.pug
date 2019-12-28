@@ -48,10 +48,10 @@ html
 
           if previous_view == null
             h3 You have found clue: #{(parseFloat(x.key) + 1)}!
-              p(style={'font-size: 35%; padding: 0'}) Current location: #{x.location}
+              p(style='font-size: 35%; padding: 0') Current location: #{x.location}
           else
             h3 You have already found this clue.
-              p(style={'font-size: 35%; padding: 0'}) Current location: #{x.location}
+              p(style='font-size: 35%; padding: 0') Current location: #{x.location}
           hr.striped-border
           h5 NEXT CLUE:
           for y in json_data
