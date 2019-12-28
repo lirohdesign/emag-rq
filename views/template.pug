@@ -47,10 +47,10 @@ html
         if request == x.key
 
           if previous_view == null
-            h1 You have found clue: #{(parseFloat(x.key) + 1)}!
+            h3 You have found clue: #{(parseFloat(x.key) + 1)}!
             h4 Current location: #{x.location}
           else
-            h1 You have already found this clue.
+            h3 You have already found this clue.
             h4 Current location: #{x.location}
 
 
