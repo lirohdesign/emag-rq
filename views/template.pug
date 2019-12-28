@@ -1,8 +1,8 @@
 html
   head
-    meta(name='viewport' content='width=device-width, inital-cale=1.0')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
     script(src='static/timer.js')
-    link(src='static/style.css')
+    link(rel='stylesheet' href='static/style.css' id='main-styles-link')
     if request != null
       script.
           window.onload = function() {
