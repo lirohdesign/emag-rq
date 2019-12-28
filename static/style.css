@@ -52,4 +52,5 @@ h1 {font-size: 250%}
 
 @media print {
     .pagebreak { page-break-after: always; }
+    .no-print, .no-print * {display: non !important;}
 }
