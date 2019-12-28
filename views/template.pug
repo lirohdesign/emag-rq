@@ -53,7 +53,7 @@ html
             h3 You have already found this clue.
               p(style={'font-size':'25%'}) Current location: #{x.location}
           hr.striped-border
-          h4 NEXT CLUE:
+          h5 NEXT CLUE:
           for y in json_data
             if (parseFloat(request) + 1) == y.key
               for clue in y.clue
