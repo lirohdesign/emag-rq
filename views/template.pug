@@ -38,7 +38,7 @@ html
       ul(style="list-style-type:none")
           for x in json_data
               li
-                div.pagebreak
+                div.pagebreak.c
                   p #{x.key + 1}:#{x.location}
                   img(src=qr_code + x.key, style="width:336px;height:336px;")
     else
