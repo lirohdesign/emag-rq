@@ -64,7 +64,7 @@ html
 
               p#giveaway(style={display: 'none'}) You have run out of time. The code you seek can be found here: #{y.location}
               .clue_image
-                img(src=y.photo_link)
+                img(src=y.photo_link, id='photo_link')
 
           if pg_json_record.time_allocated <= 0
             p
