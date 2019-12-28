@@ -48,11 +48,8 @@ html
 
           if previous_view == null
             h3 You have found clue: #{(parseFloat(x.key) + 1)}!
-            p Current location: #{x.location}
           else
             h3 You have already found this clue.
-            p Current location: #{x.location}
-
 
           h4 NEXT CLUE:
           for y in json_data
@@ -72,3 +69,4 @@ html
             p
           else
             p Get a hint in #[span(id='time')]
+        p Current location: #{x.location}
