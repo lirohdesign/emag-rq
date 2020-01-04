@@ -12,6 +12,11 @@ var requestIp = require('request-ip');
 var endOfLine = require('os').EOL;
 var pug = require('pug');
 
+//assigning a variable to the game numbers for future use.
+var gameID = 4
+
+
+
 //config.js link
 var env = process.env.NODE_ENV || 'production';
 var config = require('./config')[env];
@@ -78,8 +83,6 @@ app.get('/:key', function (req, res) {
   var crypt_url = req.protocol + '://' + req.get('host') + '/' + encodeURIComponent(key_string)//simpleCrypto.encrypt(encode_key_string);
   var qr_url= req.protocol + '://' + req.get('host') + '/code:';
   var data_key = ""
-  var gameID = ""
-  var clueID = ""
 
 if (req.params.key.slice(0,5) == 'code:') {
   //this section creates QR codes when a code: URL is passed
@@ -95,9 +98,7 @@ if (req.params.key.slice(0,5) == 'code:') {
     if (req.params.key == 'print'){
       data_key = req.params.key;
     } else {
-      data_key = decodeURIComponent(req.params.key).split('_')//simpleCrypto.decrypt(decodeURIComponent(req.params.key))
-      gameID = data_key[0]
-      clue_id = data_key[1]
+      data_key = decodeURIComponent(req.params.key)//simpleCrypto.decrypt(decodeURIComponent(req.params.key))
     }
 
     //this section creates pages from template.pug based on the URL key
