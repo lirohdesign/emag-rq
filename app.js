@@ -77,7 +77,7 @@ app.get('/:key', function (req, res) {
   var key_string = req.params.key.replace(/code:/g,'');
   var crypt_url = req.protocol + '://' + req.get('host') + '/' + encodeURIComponent(key_string)//simpleCrypto.encrypt(encode_key_string);
   var qr_url= req.protocol + '://' + req.get('host') + '/code:';
-  var data_key = ""
+  var game_call = ""
   var gameID = ""
   var clueID = ""
 
@@ -93,11 +93,11 @@ if (req.params.key.slice(0,5) == 'code:') {
   } else {
 
     if (req.params.key == 'print'){
-      data_key = req.params.key;
+      game_call = req.params.key;
     } else {
-      data_key = decodeURIComponent(req.params.key).split('_')//simpleCrypto.decrypt(decodeURIComponent(req.params.key))
-      gameID = data_key[0]
-      clueID = data_key[1]
+      game_call = decodeURIComponent(req.params.key).split('_')//simpleCrypto.decrypt(decodeURIComponent(req.params.key))
+      gameID = game_call[0]
+      clueID = game_call[1]
       console.log('gameID:' + gameID + ' clueID:' + clueID);
     }
 
@@ -120,7 +120,7 @@ if (req.params.key.slice(0,5) == 'code:') {
           });
         });
     });
-    //console.log(data_key);
+    //console.log(game_call);
     client.hset(req.clientIp, gameID, clueID, Date())
   }
 
