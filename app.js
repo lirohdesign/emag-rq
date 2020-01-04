@@ -98,6 +98,7 @@ if (req.params.key.slice(0,5) == 'code:') {
       data_key = decodeURIComponent(req.params.key).split('_')//simpleCrypto.decrypt(decodeURIComponent(req.params.key))
       gameID = data_key[0]
       clue_id = data_key[1]
+      console.log('gameID:' + gameID + ' clueID:' + clueID);
     }
 
     //this section creates pages from template.pug based on the URL key
