@@ -117,7 +117,7 @@ if (req.params.key.slice(0,5) == 'code:') {
               previous_view: usr_pg_view,
               request: data_key,
               pg_json_record: pg_json_record,
-              root_route: ['Welcome to g-rq. This application is currently under development.','Follow the link below to print the codes and start the game','https://emag-rq.herokuapp.com/print']
+              //root_route: ['Welcome to g-rq. This application is currently under development.','Follow the link below to print the codes and start the game','https://emag-rq.herokuapp.com/print']
           });
         });
     });
