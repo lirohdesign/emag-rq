@@ -111,13 +111,13 @@ if (req.params.key.slice(0,5) == 'code:') {
                   pg_json_record = data[gameID].game_data[i];
                 };
             };
-//          res.render('template', {
-//              qr_code: qr_url,
-//              json_data: data[gameID].game_data,
-//              previous_view: usr_pg_view,
-//              request: data_key,
-//              pg_json_record: pg_json_record,
-//          });
+          res.render('template', {
+              qr_code: qr_url,
+              json_data: data[gameID].game_data,
+              previous_view: usr_pg_view,
+              request: clueID,
+              pg_json_record: pg_json_record,
+          });
         });
     });
     //console.log(data_key);
