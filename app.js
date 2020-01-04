@@ -62,7 +62,7 @@ app.get('/reset', function (req, res) {
 });
 
 app.get('/', function(req, res){
-  console.log(req.params);
+  console.log('req.params:' + req.params);
   res.render('template', {
       root_route: ['Welcome to emag-rq. This application is currently under development.','Follow the link below to print the codes and start the game','https://emag-rq.herokuapp.com/print'],
       request: null
@@ -88,7 +88,7 @@ if (req.params.key.slice(0,5) == 'code:') {
       var code = qr.image(crypt_url, { type: 'svg' })
       res.type('svg');
       code.pipe(res);
-      console.log(crypt_url);;
+      console.log('crypt_url:' + crypt_url);;
 
   } else {
 
@@ -103,7 +103,7 @@ if (req.params.key.slice(0,5) == 'code:') {
 
     //this section creates pages from template.pug based on the URL key
     client.hget(req.clientIp, gameID, clueID, function(err, usr_pg_view){
-        console.log(usr_pg_view);
+        console.log('redis data log:' + usr_pg_view);
         jsonfile.readFile( "data.json", 'utf8', function (err, data) {
           var pg_json_record = {}
             for (var i = 0; i < data[gameID].game_data.length; i++) {
