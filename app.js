@@ -97,31 +97,31 @@ if (req.params.key.slice(0,5) == 'code:') {
     } else {
       data_key = decodeURIComponent(req.params.key).split('_')//simpleCrypto.decrypt(decodeURIComponent(req.params.key))
       gameID = data_key[0]
-      clue_id = data_key[1]
+      clueID = data_key[1]
       console.log('gameID:' + gameID + ' clueID:' + clueID);
     }
 
     //this section creates pages from template.pug based on the URL key
-    client.hget(req.clientIp, data_key, function(err, usr_pg_view){
+    client.hget(req.clientIp, gameID, clueID, function(err, usr_pg_view){
         console.log(usr_pg_view);
         jsonfile.readFile( "data.json", 'utf8', function (err, data) {
           var pg_json_record = {}
             for (var i = 0; i < data[gameID].game_data.length; i++) {
-                if (data[gameID].game_data[i].key == data_key){
+                if (data[gameID].game_data[i].key == clueID){
                   pg_json_record = data[gameID].game_data[i];
                 };
             };
-          res.render('template', {
-              qr_code: qr_url,
-              json_data: data[gameID].game_data,
-              previous_view: usr_pg_view,
-              request: data_key,
-              pg_json_record: pg_json_record,
-          });
+//          res.render('template', {
+//              qr_code: qr_url,
+//              json_data: data[gameID].game_data,
+//              previous_view: usr_pg_view,
+//              request: data_key,
+//              pg_json_record: pg_json_record,
+//          });
         });
     });
     //console.log(data_key);
-    client.hset(req.clientIp, data_key, Date())
+    client.hset(req.clientIp, gameID, clueID, Date())
   }
 
   client.quit()
