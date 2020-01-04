@@ -12,6 +12,11 @@ var requestIp = require('request-ip');
 var endOfLine = require('os').EOL;
 var pug = require('pug');
 
+//assigning a variable to the game numbers for future use.
+var gameID = 4
+
+
+
 //config.js link
 var env = process.env.NODE_ENV || 'production';
 var config = require('./config')[env];
@@ -62,7 +67,7 @@ app.get('/reset', function (req, res) {
 });
 
 app.get('/', function(req, res){
-  console.log('req.params:' + req.params);
+  console.log(req.params);
   res.render('template', {
       root_route: ['Welcome to emag-rq. This application is currently under development.','Follow the link below to print the codes and start the game','https://emag-rq.herokuapp.com/print'],
       request: null
@@ -77,9 +82,7 @@ app.get('/:key', function (req, res) {
   var key_string = req.params.key.replace(/code:/g,'');
   var crypt_url = req.protocol + '://' + req.get('host') + '/' + encodeURIComponent(key_string)//simpleCrypto.encrypt(encode_key_string);
   var qr_url= req.protocol + '://' + req.get('host') + '/code:';
-  var game_call = ""
-  var gameID = ""
-  var clueID = ""
+  var data_key = ""
 
 if (req.params.key.slice(0,5) == 'code:') {
   //this section creates QR codes when a code: URL is passed
@@ -88,26 +91,23 @@ if (req.params.key.slice(0,5) == 'code:') {
       var code = qr.image(crypt_url, { type: 'svg' })
       res.type('svg');
       code.pipe(res);
-      console.log('crypt_url:' + crypt_url);;
+      console.log(crypt_url);;
 
   } else {
 
     if (req.params.key == 'print'){
-      game_call = req.params.key;
+      data_key = req.params.key;
     } else {
-      game_call = decodeURIComponent(req.params.key).split('_')//simpleCrypto.decrypt(decodeURIComponent(req.params.key))
-      gameID = game_call[0]
-      clueID = game_call[1]
-      console.log('gameID:' + gameID + ' clueID:' + clueID);
+      data_key = decodeURIComponent(req.params.key)//simpleCrypto.decrypt(decodeURIComponent(req.params.key))
     }
 
     //this section creates pages from template.pug based on the URL key
-    client.hget(req.clientIp, gameID, clueID, function(err, usr_pg_view){
-        console.log('redis data log:' + usr_pg_view);
+    client.hget(req.clientIp, data_key, function(err, usr_pg_view){
+        console.log(usr_pg_view);
         jsonfile.readFile( "data.json", 'utf8', function (err, data) {
           var pg_json_record = {}
             for (var i = 0; i < data[gameID].game_data.length; i++) {
-                if (data[gameID].game_data[i].key == clueID){
+                if (data[gameID].game_data[i].key == data_key){
                   pg_json_record = data[gameID].game_data[i];
                 };
             };
@@ -115,13 +115,13 @@ if (req.params.key.slice(0,5) == 'code:') {
               qr_code: qr_url,
               json_data: data[gameID].game_data,
               previous_view: usr_pg_view,
-              request: clueID,
+              request: data_key,
               pg_json_record: pg_json_record,
           });
         });
     });
-    //console.log(game_call);
-    client.hset(req.clientIp, gameID, clueID, Date())
+    //console.log(data_key);
+    client.hset(req.clientIp, data_key, Date())
   }
 
   client.quit()
