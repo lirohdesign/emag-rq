@@ -102,7 +102,7 @@ if (req.params.key.slice(0,5) == 'code:') {
     }
 
     //this section creates pages from template.pug based on the URL key
-    client.hget(req.clientIp, data_key, function(err, usr_pg_view){
+    client.hget(req.clientIp, gameID, clueID, function(err, usr_pg_view){
         console.log('redis data log:' + usr_pg_view);
         jsonfile.readFile( "data.json", 'utf8', function (err, data) {
           var pg_json_record = {}
@@ -121,7 +121,7 @@ if (req.params.key.slice(0,5) == 'code:') {
         });
     });
     //console.log(data_key);
-    client.hset(req.clientIp, data_key, Date())
+    client.hset(req.clientIp, gameID, clueID, Date())
   }
 
   client.quit()
