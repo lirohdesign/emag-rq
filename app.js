@@ -91,7 +91,7 @@ if (req.params.key.slice(0,5) == 'code:') {
       gameID = game_call[0]
       clueID = game_call[1]
 
-      if (gameID == null){
+      if (gameID != 2){
         res.send('gameID = ' + gameID);
       } else {
       console.log('gameID:' + gameID + ' clueID:' + clueID);
