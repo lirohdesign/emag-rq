@@ -90,6 +90,10 @@ if (req.params.key.slice(0,5) == 'code:') {
       game_call = decodeURIComponent(req.params.key).split('_')//simpleCrypto.decrypt(decodeURIComponent(req.params.key))
       gameID = game_call[0]
       clueID = game_call[1]
+
+      if (gameID == null){
+        res.send('gameID = ' + gameID);
+      } else {
       console.log('gameID:' + gameID + ' clueID:' + clueID);
     }
 
@@ -116,7 +120,7 @@ if (req.params.key.slice(0,5) == 'code:') {
     //console.log(game_call);
     //client.hset(req.clientIp, gameID, clueID, Date())
   }
-
+}
   client.quit()
 });
 
