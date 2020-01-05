@@ -106,7 +106,8 @@ if (req.params.key.slice(0,5) == 'code:') {
           res.render('template', {
               qr_code: qr_url,
               json_data: data[gameID].game_data,
-              previous_view: usr_pg_view,
+              //previous_view: usr_pg_view,
+              previous_view: null,
               request: clueID,
               pg_json_record: pg_json_record,
           });
