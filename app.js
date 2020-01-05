@@ -114,7 +114,7 @@ if (req.params.key.slice(0,5) == 'code:') {
               pg_json_record: pg_json_record,
           });
         });
-    //});
+    });
     console.log(game_call);
     client.hset(req.clientIp, gameID, clueID, Date())
   }
