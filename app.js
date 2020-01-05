@@ -97,7 +97,7 @@ if (req.params.key.slice(0,5) == 'code:') {
 
     //this section creates pages from template.pug based on the URL key
     client.hget(req.clientIp, game_call, function(err, usr_pg_view){
-        console.log('redis data log:' + usr_pg_view);
+        console.dir('redis data log:' + usr_pg_view);
         jsonfile.readFile( "data.json", 'utf8', function (err, data) {
           var pg_json_record = {}
             for (var i = 0; i < data[gameID].game_data.length; i++) {
