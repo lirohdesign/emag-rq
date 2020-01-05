@@ -1,21 +1,11 @@
 var express = require('express');
 var app = express();
-var fs = require("fs");
 var jsonfile = require('jsonfile');
 var path = require('path');
 var qr = require('qr-image');
-var ip = require('ip')
-var cookieSession = require('cookie-session')
-var cookieParser = require('cookie-parser')
 var redis = require('redis')
 var requestIp = require('request-ip');
-var endOfLine = require('os').EOL;
 var pug = require('pug');
-
-//assigning a variable to the game numbers for future use.
-var gameID = 4
-
-
 
 //config.js link
 var env = process.env.NODE_ENV || 'production';
@@ -32,9 +22,6 @@ app.set("views", path.join(__dirname, "views"));
 //what is the difference between let, cont, and var
 
 app.use(requestIp.mw())
-app.use(cookieParser())
-app.use(cookieSession({secret: '1234567890QWERTY'}))
-//i may not actually be using any cookies
 app.use('/static', express.static(__dirname + '/static'));
 
 // Add headers
@@ -67,7 +54,7 @@ app.get('/reset', function (req, res) {
 });
 
 app.get('/', function(req, res){
-  console.log(req.params);
+  console.log('req.params:' + req.params);
   res.render('template', {
       root_route: ['Welcome to emag-rq. This application is currently under development.','Follow the link below to print the codes and start the game','https://emag-rq.herokuapp.com/print'],
       request: null
@@ -82,7 +69,9 @@ app.get('/:key', function (req, res) {
   var key_string = req.params.key.replace(/code:/g,'');
   var crypt_url = req.protocol + '://' + req.get('host') + '/' + encodeURIComponent(key_string)//simpleCrypto.encrypt(encode_key_string);
   var qr_url= req.protocol + '://' + req.get('host') + '/code:';
-  var data_key = ""
+  var game_call = ""
+  var gameID = ""
+  var clueID = ""
 
 if (req.params.key.slice(0,5) == 'code:') {
   //this section creates QR codes when a code: URL is passed
@@ -91,23 +80,26 @@ if (req.params.key.slice(0,5) == 'code:') {
       var code = qr.image(crypt_url, { type: 'svg' })
       res.type('svg');
       code.pipe(res);
-      console.log(crypt_url);;
+      console.log('crypt_url:' + crypt_url);;
 
   } else {
 
     if (req.params.key == 'print'){
-      data_key = req.params.key;
+      game_call = req.params.key;
     } else {
-      data_key = decodeURIComponent(req.params.key)//simpleCrypto.decrypt(decodeURIComponent(req.params.key))
+      game_call = decodeURIComponent(req.params.key).split('_')//simpleCrypto.decrypt(decodeURIComponent(req.params.key))
+      gameID = game_call[0]
+      clueID = game_call[1]
+      console.log('gameID:' + gameID + ' clueID:' + clueID);
     }
 
     //this section creates pages from template.pug based on the URL key
-    client.hget(req.clientIp, data_key, function(err, usr_pg_view){
-        console.log(usr_pg_view);
+    client.hget(req.clientIp, gameID, clueID, function(err, usr_pg_view){
+        console.log('redis data log:' + usr_pg_view);
         jsonfile.readFile( "data.json", 'utf8', function (err, data) {
           var pg_json_record = {}
             for (var i = 0; i < data[gameID].game_data.length; i++) {
-                if (data[gameID].game_data[i].key == data_key){
+                if (data[gameID].game_data[i].key == clueID){
                   pg_json_record = data[gameID].game_data[i];
                 };
             };
@@ -115,13 +107,13 @@ if (req.params.key.slice(0,5) == 'code:') {
               qr_code: qr_url,
               json_data: data[gameID].game_data,
               previous_view: usr_pg_view,
-              request: data_key,
+              request: clueID,
               pg_json_record: pg_json_record,
           });
         });
     });
-    //console.log(data_key);
-    client.hset(req.clientIp, data_key, Date())
+    //console.log(game_call);
+    client.hset(req.clientIp, gameID, clueID, Date())
   }
 
   client.quit()
