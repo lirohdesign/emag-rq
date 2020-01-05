@@ -45,6 +45,8 @@ app.use(function (req, res, next) {
     next();
 });
 
+app.get('/favicon.ico', (req, res) => res.status(204));
+
 app.get('/reset', function (req, res) {
   var client = redis.createClient(process.env.REDIS_URL)
   client.flushall(function (err, success){
@@ -90,10 +92,6 @@ if (req.params.key.slice(0,5) == 'code:') {
       game_call = decodeURIComponent(req.params.key).split('_')//simpleCrypto.decrypt(decodeURIComponent(req.params.key))
       gameID = game_call[0]
       clueID = game_call[1]
-
-      if (gameID != 2){
-        res.send('gameID = ' + gameID);
-      } else {
       console.log('gameID:' + gameID + ' clueID:' + clueID);
     }
 
@@ -120,7 +118,7 @@ if (req.params.key.slice(0,5) == 'code:') {
     //console.log(game_call);
     //client.hset(req.clientIp, gameID, clueID, Date())
   }
-}
+
   client.quit()
 });
 
