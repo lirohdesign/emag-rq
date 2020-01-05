@@ -120,13 +120,6 @@ if (req.params.key.slice(0,5) == 'code:') {
 });
 
 
-
-
-
-
-//back to original uncomment below if needed
-
-
 var port = process.env.PORT || 8080;
 app.listen(port, function() {
   console.log('EDOC_RQ is running');
