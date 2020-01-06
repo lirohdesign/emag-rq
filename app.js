@@ -75,52 +75,50 @@ app.get('/:key', function (req, res) {
   var gameID = ""
   var clueID = ""
 
-if (req.params.key.slice(0,5) == 'code:') {
-  //this section creates QR codes when a code: URL is passed
-   //may want to consider adding logic here to create codes only if items exist in JSON file
+  if (req.params.key.slice(0,5) == 'code:') {
+    //this section creates QR codes when a code: URL is passed
+     //may want to consider adding logic here to create codes only if items exist in JSON file
 
-      var code = qr.image(crypt_url, { type: 'svg' })
-      res.type('svg');
-      code.pipe(res);
-      console.log('crypt_url:' + crypt_url);;
+        var code = qr.image(crypt_url, { type: 'svg' })
+        res.type('svg');
+        code.pipe(res);
+        console.log('crypt_url:' + crypt_url);;
 
-  } else {
+  } else if (req.params.key == 'print'){
+        game_call = req.params.key;
+  } else if (req.params.key.slice(0,10) == 'game_call:') {
+        game_call = req.params.key.replace(/game_call/g,'');
+        game_call = decodeURIComponent(req.params.key).split('_')//simpleCrypto.decrypt(decodeURIComponent(req.params.key))
+        gameID = game_call[0]
+        clueID = game_call[1]
+        console.log('gameID:' + gameID + ' clueID:' + clueID);
 
-    if (req.params.key == 'print'){
-      game_call = req.params.key;
-    } else if (req.params.key.slice(0,10) == 'game_call:') {
-      game_call = req.params.key.replace(/game_call/g,'');
-      game_call = decodeURIComponent(req.params.key).split('_')//simpleCrypto.decrypt(decodeURIComponent(req.params.key))
-      gameID = game_call[0]
-      clueID = game_call[1]
-      console.log('gameID:' + gameID + ' clueID:' + clueID);
-
-    //this section creates pages from template.pug based on the URL key
-      client.hgetall(req.clientIp, req.params.key, function(err, usr_pg_view){
-          console.dir('redis data log:' + usr_pg_view);
-          jsonfile.readFile( "data.json", 'utf8', function (err, data) {
-            var pg_json_record = {}
-              for (var i = 0; i < data[gameID].game_data.length; i++) {
-                  if (data[gameID].game_data[i].key == clueID){
-                    pg_json_record = data[gameID].game_data[i];
-                  };
-              };
-            res.render('template', {
-                qr_code: qr_url,
-                json_data: data[gameID].game_data,
-                previous_view: usr_pg_view,
-                //previous_view: null,
-                request: clueID,
-                pg_json_record: pg_json_record,
+        //this section creates pages from template.pug based on the URL key
+        client.hgetall(req.clientIp, req.params.key, function(err, usr_pg_view){
+            console.dir('redis data log:' + usr_pg_view);
+            jsonfile.readFile( "data.json", 'utf8', function (err, data) {
+              var pg_json_record = {}
+                for (var i = 0; i < data[gameID].game_data.length; i++) {
+                    if (data[gameID].game_data[i].key == clueID){
+                      pg_json_record = data[gameID].game_data[i];
+                    };
+                };
+              res.render('template', {
+                  qr_code: qr_url,
+                  json_data: data[gameID].game_data,
+                  previous_view: usr_pg_view,
+                  //previous_view: null,
+                  request: clueID,
+                  pg_json_record: pg_json_record,
+              });
             });
-          });
-      });
-      console.log(req.params.key);
-      client.hmset(req.clientIp, req.params.key, Date())
-    } else {
-      res.status(204)
-    }
-  client.quit()
+        });
+        console.log(req.params.key);
+        client.hmset(req.clientIp, req.params.key, Date())
+  } else {
+        res.status(204)
+  }
+      client.quit()
 });
 
 
