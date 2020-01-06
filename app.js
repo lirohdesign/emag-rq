@@ -118,8 +118,8 @@ if (req.params.key.slice(0,5) == 'code:') {
       console.log(req.params.key);
       client.hmset(req.clientIp, req.params.key, Date())
     } else {
-      res.status(400)
-    }    
+      res.status(204)
+    }
   client.quit()
 });
 
