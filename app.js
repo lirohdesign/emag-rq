@@ -88,37 +88,38 @@ if (req.params.key.slice(0,5) == 'code:') {
 
     if (req.params.key == 'print'){
       game_call = req.params.key;
-    } else {
+    } else if (req.params.key.slice(0,10) == 'game_call:') {
+      game_call = req.params.key.replace(/game_call/g,'');
       game_call = decodeURIComponent(req.params.key).split('_')//simpleCrypto.decrypt(decodeURIComponent(req.params.key))
       gameID = game_call[0]
       clueID = game_call[1]
       console.log('gameID:' + gameID + ' clueID:' + clueID);
-    }
 
     //this section creates pages from template.pug based on the URL key
-    client.hgetall(req.clientIp, req.params.key, function(err, usr_pg_view){
-        console.dir('redis data log:' + usr_pg_view);
-        jsonfile.readFile( "data.json", 'utf8', function (err, data) {
-          var pg_json_record = {}
-            for (var i = 0; i < data[gameID].game_data.length; i++) {
-                if (data[gameID].game_data[i].key == clueID){
-                  pg_json_record = data[gameID].game_data[i];
-                };
-            };
-          res.render('template', {
-              qr_code: qr_url,
-              json_data: data[gameID].game_data,
-              previous_view: usr_pg_view,
-              //previous_view: null,
-              request: clueID,
-              pg_json_record: pg_json_record,
+      client.hgetall(req.clientIp, req.params.key, function(err, usr_pg_view){
+          console.dir('redis data log:' + usr_pg_view);
+          jsonfile.readFile( "data.json", 'utf8', function (err, data) {
+            var pg_json_record = {}
+              for (var i = 0; i < data[gameID].game_data.length; i++) {
+                  if (data[gameID].game_data[i].key == clueID){
+                    pg_json_record = data[gameID].game_data[i];
+                  };
+              };
+            res.render('template', {
+                qr_code: qr_url,
+                json_data: data[gameID].game_data,
+                previous_view: usr_pg_view,
+                //previous_view: null,
+                request: clueID,
+                pg_json_record: pg_json_record,
+            });
           });
-        });
-    });
-    console.log(req.params.key);
-    client.hmset(req.clientIp, req.params.key, Date())
-  }
-
+      });
+      console.log(req.params.key);
+      client.hmset(req.clientIp, req.params.key, Date())
+    } else {
+      res.status(400)
+    }    
   client.quit()
 });
 
