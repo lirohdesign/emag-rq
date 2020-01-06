@@ -87,7 +87,7 @@ app.get('/:key', function (req, res) {
   } else if (req.params.key == 'print'){
         game_call = req.params.key;
   } else if (req.params.key.slice(0,10) == 'game_call:') {
-        game_call = req.params.key.replace(/game_call/g,'');
+        game_call = req.params.key.replace(/game_call:/g,'');
         game_call = decodeURIComponent(req.params.key).split('_')//simpleCrypto.decrypt(decodeURIComponent(req.params.key))
         gameID = game_call[0]
         clueID = game_call[1]
