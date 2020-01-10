@@ -90,7 +90,7 @@ app.get('/:key', function (req, res) {
         jsonfile.readFile( "data.json", 'utf8', function (err, data) {
           res.render('template', {
               json_data: data[gameID].game_data,
-              request: req.params.key,
+              request: 'print',
           });
           console.log('request in print logic:' + req.params.key);
         });
