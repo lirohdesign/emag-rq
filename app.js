@@ -92,7 +92,7 @@ app.get('/:key', function (req, res) {
               json_data: data[gameID].game_data,
               request: req.params.key,
           });
-          console.log(data[gameID].game_data);
+          console.log('request in print logic:' + req.params.key);
         });
   } else if (req.params.key.slice(0,10) == 'game_call:') {
         game_call = req.params.key.replace(/game_call:/g,'').split('_');
