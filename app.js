@@ -92,6 +92,7 @@ app.get('/:key', function (req, res) {
               json_data: data[gameID].game_data,
               request: 'print',
               qr_code: qr_url,
+              gameID: gameID,
           });
           console.log('request in print logic:' + req.params.key);
         });
