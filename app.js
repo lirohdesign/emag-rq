@@ -84,8 +84,13 @@ app.get('/:key', function (req, res) {
         code.pipe(res);
         console.log('crypt_url:' + crypt_url);;
 
-  } else if (req.params.key == 'print'){
-        game_call = req.params.key;
+  } else if (req.params.key.slice(0,6) == 'print:'){
+        gameID = req.params.key.replace(/print:/g,'');
+        jsonfile.readFile( "data.json", 'utf8', function (err, data) {
+          res.render('template', {
+              json_data: data[gameID].game_data,
+          });
+        });
   } else if (req.params.key.slice(0,10) == 'game_call:') {
         game_call = req.params.key.replace(/game_call:/g,'').split('_');
         gameID = game_call[0]
