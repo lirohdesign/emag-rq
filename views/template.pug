@@ -9,10 +9,12 @@ html
     if request == null
       h1 #{root_route[0]}
       h2 #{root_route[1]}
-      for x in json_data
-          li
-              a(href=x.game_name,) #{print_url} + x
+      a(href=x.game_name,) #{print_url}
 
+      ul(style='list-style-type:none; padding: 0')
+        each game, index in json_data
+          li
+            a(href=game.game_name,) #{print_url + index}
     else if request == 'print'
       div.no-print
         p CAUTION: this print page is set to print each code on a separate page for ease of use with index cards.
