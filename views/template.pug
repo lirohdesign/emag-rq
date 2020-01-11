@@ -5,37 +5,11 @@ html
     link(rel='stylesheet' href='static/style.css' id='main-styles-link')
     link(rel='shortcut icon' href='/favicon.ico' type='image/x-icon')
     link(rel='icon' href='/favicon.ico' type='image/x-icon')
-    if request != 'print' || null
-      script.
-          window.onload = function() {
-
-            var display = document.querySelector('#time')
-
-              timer = new CountDownTimer(#{pg_json_record.time_allocated});
-
-              timer.onTick(format(display)).start();
-
-              function format(display) {
-                  return function (minutes, seconds) {
-                      minutes = minutes < 10 ? '0' + minutes : minutes;
-                      seconds = seconds < 10 ? '0' + seconds : seconds;
-                      display.textContent = minutes + ':' + seconds;
-                  };
-            };
-
-            BigHintTimer = setTimeout(function (){
-                  document.getElementById('giveaway').style.display = 'block';
-            }, #{pg_json_record.time_allocated*1000});
-
-          };
   body
     if request == null
       h1 #{root_route[0]}
       h2 #{root_route[1]}
       a(href=root_route[2],) #{root_route[2]}
-
-
-
 
     else if request == 'print'
       div.no-print
@@ -46,13 +20,31 @@ html
               li
                 div.pagebreak.c
                   p #{x.key + 1}:#{x.location}
-                  img(src=qr_code + 'game_call:' + (gameID) + '_' + x.key, style='width:336px;height:336px;')
-
-
-
+                  img(src=qr_code + 'game_call:' + gameID + '_' + x.key, style='width:336px;height:336px;')
 
     else
+        script.
+            window.onload = function() {
 
+              var display = document.querySelector('#time')
+
+                timer = new CountDownTimer(#{pg_json_record.time_allocated});
+
+                timer.onTick(format(display)).start();
+
+                function format(display) {
+                    return function (minutes, seconds) {
+                        minutes = minutes < 10 ? '0' + minutes : minutes;
+                        seconds = seconds < 10 ? '0' + seconds : seconds;
+                        display.textContent = minutes + ':' + seconds;
+                    };
+              };
+
+              BigHintTimer = setTimeout(function (){
+                    document.getElementById('giveaway').style.display = 'block';
+              }, #{pg_json_record.time_allocated*1000});
+
+            };
       for x in json_data
         if request == x.key
 
