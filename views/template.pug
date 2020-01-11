@@ -25,11 +25,8 @@ html
     else
         script.
             window.onload = function() {
-
-              var display = document.querySelector('#time')
-
+                var display = document.querySelector('#time')
                 timer = new CountDownTimer(#{pg_json_record.time_allocated});
-
                 timer.onTick(format(display)).start();
 
                 function format(display) {
@@ -38,38 +35,36 @@ html
                         seconds = seconds < 10 ? '0' + seconds : seconds;
                         display.textContent = minutes + ':' + seconds;
                     };
-              };
-
-              BigHintTimer = setTimeout(function (){
+                };
+                BigHintTimer = setTimeout(function (){
                     document.getElementById('giveaway').style.display = 'block';
-              }, #{pg_json_record.time_allocated*1000});
-
+                }, #{pg_json_record.time_allocated*1000});
             };
-      for x in json_data
-        if request == x.key
+        for x in json_data
+            if request == x.key
 
-          if previous_view == null
-            h3 You have found clue: #{(parseFloat(x.key) + 1)}!
-              p(style='font-size: 35%; margin: 0') Current location: #{x.location}
-          else
-            h3 You have already found this clue.
-              p(style='font-size: 35%; margin: 0') Current location: #{x.location}
-          hr.striped-border
-          h4 NEXT CLUE:
-          for y in json_data
-            if (parseFloat(request) + 1) == y.key
-              for clue in y.clue
-                ul(style='list-style-type:none; padding-left: 10px;')
-                  li
-                    p #{clue}
+              if previous_view == null
+                h3 You have found clue: #{(parseFloat(x.key) + 1)}!
+                  p(style='font-size: 35%; margin: 0') Current location: #{x.location}
+              else
+                h3 You have already found this clue.
+                  p(style='font-size: 35%; margin: 0') Current location: #{x.location}
+              hr.striped-border
+              h4 NEXT CLUE:
+              for y in json_data
+                if (parseFloat(request) + 1) == y.key
+                  for clue in y.clue
+                    ul(style='list-style-type:none; padding-left: 10px;')
+                      li
+                        p #{clue}
 
-              p#giveaway(style={display: 'none'}) You have run out of time. The code you seek can be found here: #{y.location}
-              .clue_image
-                img(src=y.photo_link, id='photo_link')
+                  p#giveaway(style={display: 'none'}) You have run out of time. The code you seek can be found here: #{y.location}
+                  .clue_image
+                    img(src=y.photo_link, id='photo_link')
 
-          if pg_json_record.time_allocated <= 0
-            p
-          else if pg_json_record.time_allocated == null
-            p
-          else
-            p Get a hint in #[span(id='time')]
+              if pg_json_record.time_allocated <= 0
+                p
+              else if pg_json_record.time_allocated == null
+                p
+              else
+                p Get a hint in #[span(id='time')]
