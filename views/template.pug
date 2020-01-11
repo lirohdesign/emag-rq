@@ -11,7 +11,7 @@ html
       h2 #{root_route[1]}
       for x in json_data
           li
-              a(href=x.game_name,) #{print_url + x}
+              a(href=x.game_name,) #{print_url} + x
 
     else if request == 'print'
       div.no-print
