@@ -1,7 +1,7 @@
 [{
 "game_id": 1,
 "date_created": "",
-"game_name": "",
+"game_name": "first game",
 "password": "",
 "user_name": "",
 "description_for_start": ["Welcome to emag-rq. This application is currently under development.","Follow the link below to print the codes and start the game","https://emag-rq.herokuapp.com/print"],

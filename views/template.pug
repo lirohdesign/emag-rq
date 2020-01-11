@@ -9,7 +9,9 @@ html
     if request == null
       h1 #{root_route[0]}
       h2 #{root_route[1]}
-      a(href=root_route[2],) #{root_route[2]}
+      for x in json_data
+          li
+              a(href=x.game_name,) #{print_url + x}
 
     else if request == 'print'
       div.no-print
