@@ -10,9 +10,7 @@ html
       h1 #{root_route[0]}
       h2 #{root_route[1]}
       for x, index in json_data
-
         li
-          p
           a(href=print_url+index) #{x.game_name}
 
     else if request == 'print'
