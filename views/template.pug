@@ -28,7 +28,7 @@ html
         script.
             window.onload = function() {
                 var display = document.querySelector('#time')
-                timer = new CountDownTimer(#{pg_json_record.time_allocated});
+                timer = new CountDownTimer(#{json_data.time_allocated});
                 timer.onTick(format(display)).start();
 
                 function format(display) {
@@ -40,7 +40,7 @@ html
                 };
                 BigHintTimer = setTimeout(function (){
                     document.getElementById('giveaway').style.display = 'block';
-                }, #{pg_json_record.time_allocated*1000});
+                }, #{json_data.time_allocated*1000});
             };
         for x in json_data
             if request == x.key
@@ -64,9 +64,9 @@ html
                   .clue_image
                     img(src=y.photo_link, id='photo_link')
 
-              if pg_json_record.time_allocated <= 0
+              if json_data.time_allocated <= 0
                 p
-              else if pg_json_record.time_allocated == null
+              else if json_data.time_allocated == null
                 p
               else
                 p Get a hint in #[span(id='time')]

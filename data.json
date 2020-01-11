@@ -1,5 +1,5 @@
 [{
-"game_id": 1,
+"game_id": "1b",
 "date_created": "",
 "game_name": "first game",
 "password": "",
@@ -70,7 +70,7 @@
   ]
 },
 {
-"game_id": 2,
+"game_id": "2b",
 "date_created": "",
 "game_name": "shakespear",
 "password": "",
@@ -141,7 +141,7 @@
   ]
 },
 {
-"game_id": 3,
+"game_id": "3c",
 "date_created": "11.26.2019",
 "game_name": "Find the Coins Thanksgiving 2019",
 "password": "",
@@ -232,7 +232,7 @@
   ]
 },
 {
-"game_id": 4,
+"game_id": "4d",
 "date_created": "11.28.2019",
 "game_name": "Find the Coins 2 Thanksgiving 2019",
 "password": "",
@@ -323,7 +323,7 @@
   ]
 },
 {
-"game_id": 5,
+"game_id": "5e",
 "date_created": "12.14.2019",
 "game_name": "Getting Ready Christmas 2019",
 "password": "",

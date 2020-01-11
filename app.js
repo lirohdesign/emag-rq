@@ -89,14 +89,20 @@ app.get('/:key', function (req, res) {
         gameID = req.params.key.replace(/print:/g,'');
         console.log('gameID in print logic:' + gameID);
         jsonfile.readFile( "data.json", 'utf8', function (err, data) {
-          res.render('template', {
-              json_data: data[gameID].game_data,
-              request: 'print',
-              qr_code: qr_url,
-              gameID: gameID,
-          });
-          console.log('request in print logic:' + req.params.key);
+            for(var h = 0; h < data.length; h++){
+              console.log(data[h].game_id);
+              if (data[h].game_id == gameID){
+                gameID = h
+              }
+            };
+            res.render('template', {
+                json_data: data[gameID].game_data,
+                request: 'print',
+                qr_code: qr_url,
+                gameID: gameID,
+            });
         });
+          console.log('request in print logic:' + req.params.key);
   } else if (req.params.key.slice(0,10) == 'game_call:') {
         game_call = req.params.key.replace(/game_call:/g,'').split('_');
         gameID = game_call[0]
@@ -107,11 +113,15 @@ app.get('/:key', function (req, res) {
         client.hgetall(req.clientIp, req.params.key, function(err, usr_pg_view){
             console.dir('redis data log:' + usr_pg_view);
             jsonfile.readFile( "data.json", 'utf8', function (err, data) {
-              var pg_json_record = {}
-                for (var i = 0; i < data[gameID].game_data.length; i++) {
-                    if (data[gameID].game_data[i].key == clueID){
-                      pg_json_record = data[gameID].game_data[i];
-                    };
+                for(var h = 0; h < data.length; h++){
+                  console.log(data[h].game_id);
+                  if (data[h].game_id == gameID){
+                    for (var i = 0; i < data[h].game_data.length; i++) {
+                        if (data[h].game_data[i].key == clueID){
+                          gameID = h
+                        };
+                    }
+                  }
                 };
               res.render('template', {
                   qr_code: qr_url,
@@ -119,7 +129,6 @@ app.get('/:key', function (req, res) {
                   previous_view: usr_pg_view,
                   //previous_view: null,
                   request: clueID,
-                  pg_json_record: pg_json_record,
               });
             });
         });
