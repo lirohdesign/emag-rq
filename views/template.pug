@@ -11,11 +11,11 @@ html
       h2 #{root_route[1]}
       a(href=root_route[2],) #{root_route[2]}
 
-      for x in JSON.parse(json_data)
+      for x, index in json_data
 
         li
-          p x
-          a(href=x.game_name) #{(print_url+x)}
+          p
+          a(href=x.game_name) #{(print_url+index)}
 
     else if request == 'print'
       div.no-print
