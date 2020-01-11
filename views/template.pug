@@ -13,8 +13,7 @@ html
 
       ul(style='list-style-type:none; padding: 0')
         each game, index in json_data
-          li
-            a(href=game.game_name,) #{print_url + index}
+          li=a(href=game.game_name,) #{print_url + index}
     else if request == 'print'
       div.no-print
         p CAUTION: this print page is set to print each code on a separate page for ease of use with index cards.
