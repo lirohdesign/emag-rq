@@ -23,6 +23,7 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(requestIp.mw())
 app.use('/static', express.static(__dirname + '/static'));
+app.use(express.json());
 
 // Add headers
 app.use(function (req, res, next) {
@@ -53,6 +54,13 @@ app.get('/reset', function (req, res) {
     res.send('game has been reset');
     console.log('reset sent ...');
   })
+});
+
+
+
+app.post('/post', function(request, response){
+  console.log(request.body);      // your JSON
+   response.send(request.body);    // echo the result back
 });
 
 app.get('/', function(req, res){
