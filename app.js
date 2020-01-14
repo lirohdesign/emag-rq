@@ -7,6 +7,18 @@ var redis = require('redis')
 var requestIp = require('request-ip');
 var pug = require('pug');
 
+//testing
+var cors = require('cors'); // We will use CORS to enable cross origin domain requests.
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+var schemaName = new Schema({
+  _id: Schema.Types.Mixed
+}, {
+    collection: 'emag-rq'
+});
+var Model = mongoose.model('Model', schemaName);
+//testing create connection
+mongoose.connect('mongodb://integromatconnection:Th3M0nst3r@ds263448.mlab.com:63448/heroku_5wv92jfn', {useNewUrlParser: true, useUnifiedTopology: true});
 //config.js link
 var env = process.env.NODE_ENV || 'production';
 var config = require('./config')[env];
@@ -56,12 +68,22 @@ app.get('/reset', function (req, res) {
   })
 });
 
+app.get('/find/:query', cors(), function(req, res) {
+    var query = req.params.query;
 
-
-app.post('/post', function(request, response){
-  console.log(request.body);      // your JSON
-   response.send(request.body);    // echo the result back
-});
+    Model.find({
+        'game_id': query
+    }, function(err, result) {
+        if (err) throw err;
+        if (result) {
+            res.json(result)
+        } else {
+            res.send(JSON.stringify({
+                error : 'Error'
+            }))
+        }
+    })
+})
 
 app.get('/', function(req, res){
   jsonfile.readFile( "data.json", 'utf8', function (err, data) {
