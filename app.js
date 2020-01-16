@@ -121,6 +121,7 @@ app.get('/', function(req, res){
 });
 
 const bodyParser = require('body-parser');
+var assert = require('assert')
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/post-test', (req, res) => {
