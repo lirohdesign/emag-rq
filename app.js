@@ -22,8 +22,8 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 var Schema = mongoose.Schema;
 var EmagrqSchema = new Schema({
-      _id: Schema.Types.Mixed
-//      _id: String,
+//      _id: Schema.Types.Mixed
+      _id: String
 //      game_id: String,
 //      date_created: Date,
 //      game_name: String,
