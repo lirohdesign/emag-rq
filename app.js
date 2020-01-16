@@ -126,13 +126,13 @@ var assert = require('assert')
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/post-test', (req, res) => {
-    console.log('got req', req);
+//    console.log('got req', req);
 //    EmagrqModel.collection.insert(JSON.parse(req.body), function(err, r){
 //      assert.equal(null, err);
 //      assert.equal(r);
 //      db.close();
 //    })
-    console.log('Got body:', req.body);
+    console.log('Got body:', JSON.parse(req.body));
     res.sendStatus(200);
 });
 
