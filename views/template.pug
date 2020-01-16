@@ -7,12 +7,22 @@ html
     link(rel='icon' href='/favicon.ico' type='image/x-icon')
   body
     if request == null
-      h1 #{root_route[0]}
-      h2 #{root_route[1]}
-      a(href = 'https://www.cognitoforms.com/Emagrq/BuildAGame') Build a Game
+      h1 This application is currently in testing and development, so don't get too attached to it.
+      p
+          a(href = 'https://www.cognitoforms.com/Emagrq/BuildAGame') Build a Game Here
+      p
+      p if you want to create your own hunt.
+      p Or check out one of the hunts that have been created for inspiration:
       for x, index in json_data
         li
           a(href=print_url+x.game_id) #{x.game_name}
+      p Potential problems you may encounter:
+        li Game edits are impossible.
+        li Deleting a game is impossible.
+        li All games are public.
+        li The Museum Label does not work.
+        li Disclaimer: I am likely to accidenly delete your game.
+        li Contact: emagrq@gmail.com.
 
     else if request == 'print'
       div.no-print
@@ -70,4 +80,4 @@ html
               else if json_data.time_allocated == null
                 p
               else
-                p Get a hint in #[span(id='time')]
+                p Get a hint in #[span(id="time")]

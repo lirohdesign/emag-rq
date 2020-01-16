@@ -111,7 +111,7 @@ app.get('/', function(req, res){
           if (err) return handleError(err);
           if (game_json) {
             res.render('template', {
-                root_route: ['Welcome to emag-rq. This application is currently under development.','Follow the link below to print the codes and start a game','https://emag-rq.herokuapp.com/print'],
+                //root_route: ['Welcome to emag-rq. This application is currently under development.','Follow the link below to print the codes and start a game','https://emag-rq.herokuapp.com/print'],
                 request: null,
                 print_url: req.protocol + '://' + req.get('host') + '/print:',
                 json_data: game_json  ,
