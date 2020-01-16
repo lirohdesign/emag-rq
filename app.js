@@ -120,6 +120,15 @@ app.get('/', function(req, res){
     })
 });
 
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.post('/post-test', (req, res) => {
+    console.log('Got body:', req.body);
+    res.sendStatus(200);
+});
+
+
 app.get('/:key', function (req, res) {
   var client = redis.createClient(process.env.REDIS_URL)
   var key_string = req.params.key.replace(/code:/g,'');
