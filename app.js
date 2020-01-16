@@ -22,15 +22,16 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 var Schema = mongoose.Schema;
 var EmagrqSchema = new Schema({
-      _id: String,
-      game_id: String,
-      date_created: Date,
-      game_name: String,
-      password: String,
-      user_name: String,
-      description_for_start: Array,
-      start_location: String,
-      game_data: Array
+      _id: Schema.Types.Mixed
+//      _id: String,
+//      game_id: String,
+//      date_created: Date,
+//      game_name: String,
+//      password: String,
+//      user_name: String,
+//      description_for_start: Array,
+//      start_location: String,
+//      game_data: Array
     }, {
         collection: 'emag-rq'
     });
