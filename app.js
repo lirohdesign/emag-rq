@@ -124,9 +124,17 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/post-test', (req, res) => {
+    EmagrqModel.collection.insertMany(req.body, function(err, r){
+      assert.equal(null, err);
+      assert.equal(3, r.insertedCount);
+      db.close();
+    })
     console.log('Got body:', req.body);
     res.sendStatus(200);
 });
+
+
+
 
 
 app.get('/:key', function (req, res) {
