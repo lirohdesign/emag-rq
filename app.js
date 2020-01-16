@@ -198,7 +198,7 @@ app.get('/:key', function (req, res) {
                   if (game_json) {
                       res.render('template', {
                         qr_code: qr_url,
-                        json_data: data[gameID].game_data,
+                        json_data: game_json.game_data,
                         previous_view: usr_pg_view,
                         //previous_view: null,
                         request: clueID,
