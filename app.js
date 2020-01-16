@@ -7,21 +7,38 @@ var redis = require('redis')
 var requestIp = require('request-ip');
 var pug = require('pug');
 
-//testing
-var cors = require('cors'); // We will use CORS to enable cross origin domain requests.
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var schemaName = new Schema({
-  _id: Schema.Types.Mixed
-}, {
-    collection: 'emag-rq'
-});
-var Model = mongoose.model('Model', schemaName);
-//testing create connection
-mongoose.connect('mongodb://integromatconnection:Th3M0nst3r@ds263448.mlab.com:63448/heroku_5wv92jfn', {useNewUrlParser: true, useUnifiedTopology: true});
-//config.js link
 var env = process.env.NODE_ENV || 'production';
 var config = require('./config')[env];
+
+//testing
+var mongoose = require('mongoose');
+var mongoDB = 'mongodb://integromatconnection:Th3M0nst3r@ds263448.mlab.com:63448/heroku_5wv92jfn'
+mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
+//Get the default connection
+//https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/mongoose great
+var db = mongoose.connection;
+//Bind connection to error event (to get notification of connection errors)
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
+var Schema = mongoose.Schema;
+var EmagrqSchema = new Schema({
+      _id: String,
+      game_id: String,
+      date_created: Date,
+      game_name: String,
+      password: String,
+      user_name: String,
+      description_for_start: Array,
+      start_location: String,
+      game_data: Array
+    }, {
+        collection: 'emag-rq'
+    });
+var EmagrqModel = mongoose.model('EmagrqModel', EmagrqSchema);
+
+
+
+
 
 //encrypt the url, so people do not cheat the game by entering the database numbers
 //make this again later
@@ -29,7 +46,7 @@ var config = require('./config')[env];
 
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
-
+app.set('json spaces', 2)
 //what is the difference between app.set and app.use
 //what is the difference between let, cont, and var
 
@@ -68,10 +85,10 @@ app.get('/reset', function (req, res) {
   })
 });
 
-app.get('/find/:query', cors(), function(req, res) {
+app.get('/find/:query', function(req, res) {
     var query = req.params.query;
 
-    Model.find({
+    EmagrqModel.find({
         'game_id': query
     }, function(err, result) {
         if (err) throw err;
@@ -84,6 +101,43 @@ app.get('/find/:query', cors(), function(req, res) {
         }
     })
 })
+
+
+app.get('/horse', function(req, res){
+  var game_fields = {
+      __v: 0,
+      _id: 0
+  };
+
+  //EmagrqModel.find({}, game_fields,function(err, game_json) {
+  EmagrqModel.findOne({game_id:"1b"}, function(err, game_json) {
+
+        if (err) return handleError(err);
+        if (game_json) {
+            res.send(game_json.game_data)
+            //return game_json.toObject()//res.send(JSON.stringify(game_json[0]))
+            //res.json(game_json[0].game_data[0].location)
+            //for(var h = 0; h < game_json.length; h++){
+            //  res.send('found it:' + JSON.stringify(game_json[h]));
+            //  }
+            //console.log('%s', game_json[0].game_data);
+        } else {res.send(JSON.stringify({error : 'Error'}))}
+    })
+
+});
+
+//User.findOne({email:"foo@bar.com"}) // => user-1
+
+
+var fetch = require('node-fetch');
+var json_data = {}
+app.get('/goat', function(req, res1){
+
+  fetch('http://emag-rq.herokuapp.com/find/emagrq@gmail.com+test%204')
+      .then(res => res.json())
+      .then(json => {json_data = json});
+  res1.send(json_data);
+});
 
 app.get('/', function(req, res){
   jsonfile.readFile( "data.json", 'utf8', function (err, data) {
@@ -118,20 +172,17 @@ app.get('/:key', function (req, res) {
   } else if (req.params.key.slice(0,6) == 'print:'){
         gameID = req.params.key.replace(/print:/g,'');
         console.log('gameID in print logic:' + gameID);
-        jsonfile.readFile( "data.json", 'utf8', function (err, data) {
-            for(var h = 0; h < data.length; h++){
-              console.log(data[h].game_id);
-              if (data[h].game_id == gameID){
-                gameID = h
-              }
-            };
-            res.render('template', {
-                json_data: data[gameID].game_data,
-                request: 'print',
-                qr_code: qr_url,
-                gameID: gameID,
-            });
-        });
+        EmagrqModel.findOne({game_id:gameID}, function(err, game_json) {
+              if (err) return handleError(err);
+              if (game_json) {
+                  res.render('template', {
+                      json_data: game_json.game_data,
+                      request: 'print',
+                      qr_code: qr_url,
+                      gameID: gameID,
+                  });
+              } else {res.send(JSON.stringify({error : 'Error'}))}
+          })
           console.log('request in print logic:' + req.params.key);
   } else if (req.params.key.slice(0,10) == 'game_call:') {
         game_call = req.params.key.replace(/game_call:/g,'').split('_');
@@ -142,25 +193,18 @@ app.get('/:key', function (req, res) {
         //this section creates pages from template.pug based on the URL key
         client.hgetall(req.clientIp, req.params.key, function(err, usr_pg_view){
             console.dir('redis data log:' + usr_pg_view);
-            jsonfile.readFile( "data.json", 'utf8', function (err, data) {
-                for(var h = 0; h < data.length; h++){
-                  console.log(data[h].game_id);
-                  if (data[h].game_id == gameID){
-                    for (var i = 0; i < data[h].game_data.length; i++) {
-                        if (data[h].game_data[i].key == clueID){
-                          gameID = h
-                        };
-                    }
-                  }
-                };
-              res.render('template', {
-                  qr_code: qr_url,
-                  json_data: data[gameID].game_data,
-                  previous_view: usr_pg_view,
-                  //previous_view: null,
-                  request: clueID,
-              });
-            });
+            EmagrqModel.findOne({game_id:gameID}, function(err, game_json) {
+                  if (err) return handleError(err);
+                  if (game_json) {
+                      res.render('template', {
+                        qr_code: qr_url,
+                        json_data: data[gameID].game_data,
+                        previous_view: usr_pg_view,
+                        //previous_view: null,
+                        request: clueID,
+                      });
+                  } else {res.send(JSON.stringify({error : 'Error'}))}
+              })
         });
         console.log(req.params.key);
         client.hmset(req.clientIp, req.params.key, Date())
