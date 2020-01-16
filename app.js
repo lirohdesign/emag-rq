@@ -85,71 +85,40 @@ app.get('/reset', function (req, res) {
   })
 });
 
-app.get('/find/:query', function(req, res) {
-    var query = req.params.query;
-
-    EmagrqModel.find({
-        'game_id': query
-    }, function(err, result) {
-        if (err) throw err;
-        if (result) {
-            res.json(result)
-        } else {
-            res.send(JSON.stringify({
-                error : 'Error'
-            }))
-        }
-    })
-})
-
-
 app.get('/horse', function(req, res){
   var game_fields = {
       __v: 0,
       _id: 0
   };
 
-  //EmagrqModel.find({}, game_fields,function(err, game_json) {
-  EmagrqModel.findOne({game_id:"1b"}, function(err, game_json) {
+  EmagrqModel.find({}, game_fields, function(err, game_json) {
 
         if (err) return handleError(err);
         if (game_json) {
-            res.send(game_json.game_data)
-            //return game_json.toObject()//res.send(JSON.stringify(game_json[0]))
-            //res.json(game_json[0].game_data[0].location)
-            //for(var h = 0; h < game_json.length; h++){
-            //  res.send('found it:' + JSON.stringify(game_json[h]));
-            //  }
-            //console.log('%s', game_json[0].game_data);
+            res.send(game_json)
         } else {res.send(JSON.stringify({error : 'Error'}))}
     })
 
 });
 
-//User.findOne({email:"foo@bar.com"}) // => user-1
-
-
-var fetch = require('node-fetch');
-var json_data = {}
-app.get('/goat', function(req, res1){
-
-  fetch('http://emag-rq.herokuapp.com/find/emagrq@gmail.com+test%204')
-      .then(res => res.json())
-      .then(json => {json_data = json});
-  res1.send(json_data);
-});
-
 app.get('/', function(req, res){
-  jsonfile.readFile( "data.json", 'utf8', function (err, data) {
-    res.render('template', {
-        root_route: ['Welcome to emag-rq. This application is currently under development.','Follow the link below to print the codes and start a game','https://emag-rq.herokuapp.com/print'],
-        request: null,
-        print_url: req.protocol + '://' + req.get('host') + '/print:',
-        json_data: data,
-    });
-  });
+    var game_fields = {
+        __v: 0,
+        _id: 0
+    };
+
+    EmagrqModel.find({}, game_fields, function(err, game_json) {
+          if (err) return handleError(err);
+          if (game_json) {
+            res.render('template', {
+                root_route: ['Welcome to emag-rq. This application is currently under development.','Follow the link below to print the codes and start a game','https://emag-rq.herokuapp.com/print'],
+                request: null,
+                print_url: req.protocol + '://' + req.get('host') + '/print:',
+                json_data: game_json  ,
+            });
+          } else {res.send(JSON.stringify({error : 'Error'}))}
+    })
 });
-//app.get  goat goes here if I ever decide to keep debugging it.
 
 app.get('/:key', function (req, res) {
   var client = redis.createClient(process.env.REDIS_URL)
@@ -161,8 +130,6 @@ app.get('/:key', function (req, res) {
   var clueID = ""
 
   if (req.params.key.slice(0,5) == 'code:') {
-    //this section creates QR codes when a code: URL is passed
-     //may want to consider adding logic here to create codes only if items exist in JSON file
 
         var code = qr.image(crypt_url, { type: 'svg' })
         res.type('svg');

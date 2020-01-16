@@ -12,7 +12,7 @@ html
       a(href = 'https://www.cognitoforms.com/Emagrq/BuildAGame') Build a Game
       for x, index in json_data
         li
-          a(href=print_url+index) #{x.game_name}
+          a(href=print_url+x.game_id) #{x.game_name}
 
     else if request == 'print'
       div.no-print
