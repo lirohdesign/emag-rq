@@ -132,7 +132,7 @@ app.post('/post-test', (req, res) => {
 //      assert.equal(r);
 //      db.close();
 //    })
-    console.log('Got body:', JSON.parse(req.body));
+    console.log('Got body:', JSON.stringify(req.body));
     res.sendStatus(200);
 });
 
