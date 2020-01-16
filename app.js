@@ -119,20 +119,20 @@ app.get('/', function(req, res){
           } else {res.send(JSON.stringify({error : 'Error'}))}
     })
 });
+//
+//const bodyParser = require('body-parser');
+//var assert = require('assert')
+//app.use(bodyParser.urlencoded({ extended: true }));
 
-const bodyParser = require('body-parser');
-var assert = require('assert')
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.post('/post-test', (req, res) => {
-    EmagrqModel.collection.insert(req.body, function(err, r){
-      assert.equal(null, err);
-      assert.equal(r);
-      db.close();
-    })
-    console.log('Got body:', req.body);
-    res.sendStatus(200);
-});
+//app.post('/post-test', (req, res) => {
+//    EmagrqModel.collection.insert(req.body, function(err, r){
+//      assert.equal(null, err);
+//      assert.equal(r);
+//      db.close();
+//    })
+//    console.log('Got body:', req.body);
+//    res.sendStatus(200);
+//});
 
 
 
