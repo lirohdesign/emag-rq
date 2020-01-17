@@ -21,9 +21,9 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 var Schema = mongoose.Schema;
-var EmagrqSchema = new Schema({}, {collection: 'emag-rq'});
-var schema = new Schema({ name: String });
-EmagrqSchema.set('toObject', { getters: true });
+var EmagrqSchema = new Schema({name: String}, {collection: 'emag-rq'});
+//var schema = new Schema({ name: String });
+//EmagrqSchema.set('toObject', { getters: true });
 
 //var EmagrqSchema = new Schema(config.cognito_schema, {collection: 'emag-rq'}, {strict: true});
 
@@ -134,8 +134,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/post-test', (req, res) => {
     console.log('got req', req);
-
-    EmagrqModel.collection.insertOne(req.body.toObject(), function(err, r){
+    EmagrqModel.collection.insertOne(JSON.stringify(req.body), function(err, r){
       assert.equal(null, err);
       assert.equal(r);
       db.close();
