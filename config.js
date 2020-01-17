@@ -30,8 +30,8 @@ cognito_schema: {
     InternalName: String,
     Name: String
   },
-  $version: {type:Mixed},
-  $etag: {type:Mixed},
+//  $version: ,
+//  $etag: ,
   Gamename: String,
   Startlocation: String,
   DescriptionForStart: String,
