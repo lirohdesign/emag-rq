@@ -134,6 +134,7 @@ app.post('/post-test', (req, res) => {
       db.close();
     })
 */
+    res.send(JSON.stringify(req.body))
     console.log('Got body:', JSON.stringify(req.body));
     res.sendStatus(200);
 });
