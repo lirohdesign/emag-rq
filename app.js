@@ -130,7 +130,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.post('/post-test', (req, res) => {
     console.log('got req', req);
 
-    EmagrqModel.collection.insertMany(req.body, function(err, r){
+    EmagrqModel.collection.insertOne(req.body, function(err, r){
       assert.equal(null, err);
       assert.equal(r);
       db.close();
