@@ -37,7 +37,7 @@ cognito_schema: {
   DescriptionForStart: String,
   Gamelogic: String,
   Email: String,
-  Id: String,
+//  Id: String,
   Entry: {
     AdminLink: String,
     CustomerCard: String,
