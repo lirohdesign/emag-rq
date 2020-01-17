@@ -127,12 +127,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/post-test', (req, res) => {
 //    console.log('got req', req);
+/*
     EmagrqModel.collection.insertOne(JSON.stringify(req.body), function(err, r){
       assert.equal(null, err);
       assert.equal(r);
       db.close();
     })
-//    console.log('Got body:', JSON.stringify(req.body));
+*/
+    console.log('Got body:', JSON.stringify(req.body));
     res.sendStatus(200);
 });
 
