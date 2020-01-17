@@ -21,9 +21,11 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 var Schema = mongoose.Schema;
-var EmagrqSchema = new Schema({
+var EmagrqSchema = new Schema(config.cognito_schema, {collection: 'emag-rq'});
+//var EmagrqSchema = new Schema({
 //      _id: Schema.Types.Mixed
-      _id: String
+//      _id: String
+
 //      game_id: String,
 //      date_created: Date,
 //      game_name: String,
@@ -32,9 +34,9 @@ var EmagrqSchema = new Schema({
 //      description_for_start: Array,
 //      start_location: String,
 //      game_data: Array
-    }, {
-        collection: 'emag-rq'
-    });
+//    }, {
+//        collection: 'emag-rq'
+//    });
 var EmagrqModel = mongoose.model('EmagrqModel', EmagrqSchema);
 
 
@@ -126,15 +128,14 @@ var assert = require('assert')
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/post-test', (req, res) => {
-//    console.log('got req', req);
-/*
-    EmagrqModel.collection.insertOne(JSON.stringify(req.body), function(err, r){
+    console.log('got req', req);
+
+    EmagrqModel.collection.insertMany(req.body, function(err, r){
       assert.equal(null, err);
       assert.equal(r);
       db.close();
     })
-*/
-    res.send(JSON.stringify(req.body))
+
     console.log('Got body:', JSON.stringify(req.body));
     res.sendStatus(200);
 });
