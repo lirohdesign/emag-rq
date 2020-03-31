@@ -25,10 +25,10 @@ var Schema = mongoose.Schema;
 //var schema = new Schema({ name: String });
 //EmagrqSchema.set('toObject', { getters: true });
 
-//var EmagrqSchema = new Schema(config.cognito_schema, {collection: 'emag-rq'});
+var EmagrqSchema = new Schema(config.cognito_schema, {collection: 'emag-rq'});
 
-var EmagrqSchema = new Schema({
-      _id: Schema.Types.Mixed
+//var EmagrqSchema = new Schema({
+//      _id: Schema.Types.Mixed
 //      _id: String
 
 //      game_id: String,
@@ -39,9 +39,9 @@ var EmagrqSchema = new Schema({
 //      description_for_start: Array,
 //      start_location: String,
 //      game_data: Array
-    }, {
-        collection: 'emag-rq'
-    });
+//    }, {
+//        collection: 'emag-rq'
+//    });
 var EmagrqModel = mongoose.model('EmagrqModel', EmagrqSchema);
 
 
