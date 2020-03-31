@@ -31,14 +31,14 @@ cognito_schema: {
     logic: String,
     date_created: Date,
     qr_codes: [{
-      stamp: Date,
+      AddCode_Time: Date,
       hint: String,
       time_allocated: Number,
       photo_link: String,
       location: String,
       details: [{
           clue: String,
-          stamp: Date
+          AddClue_Time: Date
       }]
     }]
   }
