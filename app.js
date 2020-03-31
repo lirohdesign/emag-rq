@@ -109,6 +109,11 @@ app.get('/horse', function(req, res){
 
 });
 
+app.get('/form', function(req, res){
+  res.render('template_form', {
+  });
+});
+
 app.get('/', function(req, res){
     var game_fields = {
         __v: 0,
@@ -212,6 +217,6 @@ app.get('/:key', function (req, res) {
 
 var port = process.env.PORT || 8080;
 app.listen(port, function() {
-  console.log('EDOC_RQ is running');
-//  console.log('EDOC_RQ is running on http://localhost:' + port);
+//  console.log('EDOC_RQ is running');
+  console.log('EDOC_RQ is running on http://localhost:' + port);
 });
