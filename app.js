@@ -26,7 +26,6 @@ var Schema = mongoose.Schema;
 //EmagrqSchema.set('toObject', { getters: true });
 
 var EmagrqSchema = new Schema(config.cognito_schema, {collection: 'emag-rq'});
-
 //var EmagrqSchema = new Schema({
 //      _id: Schema.Types.Mixed
 //      _id: String
