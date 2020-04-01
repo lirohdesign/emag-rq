@@ -1,18 +1,22 @@
 var express = require('express');
 var app = express();
-var jsonfile = require('jsonfile');
 var path = require('path');
 var qr = require('qr-image');
 var redis = require('redis')
 var requestIp = require('request-ip');
 var pug = require('pug');
+var bodyParser = require('body-parser');
+var assert = require('assert')
+
+
 
 var env = process.env.NODE_ENV || 'production';
 var config = require('./config')[env];
 
 //testing
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb://integromatconnection:Th3M0nst3r@ds263448.mlab.com:63448/heroku_5wv92jfn'
+var mongoDB = config.cognito_connection
+
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
 //Get the default connection
 //https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/mongoose great
@@ -21,26 +25,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 var Schema = mongoose.Schema;
-//var EmagrqSchema = new Schema({name: String}, {collection: 'emag-rq'});
-//var schema = new Schema({ name: String });
-//EmagrqSchema.set('toObject', { getters: true });
-
 var EmagrqSchema = new Schema(config.cognito_schema, {collection: 'emag-rq'});
-//var EmagrqSchema = new Schema({
-//      _id: Schema.Types.Mixed
-//      _id: String
-
-//      game_id: String,
-//      date_created: Date,
-//      game_name: String,
-//      password: String,
-//      user_name: String,
-//      description_for_start: Array,
-//      start_location: String,
-//      game_data: Array
-//    }, {
-//        collection: 'emag-rq'
-//    });
 var EmagrqModel = mongoose.model('EmagrqModel', EmagrqSchema);
 
 
@@ -54,12 +39,11 @@ var EmagrqModel = mongoose.model('EmagrqModel', EmagrqSchema);
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 app.set('json spaces', 2)
-//what is the difference between app.set and app.use
-//what is the difference between let, cont, and var
 
 app.use(requestIp.mw())
 app.use('/static', express.static(__dirname + '/static'));
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Add headers
 app.use(function (req, res, next) {
@@ -108,11 +92,6 @@ app.get('/horse', function(req, res){
 
 });
 
-app.get('/form', function(req, res){
-  res.render('template_form', {
-  });
-});
-
 app.get('/', function(req, res){
     var game_fields = {
         __v: 0,
@@ -131,10 +110,6 @@ app.get('/', function(req, res){
           } else {res.send(JSON.stringify({error : 'Error'}))}
     })
 });
-//
-const bodyParser = require('body-parser');
-var assert = require('assert')
-app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/post-test', (req, res) => {
     console.log('got req', req);
@@ -147,10 +122,6 @@ app.post('/post-test', (req, res) => {
     console.log('Got body:', JSON.stringify(req.body));
     res.sendStatus(200);
 });
-
-
-
-
 
 app.get('/:key', function (req, res) {
   var client = redis.createClient(process.env.REDIS_URL)
@@ -212,6 +183,8 @@ app.get('/:key', function (req, res) {
   }
       client.quit()
 });
+
+
 
 
 var port = process.env.PORT || 8080;
