@@ -20,5 +20,5 @@
     "body-parser": "^1.19.0",
     "path": "^0.12.7"
   },
-  "notes": "express, jsonfile, qr-image"
+  "notes": "express, qr-image"
 }
