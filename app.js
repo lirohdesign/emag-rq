@@ -15,7 +15,7 @@ var config = require('./config')[env];
 
 //testing
 var mongoose = require('mongoose');
-var mongoDB = config.production.cognito_connection
+var mongoDB = "mongodb://integromatconnection:Th3M0nst3r@ds263448.mlab.com:63448/heroku_5wv92jfn"
 
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
 //Get the default connection
