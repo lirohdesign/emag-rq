@@ -9,7 +9,8 @@ development: {
         db:     ''
     },
     //crypt key
-    crypt_key: "w$^DhPeB$Hu&*t3xT87KdBjVaNzKE%NGYw7sPxRdWFp4"
+    crypt_key: "w$^DhPeB$Hu&*t3xT87KdBjVaNzKE%NGYw7sPxRdWFp4",
+    cognito_connection: "mongodb://integromatconnection:Th3M0nst3r@ds263448.mlab.com:63448/heroku_5wv92jfn"
 },
 production: {
     //url to be used in link generation
@@ -21,9 +22,9 @@ production: {
         db:     ''
     },
     //crypt key
-    crypt_key: "w$^DhPeB$Hu&*t3xT87KdBjVaNzKE%NGYw7sPxRdWFp4"
+    crypt_key: "w$^DhPeB$Hu&*t3xT87KdBjVaNzKE%NGYw7sPxRdWFp4",
+    cognito_connection: "mongodb://integromatconnection:Th3M0nst3r@ds263448.mlab.com:63448/heroku_5wv92jfn"
   },
-cognito_connection: "mongodb://integromatconnection:Th3M0nst3r@ds263448.mlab.com:63448/heroku_5wv92jfn",
 cognito_schema: {
     _id: String,
     game_name: String,

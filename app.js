@@ -15,7 +15,7 @@ var config = require('./config')[env];
 
 //testing
 var mongoose = require('mongoose');
-var mongoDB = config.cognito_connection
+var mongoDB = config.production.cognito_connection
 
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
 //Get the default connection
