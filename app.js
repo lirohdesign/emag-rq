@@ -8,6 +8,8 @@ var pug = require('pug');
 var bodyParser = require('body-parser');
 var assert = require('assert')
 
+
+
 var env = process.env.NODE_ENV || 'production';
 var config = require('./config')[env];
 
@@ -139,9 +141,9 @@ app.get('/:key', function (req, res) {
         console.log('crypt_url:' + crypt_url);;
 
   } else if (req.params.key.slice(0,6) == 'print:'){
-        gameName = req.params.key.replace(/print:/g,'');
-        console.log('gameID in print logic:' + gameName);
-        EmagrqModel.findOne({game_name:gameName}).lean().exec( function(err, game_json) {
+        gameID = req.params.key.replace(/print:/g,'');
+        console.log('gameID in print logic:' + gameID);
+        EmagrqModel.findOne({game_id:gameID}).lean().exec( function(err, game_json) {
               if (err) return handleError(err);
               if (game_json) {
                   console.log(game_json.qr_codes);
@@ -149,7 +151,7 @@ app.get('/:key', function (req, res) {
                       json_data: game_json.qr_codes,
                       request: 'print',
                       qr_code: qr_url,
-                      gameID: gameName,
+                      gameID: gameID,
                   });
               } else {res.send(JSON.stringify({error : 'Error'}))}
           })
@@ -168,7 +170,7 @@ app.get('/:key', function (req, res) {
                   if (game_json) {
                       res.render('template', {
                         qr_code: qr_url,
-                        json_data: game_json.game_data,
+                        json_data: game_json.qr_codes,
                         previous_view: usr_pg_view,
                         //previous_view: null,
                         request: clueID,
@@ -190,5 +192,5 @@ app.get('/:key', function (req, res) {
 var port = process.env.PORT || 8080;
 app.listen(port, function() {
 //  console.log('EDOC_RQ is running');
-  console.log('EDOC_RQ is running on https:'+ port);
+  console.log('EDOC_RQ is running on http://localhost:' + port);
 });
