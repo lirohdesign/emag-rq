@@ -143,7 +143,7 @@ app.get('/:key', function (req, res) {
   } else if (req.params.key.slice(0,6) == 'print:'){
         gameID = req.params.key.replace(/print:/g,'');
         console.log('gameID in print logic:' + gameID);
-        EmagrqModel.findOne({game_id:gameID}).lean().exec( function(err, game_json) {
+        EmagrqModel.findOne({_id:gameID}).lean().exec( function(err, game_json) {
               if (err) return handleError(err);
               if (game_json) {
                   console.log(game_json.qr_codes);
@@ -165,7 +165,7 @@ app.get('/:key', function (req, res) {
         //this section creates pages from template.pug based on the URL key
         client.hgetall(req.clientIp, req.params.key, function(err, usr_pg_view){
             console.dir('redis data log:' + usr_pg_view);
-            EmagrqModel.findOne({game_id:gameID}).lean().exec( function(err, game_json) {
+            EmagrqModel.findOne({_id:gameID}).lean().exec( function(err, game_json) {
                   if (err) return handleError(err);
                   if (game_json) {
                       res.render('template', {
