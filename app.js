@@ -70,6 +70,11 @@ app.get('/favicon.ico', (req, res) => res.status(204));
 
 app.get('/reset', function (req, res) {
   var client = redis.createClient(process.env.REDIS_URL)
+
+  client.on("error", function (err) {
+      console.log("Error " + err);
+  });
+
   client.flushall(function (err, success){
     res.send('game has been reset');
     console.log('reset sent ...');
@@ -126,6 +131,11 @@ app.post('/post-test', (req, res) => {
 
 app.get('/:key', function (req, res) {
   var client = redis.createClient(process.env.REDIS_URL)
+
+  client.on("error", function (err) {
+      console.log("Error " + err);
+  });
+
   var key_string = req.params.key.replace(/code:/g,'');
   var crypt_url = req.protocol + '://' + req.get('host') + '/' + encodeURIComponent(key_string)//simpleCrypto.encrypt(encode_key_string);
   var qr_url = req.protocol + '://' + req.get('host') + '/code:';
@@ -162,12 +172,12 @@ app.get('/:key', function (req, res) {
         clueID = game_call[1]
         console.log('gameID:' + gameID + ' clueID:' + clueID);
 
-        //this section creates pages from template.pug based on the URL key
         client.hgetall(req.clientIp, req.params.key, function(err, usr_pg_view){
             console.dir('redis data log:' + usr_pg_view);
             EmagrqModel.findOne({_id:gameID}).lean().exec( function(err, game_json) {
                   if (err) return handleError(err);
                   if (game_json) {
+                      console.log(game_json);
                       res.render('template', {
                         qr_code: qr_url,
                         json_data: game_json.qr_codes,
