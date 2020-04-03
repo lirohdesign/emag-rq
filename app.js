@@ -1,21 +1,20 @@
-var express = require('express');
+const express = require('express');
 var app = express();
-var path = require('path');
-var qr = require('qr-image');
-var redis = require('redis')
-var requestIp = require('request-ip');
-var pug = require('pug');
-var bodyParser = require('body-parser');
-var assert = require('assert')
+const path = require('path');
+const qr = require('qr-image');
+const redis = require('redis')
+const requestIp = require('request-ip');
+const pug = require('pug');
+const bodyParser = require('body-parser');
+const assert = require('assert')
 
-
-
-var env = process.env.NODE_ENV || 'production';
-var config = require('./config')[env];
+const env = process.env.NODE_ENV || 'production';
+const config = require('./config')[env];
 
 //testing
-var mongoose = require('mongoose');
-var mongoDB = "mongodb://integromatconnection:Th3M0nst3r@ds263448.mlab.com:63448/heroku_5wv92jfn"
+const mongoose = require('mongoose');
+var mongoDB = config.cognito_connection
+//var mongoDB = "mongodb://integromatconnection:Th3M0nst3r@ds263448.mlab.com:63448/heroku_5wv92jfn"
 
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
 //Get the default connection
@@ -171,9 +170,8 @@ app.get('/:key', function (req, res) {
         gameID = game_call[0]
         clueID = game_call[1]
         console.log('gameID:' + gameID + ' clueID:' + clueID);
-
-        client.hgetall(req.clientIp, req.params.key, function(err, usr_pg_view){
-            console.dir('redis data log:' + usr_pg_view);
+        client.hget(req.clientIp, req.params.key, function(err, usr_pg_view){
+            console.log('redis data:');console.dir(usr_pg_view);
             EmagrqModel.findOne({_id:gameID}).lean().exec( function(err, game_json) {
                   if (err) return handleError(err);
                   if (game_json) {
@@ -188,7 +186,7 @@ app.get('/:key', function (req, res) {
                   } else {res.send(JSON.stringify({error : 'Error'}))}
               })
         });
-        console.log(req.params.key);
+        console.log('fix this:'+req.params.key);
         client.hmset(req.clientIp, req.params.key, Date())
   } else {
         res.status(204)

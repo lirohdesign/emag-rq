@@ -69,10 +69,10 @@ html
               h4 NEXT CLUE:
               each y, index_y in json_data
                 if (parseFloat(request) + 1) == index_y
-                  for clue in y.clue
+                  each z, index_z in y.details
                     ul(style='list-style-type:none; padding-left: 10px;')
                       li
-                        p #{clue}
+                        p #{z.clue}
 
                   p#giveaway(style={display: 'none'}) You have run out of time. The code you seek can be found here: #{y.location}
                   .clue_image

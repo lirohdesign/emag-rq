@@ -10,7 +10,25 @@ development: {
     },
     //crypt key
     crypt_key: "w$^DhPeB$Hu&*t3xT87KdBjVaNzKE%NGYw7sPxRdWFp4",
-    cognito_connection: "mongodb://integromatconnection:Th3M0nst3r@ds263448.mlab.com:63448/heroku_5wv92jfn"
+    cognito_connection: "mongodb://integromatconnection:Th3M0nst3r@ds263448.mlab.com:63448/heroku_5wv92jfn",
+    cognito_schema: {
+        game_name: String,
+        user_name: String,
+        description_for_start: String,
+        logic: String,
+        date_created: Date,
+        qr_codes: [{
+          AddCode_Time: Date,
+          hint: String,
+          time_allocated: Number,
+          photo_link: String,
+          location: String,
+          details: [{
+              clue: String,
+              AddClue_Time: Date
+          }]
+        }]
+      }
 },
 production: {
     //url to be used in link generation
@@ -23,26 +41,25 @@ production: {
     },
     //crypt key
     crypt_key: "w$^DhPeB$Hu&*t3xT87KdBjVaNzKE%NGYw7sPxRdWFp4",
-    cognito_connection: "mongodb://integromatconnection:Th3M0nst3r@ds263448.mlab.com:63448/heroku_5wv92jfn"
-  },
-cognito_schema: {
-    _id: String,
-    game_name: String,
-    user_name: String,
-    description_for_start: String,
-    logic: String,
-    date_created: Date,
-    qr_codes: [{
-      AddCode_Time: Date,
-      hint: String,
-      time_allocated: Number,
-      photo_link: String,
-      location: String,
-      details: [{
-          clue: String,
-          AddClue_Time: Date
-      }]
-    }]
+    cognito_connection: "mongodb://integromatconnection:Th3M0nst3r@ds263448.mlab.com:63448/heroku_5wv92jfn",
+    cognito_schema: {
+        game_name: String,
+        user_name: String,
+        description_for_start: String,
+        logic: String,
+        date_created: Date,
+        qr_codes: [{
+          AddCode_Time: Date,
+          hint: String,
+          time_allocated: Number,
+          photo_link: String,
+          location: String,
+          details: [{
+              clue: String,
+              AddClue_Time: Date
+          }]
+        }]
+      }
   }
 };
 module.exports = config;
