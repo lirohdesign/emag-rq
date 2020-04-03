@@ -13,9 +13,10 @@ html
       p
       p if you want to create your own hunt.
       p Or check out one of the hunts that have been created for inspiration:
-      for x, index in json_data
+
+      for x in json_data
         li
-          a(href=print_url+x.game_id) #{x.game_name}
+          a(href=print_url+x.game_name) #{x.game_name}
       p Potential problems you may encounter:
         li Game edits are impossible.
         li Deleting a game is impossible.
@@ -29,11 +30,12 @@ html
         p CAUTION: this print page is set to print each code on a separate page for ease of use with index cards.
         p Consider printing multiple pages per sheet if you are printing on regular office paper.
       ul(style='list-style-type:none; padding: 0')
-          for x in json_data
+
+          each x, index_x in json_data
               li
                 div.pagebreak.c
-                  p #{x.key + 1}:#{x.location}
-                  img(src=qr_code + 'game_call:' + gameID + '_' + x.key, style='width:336px;height:336px;')
+                  p #{index_x + 1}:#{x.location}
+                  img(src=qr_code + 'game_call:' + gameID + '_' + x, style='width:336px;height:336px;')
 
     else
         script.
@@ -53,19 +55,20 @@ html
                     document.getElementById('giveaway').style.display = 'block';
                 }, #{json_data.time_allocated*1000});
             };
-        for x in json_data
-            if request == x.key
+
+        each x, index_x in json_data
+            if request == index_x
 
               if previous_view == null
-                h3 You have found clue: #{(parseFloat(x.key) + 1)}!
+                h3 You have found clue: #{(parseFloat(index_x) + 1)}!
                   p(style='font-size: 35%; margin: 0') Current location: #{x.location}
               else
                 h3 You have already found this clue.
                   p(style='font-size: 35%; margin: 0') Current location: #{x.location}
               hr.striped-border
               h4 NEXT CLUE:
-              for y in json_data
-                if (parseFloat(request) + 1) == y.key
+              each y, index_y in json_data
+                if (parseFloat(request) + 1) == index_y
                   for clue in y.clue
                     ul(style='list-style-type:none; padding-left: 10px;')
                       li

@@ -8,8 +8,6 @@ var pug = require('pug');
 var bodyParser = require('body-parser');
 var assert = require('assert')
 
-
-
 var env = process.env.NODE_ENV || 'production';
 var config = require('./config')[env];
 
@@ -94,18 +92,19 @@ app.get('/horse', function(req, res){
 
 app.get('/', function(req, res){
     var game_fields = {
-        __v: 0,
-        _id: 0
     };
 
-    EmagrqModel.find({}, game_fields, function(err, game_json) {
+    EmagrqModel.find({}, game_fields).lean().exec( function(err, game_json) {
+
+
           if (err) return handleError(err);
           if (game_json) {
+            console.log(game_json);
             res.render('template', {
                 //root_route: ['Welcome to emag-rq. This application is currently under development.','Follow the link below to print the codes and start a game','https://emag-rq.herokuapp.com/print'],
                 request: null,
                 print_url: req.protocol + '://' + req.get('host') + '/print:',
-                json_data: game_json  ,
+                json_data: game_json
             });
           } else {res.send(JSON.stringify({error : 'Error'}))}
     })
@@ -140,16 +139,17 @@ app.get('/:key', function (req, res) {
         console.log('crypt_url:' + crypt_url);;
 
   } else if (req.params.key.slice(0,6) == 'print:'){
-        gameID = req.params.key.replace(/print:/g,'');
-        console.log('gameID in print logic:' + gameID);
-        EmagrqModel.findOne({game_id:gameID}, function(err, game_json) {
+        gameName = req.params.key.replace(/print:/g,'');
+        console.log('gameID in print logic:' + gameName);
+        EmagrqModel.findOne({game_name:gameName}).lean().exec( function(err, game_json) {
               if (err) return handleError(err);
               if (game_json) {
+                  console.log(game_json.qr_codes);
                   res.render('template', {
-                      json_data: game_json.game_data,
+                      json_data: game_json.qr_codes,
                       request: 'print',
                       qr_code: qr_url,
-                      gameID: gameID,
+                      gameID: gameName,
                   });
               } else {res.send(JSON.stringify({error : 'Error'}))}
           })
@@ -163,7 +163,7 @@ app.get('/:key', function (req, res) {
         //this section creates pages from template.pug based on the URL key
         client.hgetall(req.clientIp, req.params.key, function(err, usr_pg_view){
             console.dir('redis data log:' + usr_pg_view);
-            EmagrqModel.findOne({game_id:gameID}, function(err, game_json) {
+            EmagrqModel.findOne({game_id:gameID}).lean().exec( function(err, game_json) {
                   if (err) return handleError(err);
                   if (game_json) {
                       res.render('template', {
@@ -190,5 +190,5 @@ app.get('/:key', function (req, res) {
 var port = process.env.PORT || 8080;
 app.listen(port, function() {
 //  console.log('EDOC_RQ is running');
-  console.log('EDOC_RQ is running on http://localhost:' + port);
+  console.log('EDOC_RQ is running on https:'+ port);
 });
