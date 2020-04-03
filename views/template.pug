@@ -16,7 +16,7 @@ html
 
       for x in json_data
         li
-          a(href=print_url+x.game_name) #{x.game_name}
+          a(href=print_url+x._id) #{x.game_name}
       p Potential problems you may encounter:
         li Game edits are impossible.
         li Deleting a game is impossible.
@@ -35,7 +35,7 @@ html
               li
                 div.pagebreak.c
                   p #{index_x + 1}:#{x.location}
-                  img(src=qr_code + 'game_call:' + gameID + '_' + x, style='width:336px;height:336px;')
+                  img(src=qr_code + 'game_call:' + gameID + '_' + index_x, style='width:336px;height:336px;')
 
     else
         script.
