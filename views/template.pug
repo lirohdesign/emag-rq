@@ -1,15 +1,16 @@
 html
   head
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    script(src='static/timer.js')
     link(rel='stylesheet' href='static/style.css' id='main-styles-link')
     link(rel='shortcut icon' href='/favicon.ico' type='image/x-icon')
     link(rel='icon' href='/favicon.ico' type='image/x-icon')
+    script(src='https://code.jquery.com/jquery-3.4.1.min.js', integrity='sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=', crossorigin='anonymous')
+
   body
     if request == null
       h1 This application is currently in testing and development, so don't get too attached to it.
       p
-          a(href = 'https://www.cognitoforms.com/Emagrq/BuildAGame') Build a Game Here
+        a(href = 'https://www.cognitoforms.com/Emagrq/BuildAGame') Build a Game Here
       p
       p if you want to create your own hunt.
       p Or check out one of the hunts that have been created for inspiration:
@@ -32,55 +33,83 @@ html
       ul(style='list-style-type:none; padding: 0')
 
           each x, index_x in json_data
-              li
-                div.pagebreak.c
-                  p #{index_x + 1}:#{x.location}
-                  img(src=qr_code + 'game_call:' + gameID + '_' + index_x, style='width:336px;height:336px;')
+            li
+              div.pagebreak.c
+                p #{index_x + 1}:#{x.location}
+                img(src=qr_code + 'game_call:' + gameID + '_' + index_x, style='width:336px;height:336px;')
 
     else
         script.
-            window.onload = function() {
-                var display = document.querySelector('#time')
-                timer = new CountDownTimer(#{json_data.time_allocated});
-                timer.onTick(format(display)).start();
-
-                function format(display) {
-                    return function (minutes, seconds) {
-                        minutes = minutes < 10 ? '0' + minutes : minutes;
-                        seconds = seconds < 10 ? '0' + seconds : seconds;
-                        display.textContent = minutes + ':' + seconds;
-                    };
+          window.onload = function() {
+            var testImage = function(url, callback, timeout) {
+                timeout = timeout || 5000;
+                var timedOut = false, timer;
+                var img = new Image();
+                img.onerror = img.onabort = function() {
+                    if (!timedOut) {
+                        clearTimeout(timer);
+                        callback(url, "error");
+                    }
                 };
-                BigHintTimer = setTimeout(function (){
-                    document.getElementById('giveaway').style.display = 'block';
-                }, #{json_data.time_allocated*1000});
-            };
+                img.onload = function() {
+                    if (!timedOut) {
+                        clearTimeout(timer);
+                        callback(url, "success");
+                    }
+                };
+                img.src = url;
+                timer = setTimeout(function() {
+                    timedOut = true;
+                    callback(url, "timeout");
+                }, timeout);
+            }
+            testImage(document.getElementById("photo_link").attr('src'), function(url, result) {
+              if (result === 'success') {
+                console.log(url)
+                document.getElementById("clue_photo"+click_count_hint).style.display = "block"
+              }
+            }, 10000);
 
-        each x, index_x in json_data
-            if request == index_x
 
-              if previous_view == null
-                h3 You have found clue: #{(parseFloat(index_x) + 1)}!
-                  p(style='font-size: 35%; margin: 0') Current location: #{x.location}
-              else
-                h3 You have already found this clue.
-                  p(style='font-size: 35%; margin: 0') Current location: #{x.location}
-              hr.striped-border
-              h4 NEXT CLUE:
-              each y, index_y in json_data
-                if (parseFloat(request) + 1) == index_y
-                  each z, index_z in y.details
-                    ul(style='list-style-type:none; padding-left: 10px;')
-                      li
-                        p #{z.clue}
+            //show one hint at at time with a button
+            var click_count_hint = 0;
+            document.getElementById("hint"+click_count_hint).style.display = "block" //show first hint by default
+            var hintButton = document.getElementById("hint_button");
+            var hint = document.getElementById("hint");
+            hintButton.onclick = function() {
+              click_count_hint++; //show the next hint
+              document.getElementById("hint"+click_count_hint).style.display = "block"
 
-                  p#giveaway(style={display: 'none'}) You have run out of time. The code you seek can be found here: #{y.location}
-                  .clue_image
-                    img(src=y.photo_link, id='photo_link')
+            }
+          };
+        if json_data.logic == "hunt"
 
-              if json_data.time_allocated <= 0
-                p
-              else if json_data.time_allocated == null
-                p
-              else
-                p Get a hint in #[span(id="time")]
+            each x, index_x in json_data.qr_codes
+                if request == index_x
+                  if previous_view == null
+                    h3 You have found code number: #{(parseFloat(index_x) + 1)}!
+                      p(style='font-size: 35%; margin: 0') Current location: #{x.location}
+                  else
+                    h3 You have already found this code.
+                      p(style='font-size: 35%; margin: 0') Current location: #{x.location}
+                  hr.striped-border
+                  h4 Here are the clues to find the next code:
+
+                  each y, index_y in json_data.qr_codes
+                    if y.hint == "all"
+                      if (parseFloat(request) + 1) == index_y
+                        ul(style='list-style-type:none; padding-left: 10px;')
+                          each z, index_z in y.details
+                            li
+                              p #{z.clue}
+                        #clue_photo.clue_image
+                          img#photo_link(src=y.photo_link)
+                    else if y.hint == "hints"
+                      if (parseFloat(request) + 1) == index_y
+                        ul(id="hint_list" style='list-style-type:none; padding-left: 10px;')
+                          each z, index_z in y.details
+                            li
+                              p(id!="hint" + index_z class='hide_this') #{z.clue}
+                        button(id="hint_button") Hint
+                        #clue_photo.clue_image
+                          img#photo_link(src=y.photo_link)

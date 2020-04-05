@@ -80,22 +80,6 @@ app.get('/reset', function (req, res) {
   })
 });
 
-app.get('/horse', function(req, res){
-  var game_fields = {
-      __v: 0,
-      _id: 0
-  };
-
-  EmagrqModel.find({}, game_fields, function(err, game_json) {
-
-        if (err) return handleError(err);
-        if (game_json) {
-            res.send(game_json)
-        } else {res.send(JSON.stringify({error : 'Error'}))}
-    })
-
-});
-
 app.get('/', function(req, res){
     var game_fields = {
     };
@@ -178,7 +162,7 @@ app.get('/:key', function (req, res) {
                       console.log(game_json);
                       res.render('template', {
                         qr_code: qr_url,
-                        json_data: game_json.qr_codes,
+                        json_data: game_json,
                         previous_view: usr_pg_view,
                         //previous_view: null,
                         request: clueID,
@@ -193,8 +177,6 @@ app.get('/:key', function (req, res) {
   }
       client.quit()
 });
-
-
 
 
 var port = process.env.PORT || 8080;

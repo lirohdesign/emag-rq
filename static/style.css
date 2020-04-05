@@ -37,6 +37,7 @@ h1 {font-size: 250%}
   overflow: auto;
   width: 100%;
   height: auto;
+  display: none;
 }
 
   .c{
@@ -61,4 +62,8 @@ h1 {font-size: 250%}
     margin: auto;
     margin-top: 5%;
     margin-bottom: 5%;
+}
+
+.hide_this {
+  display: none;
 }
