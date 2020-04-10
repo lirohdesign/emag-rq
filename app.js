@@ -81,10 +81,8 @@ app.get('/reset', function (req, res) {
 });
 
 app.get('/game_builder', function(req, res){
-    if (err) return handleError(err);
-    res.sendFile(express.static('/index.html'));
+        res.sendFile(path.join(__dirname + '/static/game_builder.html'));
   })
-
 
 app.get('/', function(req, res){
     var game_fields = {
