@@ -14,26 +14,17 @@ const config = require('./config')[env];
 //testing
 const mongoose = require('mongoose');
 var mongoDB = config.cognito_connection
-//var mongoDB = "mongodb://integromatconnection:Th3M0nst3r@ds263448.mlab.com:63448/heroku_5wv92jfn"
 
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
 //Get the default connection
-//https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/mongoose great
 var db = mongoose.connection;
 //Bind connection to error event (to get notification of connection errors)
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 var Schema = mongoose.Schema;
+//Schema is saved in config.js. there may be a better place to put this
 var EmagrqSchema = new Schema(config.cognito_schema, {collection: 'emag-rq'});
 var EmagrqModel = mongoose.model('EmagrqModel', EmagrqSchema);
-
-
-
-
-
-//encrypt the url, so people do not cheat the game by entering the database numbers
-//make this again later
-
 
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
@@ -65,8 +56,11 @@ app.use(function (req, res, next) {
     next();
 });
 
+//someday I would like to figure out why i am getting so may favicon errors
 app.get('/favicon.ico', (req, res) => res.status(204));
 
+//this resets the entire redis database.
+//I may build this out more to reset users within specific games
 app.get('/reset', function (req, res) {
   var client = redis.createClient(process.env.REDIS_URL)
 
@@ -84,16 +78,18 @@ app.get('/game_builder', function(req, res){
         res.sendFile(path.join(__dirname + '/static/game_builder.html'));
   })
 
+//this is used on the 'home' page to display game examples for people to play
 app.get('/', function(req, res){
+
     var game_fields = {
     };
 
     EmagrqModel.find({}, game_fields).lean().exec( function(err, game_json) {
-
+    //at some point this will only search the mongoDB for the games marked at public
 
           if (err) return handleError(err);
           if (game_json) {
-            console.log(game_json);
+            //console.log(game_json);
             res.render('template', {
                 //root_route: ['Welcome to emag-rq. This application is currently under development.','Follow the link below to print the codes and start a game','https://emag-rq.herokuapp.com/print'],
                 request: null,
@@ -111,8 +107,7 @@ app.post('/post-test', (req, res) => {
       assert.equal(r);
       db.close();
     })
-
-    console.log('Got body:', JSON.stringify(req.body));
+    //console.log('Got body:', JSON.stringify(req.body));
     res.sendStatus(200);
 });
 
@@ -124,20 +119,26 @@ app.get('/:key', function (req, res) {
   });
 
   var key_string = req.params.key.replace(/code:/g,'');
-  var crypt_url = req.protocol + '://' + req.get('host') + '/' + encodeURIComponent(key_string)//simpleCrypto.encrypt(encode_key_string);
+      //make this again later
+      //encrypt the url, so people do not cheat the game by entering the database numbers
+  var crypt_url = req.protocol + '://' + req.get('host') + '/' + encodeURIComponent(key_string)
   var qr_url = req.protocol + '://' + req.get('host') + '/code:';
   var game_call = ""
   var gameID = ""
   var clueID = ""
 
   if (req.params.key.slice(0,5) == 'code:') {
-
+    //this section generates qr codes based on whatever text comes after '/code:/
+    //example -- http://localhost:8080/code:monkey will create a qr code that contains the text 'monkey'
         var code = qr.image(crypt_url, { type: 'svg' })
         res.type('svg');
         code.pipe(res);
         console.log('crypt_url:' + crypt_url);;
 
   } else if (req.params.key.slice(0,6) == 'print:'){
+    //this section loads game data into the template based on the gameID
+    //example -- http://localhost:8080/print:5e83deba80d4820034e653ac
+    //will print all the qr codes for the game in that mongodb doc
         gameID = req.params.key.replace(/print:/g,'');
         console.log('gameID in print logic:' + gameID);
         EmagrqModel.findOne({_id:gameID}).lean().exec( function(err, game_json) {
@@ -154,6 +155,8 @@ app.get('/:key', function (req, res) {
           })
           console.log('request in print logic:' + req.params.key);
   } else if (req.params.key.slice(0,10) == 'game_call:') {
+    //this section loads game data into the template based on the gameID and clueID
+    //it splits the data between the underscore '_' to determine which game and which clue are being called
         game_call = req.params.key.replace(/game_call:/g,'').split('_');
         gameID = game_call[0]
         clueID = game_call[1]
@@ -174,7 +177,6 @@ app.get('/:key', function (req, res) {
                   } else {res.send(JSON.stringify({error : 'Error'}))}
               })
         });
-        console.log('fix this:'+req.params.key);
         client.hmset(req.clientIp, req.params.key, Date())
   } else {
         res.status(204)
