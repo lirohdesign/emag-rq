@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <!-- General stylesheet -->
+  <link rel="stylesheet" type="text/css" href="http://cdn.cloudwall.me/1.2/general.css" />
+
+  <!-- Contains Sugar, jQuery, jQuery.my -->
+  <script src="http://cdn.cloudwall.me/1.2/minimal.js"></script>
+
+  <!-- Contains different rich ui plugins -->
+  <script src="http://cdn.cloudwall.me/1.2/plugins.js"></script>
+
+</head>
+<body>
+
+  <div id="cw-body">
+
+    <div id="form" method="post" class="p50 w750">
+
+      <!-- Container for app -->
+
+    </div>
+
+  </div>
+
+</body>
+<script>
+  $(function() {
+
+    // onload
+    $("#form").my(
+
+      ({
+        id: "en.DetailsLayout",
+        data: {
+          game_name: "",
+          user_name: "",
+          description_for_start: "",
+          logic: "",
+          qr_codes: []
+        },
+        params: {
+          remember: 50,
+          historyDelay: 100
+        },
+        init: function($form, form) {
+          // Saved?
+          var ls = localStorage,
+            old = ls.getItem("en.DetailsLayout");
+          if (old) Object.merge(form.data, JSON.parse(old));
+          // localStorage saver
+          $form.then(function() {
+            $form.on("change", function() {
+              ls.setItem("en.DetailsLayout", JSON.stringify($form.my("data")));
+            }.debounce(200));
+          });
+
+          // HTML
+          $form.html('<div id="build_info">\
+                <h3 class="w230 dib vat">Build a Game</h3>\
+                <div class="">\
+                  <input type="text" id="game_name" class="w300 mr10 mt0 fs90" placeholder="Game Name"><br>\
+                  <input type="text" id="user_name" class="w300 mr10 mt0 fs90" placeholder="Email"><br>\
+                  <input type="text" id="description_for_start" class="w300 mr10 mt0 fs90" placeholder="describe how this game is played"><br>\
+                    <select id="logic" class="w300">\
+                      <option value="hunt" selected="">hunt</option>\
+                      <option value="inventory">inventory</option>\
+                    </select>\
+                </div>\
+              </div>\
+              <div id="nested"></div>\
+        			<div class="my-row">\
+        				<input id="btn-addQR_Code" type="button" value="Add code"/> \
+        				<input id="btn-undo" type="button" value="Undo"/><br><br>\
+                <input id="btn-submit" type="submit" value="Submit"/>\
+        			</div>');
+        },
+        ui: {
+          "#game_name": { bind: "game_name" },
+          "#user_name" : { bind: "user_name" },
+          "#description_for_start": { bind: "description_for_start" },
+          "#logic": { bind: "logic", init: "S2" },
+          "#nested": {
+            bind: "qr_codes",
+            manifest: "QR_Code",
+            list: '<div class="qr_codexd"></div>',
+            init: function($o) {
+              $o.sortable({
+                handle: 'h3'
+              });
+            }
+          },
+          "#btn-addQR_Code": function(d, v) {
+            if (v != null) {
+              this.my.insert("#nested", 1e6, {
+                AddCode_Time: Date.now()
+              });
+            }
+          },
+          "#btn-undo": function(d, v) {
+            if (null != v) this.my.undo();
+          },
+          "#btn-submit": {
+            bind: function(d, v) {
+              if (v != null) $.post("https://emag-rq.herokuapp.com/post-test", this.my.data({date_created: Date.now()}));
+//              if (v != null) console.log(JSON.stringify(this.my.data({date_created: Date.now()})));
+            },
+            events: "click.my"
+          }
+        },
+
+        S2: function($o) {
+          $o.select2({
+            minimumResultsForSearch: 120
+          })
+        },
+        // QR_Code, child form of root manifest
+        QR_Code: {
+          init: function($form, data) {
+            $form.html(this.QR_CodeHTML);
+            this.Row.RowHTML = this.RowHTML;
+          },
+          data: {
+            hint: "",
+            time_allocated: "",
+            photo_link: "",
+            location: "",
+            details: [{
+              clue: ""
+            }]
+          },
+          ui: {
+            "#hint": {
+              bind: "hint",
+              init: "S2"
+            },
+            "#time_allocated": { bind: "time_allocated" },
+            "#photo_link" : { bind: "photo_link" },
+            "#location": { bind: "location" },
+            "#details": {
+              bind: "details",
+              init: function($o) {
+                $o.sortable({
+                  connectWith: ".detailslist"
+                })
+              },
+              manifest: "Row",
+              list: '<div сlass="cb"></div>'
+            },
+
+            "#qr_codenum": function(d, v, $o) {
+              return 'QR_Code ' + (1 + $o.my("index"));
+            },
+
+            "#btn-addDetails": {
+              bind: function(d, v) {
+                if (v != null) {
+                  this.my.insert("#details", {
+                    AddClue_Time: Date.now()
+                  });
+                }
+              },
+              events: "click.my"
+            },
+
+            "#btn-removeQR_Code": {
+              bind: function(d, v) {
+                if (v != null) this.my.remove();
+              },
+              events: "click.my"
+            },
+          },
+
+          S2: function($o) {
+            $o.select2({
+              minimumResultsForSearch: 120
+            })
+          },
+
+          // Row, child form of QR_Code
+
+          Row: {
+            init: function($form) {
+              $form.html(this.RowHTML);
+            },
+            data: {
+              clue: ""
+            },
+            ui: {
+              "#clue": "clue",
+              "#btn-removeRow": {
+                bind: function(d, v) {
+                  if (v != null) this.my.remove();
+                },
+                events: "click.my"
+              }
+            },
+          },
+
+          // Main qr_code ends here.
+          // Below objs are js representations
+          // of HTML skeleton and stylesheets
+          QR_CodeHTML: '\
+      			<h3 class="w230 dib vat"><span class="fi-list fs80 mr5"></span>\
+      				<span id="qr_codenum"></span>\
+      			</h3>\
+      			<span id="btn-removeQR_Code" class="pseudolink small">Delete code</span>\
+            <div id="test" class="test">\
+              <input type="text" id="location" class="w300 mr10 mt0 fs90" placeholder="where are you right now?"><br>\
+              <input type="text" id="photo_link" class="w300 mr10 mt0 fs90" placeholder="you can add a link to a photo clue here"><br>\
+              <input type="number" id="time_allocated" class="w300 mr10 mt0 fs90" min="0" max="60" placeholder="is there a time limit in minutes?"><br>\
+              <select id="hint" class="w300">\
+                <option value="hints">give clues one at at time as hints</option>\
+                <option value="all" selected="">give all clues at once</option>\
+              </select> \
+            </div>\
+            <div id="details" class="cb detailslist"></div>\
+      			<span id="btn-addDetails" \
+      				class="pseudolink ml20 mt10 mb10 small">Add details</span>',
+          Details: '<div style="padding:4px 2px 0 2px">{clue}</div>',
+          RowHTML: '<div class="dib avt w100p pt2 pb2">\
+      			<span class="dib fi-list dragger pr5 lh130 vam"></span> \
+      			<input type="text" id="clue" class="w400 mr10 mt0 fs90" \
+      				placeholder="what are the steps to get to the next code?">\
+      			<span id="btn-removeRow" class="fi-x mt1 salmon p5 lh100 fr" \
+      				style="cursor:pointer"></span>\
+      			</div>'
+        }, // End of QR_Code form
+
+        // Stylesheet
+        style: {
+          // qr_codes
+          " #nested": {
+            "": "padding:0px; margin:0;",
+            " .qr_codexd ": "position:relative;\
+      					min-height: 230px; width:700px;\
+      					border-bottom:1px solid rgba(35, 118, 200, 0.25);\
+      					margin:0px 0 15px 0; padding: 0 0px 0px 0px;\
+      					display:inline-details; vertical-align:top;"
+          },
+          " .dragger": "cursor:move; opacity:0.6;",
+          " .remove": "margin:3px 0px -3px 0px;\
+      			opacity:0.25;\
+      			cursor:pointer;\
+      			transition:opacity 0.3s;",
+
+          " .remove:hover, .dragger:hover": "opacity:1",
+          " .qr_codexd h3": "margin-bottom:10px;"
+        }
+      })
+    )
+  });
+</script>
+
+</html>
