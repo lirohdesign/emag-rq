@@ -12,9 +12,10 @@ html
     if request == null
       h1 This application is currently in testing and development, so don't get too attached to it.
       p
-        a(href = '') will be fixing this link soon. the header files in the game builder are not https
-        //a(href = 'https://emag-rq.herokuapp.com/game_builder') Build a Game Here
-      p
+        //p build your own game here:
+        //a(href = '') will be fixing this link soon. the header files in the game builder are not https
+        a(href = 'https://emag-rq.herokuapp.com/game_builder') Build a Game Here
+        //a(href = 'http://localhost:8080/game_builder') Build a Game Here
       p if you want to create your own hunt.
       p Or check out one of the hunts that have been created for inspiration:
 
@@ -25,8 +26,7 @@ html
         li Game edits are impossible.
         li Deleting a game is impossible.
         li All games are public.
-        li The Museum Label does not work.
-        li Disclaimer: I am likely to accidenly delete your game.
+        li Disclaimer: I am likely to accidently delete your game.
         li Contact: emagrq@gmail.com.
 
     else if request == 'print'
