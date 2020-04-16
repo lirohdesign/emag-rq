@@ -12,7 +12,8 @@ html
     if request == null
       h1 This application is currently in testing and development, so don't get too attached to it.
       p
-        a(href = 'https://emag-rq.herokuapp.com/game_builder') Build a Game Here
+        a(href = 'https://localhost:8080/game_builder') Build a Game Here
+        //a(href = 'https://emag-rq.herokuapp.com/game_builder') Build a Game Here
       p if you want to create your own hunt.
       p Or check out one of the hunts that have been created for inspiration:
 
@@ -98,7 +99,7 @@ html
                         button(id="hint_button") Hint
                         #clue_photo.clue_image
                           img#photo_link(src=y.photo_link)
-                          
+
                     else if y.hint == "all"
                       if request == index_y
                         ul(style='list-style-type:none; padding-left: 10px;')
