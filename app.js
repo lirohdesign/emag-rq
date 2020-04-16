@@ -63,11 +63,9 @@ app.get('/favicon.ico', (req, res) => res.status(204));
 //I may build this out more to reset users within specific games
 app.get('/reset', function (req, res) {
   var client = redis.createClient(process.env.REDIS_URL)
-
   client.on("error", function (err) {
       console.log("Error " + err);
   });
-
   client.flushall(function (err, success){
     res.send('game has been reset');
     console.log('reset sent ...');
@@ -83,7 +81,7 @@ app.get('/', function(req, res){
 
     var game_fields = {
     };
-
+//right now this query is very inefficient. I will need to make this more specific later
     EmagrqModel.find({}, game_fields).lean().exec( function(err, game_json) {
     //at some point this will only search the mongoDB for the games marked at public
 
@@ -100,15 +98,16 @@ app.get('/', function(req, res){
     })
 });
 
-app.post('/post-test', (req, res) => {
+//this is called when a game_builder form is submitted. The data is collected.
+app.post('/post_game_builder', (req, res) => {
     console.log('got req', req);
     EmagrqModel.collection.insertOne(req.body, function(err, r){
       assert.equal(null, err);
       assert.equal(r);
       db.close();
     })
-    //console.log('Got body:', JSON.stringify(req.body));
     res.sendStatus(200);
+    //add a success page that includes a link to their new game
 });
 
 app.get('/:key', function (req, res) {
