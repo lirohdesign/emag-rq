@@ -65,8 +65,8 @@
                   <input type="text" id="game_name" class="w300 mr10 mt0 fs90" placeholder="Game Name"><br>\
                   <input type="text" id="user_name" class="w300 mr10 mt0 fs90" placeholder="Email"><br>\
                   <input type="text" id="description_for_start" class="w300 mr10 mt0 fs90" placeholder="describe how this game is played"><br>\
-                    <select id="logic" type="hidden" class="w300">\
-                      <option value="hunt" selected>hunt</option>\
+                    <select id="logic" class="w300">\
+                      <option value="hunt" selected="">hunt</option>\
                       <option value="inventory">inventory</option>\
                     </select>\
                 </div>\
@@ -105,7 +105,7 @@
           },
           "#btn-submit": {
             bind: function(d, v) {
-              if (v != null) $.post("https://emag-rq.herokuapp.com/post_game_builder", this.my.data({date_created: Date.now()}));
+              if (v != null) $.post("https://emag-rq.herokuapp.com/post-test", this.my.data({date_created: Date.now()}));
 //              if (v != null) console.log(JSON.stringify(this.my.data({date_created: Date.now()})));
             },
             events: "click.my"
@@ -212,9 +212,9 @@
               <input type="text" id="location" class="w300 mr10 mt0 fs90" placeholder="where are you right now?"><br>\
               <input type="text" id="photo_link" class="w300 mr10 mt0 fs90" placeholder="you can add a link to a photo clue here"><br>\
               <input type="number" id="time_allocated" class="w300 mr10 mt0 fs90" min="0" max="60" placeholder="is there a time limit in minutes?"><br>\
-              <select id="hint" type="hidden" class="w300">\
-                <option value="hints" selected>give clues one at at time as hints</option>\
-                <option value="all">give all clues at once</option>\
+              <select id="hint" class="w300">\
+                <option value="hints">give clues one at at time as hints</option>\
+                <option value="all" selected="">give all clues at once</option>\
               </select> \
             </div>\
             <div id="details" class="cb detailslist"></div>\
