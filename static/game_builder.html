@@ -4,7 +4,6 @@
 <head>
 
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <!-- EITHER ADD THESE FILES OR find them with https links -->
   <!-- General stylesheet -->
   <link rel="stylesheet" type="text/css" href="static/game_builder_general.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sugar/1.4.1/sugar.min.js"></script>
@@ -106,7 +105,6 @@
           "#btn-submit": {
             bind: function(d, v) {
               if (v != null) $.post("https://emag-rq.herokuapp.com/post-test", this.my.data({date_created: Date.now()}));
-//              if (v != null) console.log(JSON.stringify(this.my.data({date_created: Date.now()})));
             },
             events: "click.my"
           }
