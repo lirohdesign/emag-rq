@@ -13,7 +13,7 @@ const config = require('./config')[env];
 
 //testing
 const mongoose = require('mongoose');
-var mongoDB = config.cognito_connection
+var mongoDB = config.database.mongodb_connection
 
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
 //Get the default connection
@@ -22,8 +22,27 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 var Schema = mongoose.Schema;
-//Schema is saved in config.js. there may be a better place to put this
-var EmagrqSchema = new Schema(config.cognito_schema, {collection: 'emag-rq'});
+
+var mongo_schema =  {
+  game_name: String,
+  user_name: String,
+  privacy_setting: String,
+  logic: String,
+  date_created: Date,
+  qr_codes: [{
+    AddCode_Time: Date,
+    hint: String,
+    time_allocated: Number,
+    photo_link: String,
+    location: String,
+    details: [{
+        clue: String,
+        AddClue_Time: Date
+      }]
+    }]
+  }
+
+var EmagrqSchema = new Schema(mongo_schema, {collection: 'emag-rq'});
 var EmagrqModel = mongoose.model('EmagrqModel', EmagrqSchema);
 
 app.set("view engine", "pug");

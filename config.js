@@ -1,69 +1,25 @@
 var config = {
 development: {
-    //url to be used in link generation
     url: 'http://localhost:8080/',
-    //redis connection settings
     database: {
         host:   '',
         port:   '',
-        db:     ''
+        mongodb_connection: "mongodb://fAnW6nQ+W9SEDF_L:xC=uB!#RJ^jbt9^g@ds263448.mlab.com:63448/heroku_5wv92jfn"
     },
-    //crypt key
-    crypt_key: "w$^DhPeB$Hu&*t3xT87KdBjVaNzKE%NGYw7sPxRdWFp4",
+    crypt_key: "As2RXGjXDL-3CMzVtj8L#Q^nJm5FFvhth4AzpHXmmAm4BeHFTvXCw!u+xA?%R_gBnkDNHXvfL#Ju*c*mjv25Gu@gqECeKX@VC&Mdzs^g^9guT8AP6F#yUDTNb4dBZ8UW",
     cognito_connection: "mongodb://integromatconnection:Th3M0nst3r@ds263448.mlab.com:63448/heroku_5wv92jfn",
-    cognito_schema: {
-        game_name: String,
-        user_name: String,
-        privacy_setting: String,
-        logic: String,
-        date_created: Date,
-        qr_codes: [{
-          AddCode_Time: Date,
-          hint: String,
-          time_allocated: Number,
-          photo_link: String,
-          location: String,
-          details: [{
-              clue: String,
-              AddClue_Time: Date
-          }]
-        }]
-      }
 },
 production: {
-    //url to be used in link generation
     url: 'http://emag-rq.herokuapp.com/',
-    //redis connection settings
     database: {
         host: '',
         port: '',
-        db:     ''
+        mongodb_connection: "mongodb://%SvWA2Qvt7#k%KZ^:PSJ@2MVW3wR3v8%B@ds263448.mlab.com:63448/heroku_5wv92jfn"
     },
-    //crypt key
-    crypt_key: "w$^DhPeB$Hu&*t3xT87KdBjVaNzKE%NGYw7sPxRdWFp4",
+    crypt_key: "r#KF4*f+TwkHYkL_JcPyeP?wVQ_#B^MBCVSKrk3&yfsx2fJEf5%HkP2Gh87feKnyH2Q-6URW7Y7&Fm@Bb$Tmws&EjXtGNPy6kdaTHjkQDpLrNLxknrvjKjPQk$drQSY&",
     cognito_connection: "mongodb://integromatconnection:Th3M0nst3r@ds263448.mlab.com:63448/heroku_5wv92jfn",
-    cognito_schema: {
-        game_name: String,
-        user_name: String,
-        privacy_setting: String,
-        logic: String,
-        date_created: Date,
-        qr_codes: [{
-          AddCode_Time: Date,
-          hint: String,
-          time_allocated: Number,
-          photo_link: String,
-          location: String,
-          details: [{
-              clue: String,
-              AddClue_Time: Date
-          }]
-        }]
-      }
   }
 };
 module.exports = config;
-
-
 
 //https://stackoverflow.com/questions/22348705/best-way-to-store-db-config-in-node-js-express-app
