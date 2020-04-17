@@ -67,16 +67,16 @@ html
                       }, 10000);*/
 
             //show one hint at at time with a button
-            document.getElementById("hint"+0).style.display = "block" //show first hint by default
+            //document.getElementById("hint"+0).style.display = "block" //show first hint by default
             var hintButton = document.getElementById("hint_button");
             var hint_count = $("#hint_list").children().length
-
+            var i = 0;
             hintButton.onclick = function() {
-              for (let i = 1; i < hint_count; i++) {
-                  document.getElementById("hint"+i).style.display = "block"
-                  if (i = hint_count-1){
-                    hintButton.style.display = "none"
-                  }
+              if (i == hint_count) {
+                hintButton.style.display = "none"
+              } else {
+                document.getElementById("hint"+i).style.display = "block"
+                i++
               }
             }
           };
