@@ -16,6 +16,7 @@ html
         a(href = 'https://emag-rq.herokuapp.com/game_builder') Build a Game Here
       p if you want to create your own hunt.
       p Or check out one of the hunts that have been created for inspiration:
+<<<<<<< HEAD
 
       for x in json_data
         //- add something like (if json_data.privacy = 'public') [privacy field does not exist yet]
@@ -77,6 +78,69 @@ html
               } else {
                 document.getElementById("hint"+i).style.display = "block"
                 i++
+=======
+
+      for x in json_data
+        //- add something like (if json_data.privacy = 'public') [privacy field does not exist yet]
+        li
+          a(href=print_url+x._id) #{x.game_name}
+      p Potential problems you may encounter:
+        li Game edits are impossible.
+        li Deleting a game is impossible.
+        li All games are currently public.
+        li Disclaimer: I am likely to accidently delete your game.
+        li Contact: emagrq@gmail.com.
+
+    else if request == 'print'
+      div.no-print
+        p CAUTION: this print page is set to print each code on a separate page for ease of use with index cards.
+          //- add a toggle option for single page printing or multiple codes per 8.5/11 sheet
+        p Consider printing multiple pages per sheet if you are printing on regular office paper.
+      ul(style='list-style-type:none; padding: 0')
+
+          each x, index_x in json_data
+            li
+              div.pagebreak.c
+                p #{index_x + 1}:#{x.location}
+                img(src=qr_code + 'game_call:' + gameID + '_' + index_x, style='width:336px;height:336px;')
+
+    else
+        script.
+          window.onload = function() {
+            //here is a count down timer if there is a specific time allocated.
+            //this is not working right now.
+                      /*var display = document.querySelector('#time')
+                      timer = new CountDownTimer(#{json_data.time_allocated});
+                      timer.onTick(Format_Time(display)).start();
+
+                      BigHintTimer = setTimeout(function (){
+                          document.getElementById('giveaway').style.display = 'block';
+                      }, #{json_data.time_allocated*1000});*/
+
+            //the testImage function is in the file 'check_photolink.js'
+            //i am attempting to test if the link in the database is valid.
+            //would like to also add this to the data validation in the game builder before a link is added to the database
+            //this is not working right now.
+                      /*testImage(document.getElementById("photo_link").attr('src'), function(url, result) {
+                        console.log(url);
+                        if (result !== 'success') {
+                          console.log(url)
+                          document.getElementById("clue_photo").style.display = "none"
+                        }
+                      }, 10000);*/
+
+            //show one hint at at time with a button
+            document.getElementById("hint"+0).style.display = "block" //show first hint by default
+            var hintButton = document.getElementById("hint_button");
+            var hint_count = $("#hint_list").children().length
+
+            hintButton.onclick = function() {
+              for (let i = 1; i < hint_count; i++) {
+                  document.getElementById("hint"+i).style.display = "block"
+                  if (i = hint_count-1){
+                    hintButton.style.display = "none"
+                  }
+>>>>>>> origin/master
               }
             }
           };

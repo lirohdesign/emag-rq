@@ -107,7 +107,11 @@
           },
           "#btn-submit": {
             bind: function(d, v) {
+<<<<<<< HEAD
               if (v != null) $.post("https://emag-rq.herokuapp.com/post_game_builder", this.my.data({date_created: Date.now()}));
+=======
+              if (v != null) $.post("https://emag-rq.herokuapp.com/post-test", this.my.data({date_created: Date.now()}));
+>>>>>>> origin/master
             },
             events: "click.my"
           }
