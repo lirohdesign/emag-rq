@@ -1,6 +1,9 @@
 {
   "name": "emag_rq",
   "version": "1.0.0",
+  "engines": {
+    "node": "10.16.0"
+  }
   "description": "This app uses a Node.js server to run API call back functions. These functions pull data from a MongoDB when specific keys are requested. The goal is to place QR codes containing URL/keys as clues to a scavenger hunt game. ",
   "main": "app.js",
   "scripts": {
