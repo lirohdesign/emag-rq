@@ -12,13 +12,13 @@ html
     if request == null
       h1 This application is currently in testing and development, so don't get too attached to it.
       p
-        a(href = 'https://localhost:8080/game_builder') Build a Game Here
-        //a(href = 'https://emag-rq.herokuapp.com/game_builder') Build a Game Here
+        a(href = 'http://localhost:8080/game_builder') Build a Game Here
+          //- a(href = 'https://emag-rq.herokuapp.com/game_builder') Build a Game Here
       p if you want to create your own hunt.
       p Or check out one of the hunts that have been created for inspiration:
 
       for x in json_data
-      //add something like (if json_data.privacy = 'public') [privacy field does not exist yet]
+        //- add something like (if json_data.privacy = 'public') [privacy field does not exist yet]
         li
           a(href=print_url+x._id) #{x.game_name}
       p Potential problems you may encounter:
@@ -31,7 +31,7 @@ html
     else if request == 'print'
       div.no-print
         p CAUTION: this print page is set to print each code on a separate page for ease of use with index cards.
-        //add a toggle option for single page printing or multiple codes per 8.5/11 sheet
+          //- add a toggle option for single page printing or multiple codes per 8.5/11 sheet
         p Consider printing multiple pages per sheet if you are printing on regular office paper.
       ul(style='list-style-type:none; padding: 0')
 
@@ -59,21 +59,25 @@ html
             //would like to also add this to the data validation in the game builder before a link is added to the database
             //this is not working right now.
                       /*testImage(document.getElementById("photo_link").attr('src'), function(url, result) {
-                        if (result === 'success') {
+                        console.log(url);
+                        if (result !== 'success') {
                           console.log(url)
-                          document.getElementById("clue_photo"+click_count_hint).style.display = "block"
+                          document.getElementById("clue_photo").style.display = "none"
                         }
                       }, 10000);*/
 
             //show one hint at at time with a button
-            var click_count_hint = 0;
-            document.getElementById("hint"+click_count_hint).style.display = "block" //show first hint by default
+            document.getElementById("hint"+0).style.display = "block" //show first hint by default
             var hintButton = document.getElementById("hint_button");
-            var hint = document.getElementById("hint");
-            hintButton.onclick = function() {
-              click_count_hint++; //show the next hint
-              document.getElementById("hint"+click_count_hint).style.display = "block"
+            var hint_count = $("#hint_list").children().length
 
+            hintButton.onclick = function() {
+              for (let i = 1; i < hint_count; i++) {
+                  document.getElementById("hint"+i).style.display = "block"
+                  if (i = hint_count-1){
+                    hintButton.style.display = "none"
+                  }
+              }
             }
           };
         if json_data.logic == "hunt"
@@ -92,13 +96,14 @@ html
                   each y, index_y in json_data.qr_codes
                     if y.hint == "hints"
                       if request == index_y
+                        #clue_photo.clue_image
+                          img#photo_link(src=y.photo_link)
                         ul(id="hint_list" style='list-style-type:none; padding-left: 10px;')
                           each z, index_z in y.details
                             li
                               p(id!="hint" + index_z class='hide_this') #{z.clue}
                         button(id="hint_button") Hint
-                        #clue_photo.clue_image
-                          img#photo_link(src=y.photo_link)
+
 
                     else if y.hint == "all"
                       if request == index_y
@@ -110,9 +115,11 @@ html
                           img#photo_link(src=y.photo_link)
 
 
-                        /*if json_data.time_allocated <= 0
+                      //-
+                        if json_data.time_allocated <= 0
                           p
                         else if json_data.time_allocated == null
                           p
                         else
-                          p Get a hint in #[span(id="time")]*/
+                          p Get a hint in #[span(id="time")]
+                      //

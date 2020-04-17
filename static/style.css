@@ -37,7 +37,7 @@ h1 {font-size: 250%}
   overflow: auto;
   width: 100%;
   height: auto;
-  display: none;
+  /*display: none;*/
 }
 
   .c{

@@ -37,15 +37,15 @@
         data: {
           game_name: "",
           user_name: "",
-          description_for_start: "",
-          logic: "",
+          privacy_setting: "public",
+          logic: "hunt",
           qr_codes: []
         },
         params: {
           remember: 50,
           historyDelay: 100
         },
-        init: function($form, form) {
+        init: function($form, form, data) {
           // Saved?
           var ls = localStorage,
             old = ls.getItem("en.DetailsLayout");
@@ -63,11 +63,14 @@
                 <div class="">\
                   <input type="text" id="game_name" class="w300 mr10 mt0 fs90" placeholder="Game Name"><br>\
                   <input type="text" id="user_name" class="w300 mr10 mt0 fs90" placeholder="Email"><br>\
-                  <input type="text" id="description_for_start" class="w300 mr10 mt0 fs90" placeholder="describe how this game is played"><br>\
-                    <select id="logic" class="w300">\
-                      <option value="hunt" selected="">hunt</option>\
-                      <option value="inventory">inventory</option>\
-                    </select>\
+                  <select id="privacy_setting" class="w300">\
+                    <option value="public" selected="">list with the public games</option>\
+                    <option value="private" disabled>private link to your game [disabled]</option>\
+                  </select><br>\
+                  <select id="logic" class="w300">\
+                    <option value="hunt" selected="">hunt</option>\
+                    <option value="inventory" disabled>inventory [disabled]</option>\
+                  </select>\
                 </div>\
               </div>\
               <div id="nested"></div>\
@@ -80,7 +83,7 @@
         ui: {
           "#game_name": { bind: "game_name" },
           "#user_name" : { bind: "user_name" },
-          "#description_for_start": { bind: "description_for_start" },
+          "#privacy_setting": { bind: "privacy_setting", init: "S2" },
           "#logic": { bind: "logic", init: "S2" },
           "#nested": {
             bind: "qr_codes",
@@ -122,7 +125,7 @@
             this.Row.RowHTML = this.RowHTML;
           },
           data: {
-            hint: "",
+            hint: "hints",
             time_allocated: "",
             photo_link: "",
             location: "",
@@ -209,11 +212,11 @@
             <div id="test" class="test">\
               <input type="text" id="location" class="w300 mr10 mt0 fs90" placeholder="where are you right now?"><br>\
               <input type="text" id="photo_link" class="w300 mr10 mt0 fs90" placeholder="you can add a link to a photo clue here"><br>\
-              <input type="number" id="time_allocated" class="w300 mr10 mt0 fs90" min="0" max="60" placeholder="is there a time limit in minutes?"><br>\
               <select id="hint" class="w300">\
-                <option value="hints">give clues one at at time as hints</option>\
-                <option value="all" selected="">give all clues at once</option>\
+                <option value="hints" selected="">give clues one at at time as hints</option>\
+                <option value="all" disabled>give all clues at once [disabled]</option>\
               </select> \
+              <input type="hidden" id="time_allocated" class="w300 mr10 mt0 fs90" min="0" max="60" placeholder="is there a time limit in minutes?"><br>\
             </div>\
             <div id="details" class="cb detailslist"></div>\
       			<span id="btn-addDetails" \
