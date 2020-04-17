@@ -14,7 +14,7 @@ development: {
     cognito_schema: {
         game_name: String,
         user_name: String,
-        description_for_start: String,
+        privacy_setting: String,
         logic: String,
         date_created: Date,
         qr_codes: [{
@@ -45,7 +45,7 @@ production: {
     cognito_schema: {
         game_name: String,
         user_name: String,
-        description_for_start: String,
+        privacy_setting: String,
         logic: String,
         date_created: Date,
         qr_codes: [{
