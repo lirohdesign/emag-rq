@@ -4,7 +4,7 @@
   "description": "This app uses a Node.js server to run API call back functions. These functions pull data from a MongoDB when specific keys are requested. The goal is to place QR codes containing URL/keys as clues to a scavenger hunt game. ",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "set NODE_ENV=development&& node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ben Shelby",

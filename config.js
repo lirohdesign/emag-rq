@@ -1,25 +1,27 @@
-var config = {
-development: {
+const env = process.env.NODE_ENV;
+
+const development = {
     url: 'http://localhost:8080/',
+    port: 8080,
     database: {
-        host:   '',
-        port:   '',
-        mongodb_connection: "mongodb://fAnW6nQ+W9SEDF_L:xC=uB!#RJ^jbt9^g@ds263448.mlab.com:63448/heroku_5wv92jfn"
+        mongo: process.env.DEV_DB,
+        redis: process.env.REDIS_URL
     },
-    crypt_key: "As2RXGjXDL-3CMzVtj8L#Q^nJm5FFvhth4AzpHXmmAm4BeHFTvXCw!u+xA?%R_gBnkDNHXvfL#Ju*c*mjv25Gu@gqECeKX@VC&Mdzs^g^9guT8AP6F#yUDTNb4dBZ8UW",
+    crypt_key: process.env.DEV_CRYPT_KEY,
     cognito_connection: "mongodb://integromatconnection:Th3M0nst3r@ds263448.mlab.com:63448/heroku_5wv92jfn",
-},
-production: {
+}
+const production = {
     url: 'http://emag-rq.herokuapp.com/',
+    port: process.env.PORT,
     database: {
-        host: '',
-        port: '',
-        mongodb_connection: "mongodb://%SvWA2Qvt7#k%KZ^:PSJ@2MVW3wR3v8%B@ds263448.mlab.com:63448/heroku_5wv92jfn"
+        mongo:   process.env.PRO_DB,
+        redis: process.env.REDIS_URL
     },
-    crypt_key: "r#KF4*f+TwkHYkL_JcPyeP?wVQ_#B^MBCVSKrk3&yfsx2fJEf5%HkP2Gh87feKnyH2Q-6URW7Y7&Fm@Bb$Tmws&EjXtGNPy6kdaTHjkQDpLrNLxknrvjKjPQk$drQSY&",
+    crypt_key: process.env.PRO_CRYPT_KEY,
     cognito_connection: "mongodb://integromatconnection:Th3M0nst3r@ds263448.mlab.com:63448/heroku_5wv92jfn",
-  }
 };
-module.exports = config;
+
+module.exports = config[env];
 
 //https://stackoverflow.com/questions/22348705/best-way-to-store-db-config-in-node-js-express-app
+//https://gist.github.com/jeserodz/fef32a3052ca502b01a9

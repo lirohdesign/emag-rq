@@ -8,14 +8,12 @@ const pug = require('pug');
 const bodyParser = require('body-parser');
 const assert = require('assert')
 
-const env = process.env.NODE_ENV || 'production';
-const config = require('./config')[env];
+const config = require('./config');
 
 //testing
 const mongoose = require('mongoose');
-var mongoDB = config.database.mongodb_connection
 
-mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(config.database.mongo, {useNewUrlParser: true, useUnifiedTopology: true});
 //Get the default connection
 var db = mongoose.connection;
 //Bind connection to error event (to get notification of connection errors)
@@ -81,7 +79,7 @@ app.get('/favicon.ico', (req, res) => res.status(204));
 //this resets the entire redis database.
 //I may build this out more to reset users within specific games
 app.get('/reset', function (req, res) {
-  var client = redis.createClient(process.env.REDIS_URL)
+  var client = redis.createClient(config.database.redis)
   client.on("error", function (err) {
       console.log("Error " + err);
   });
@@ -130,7 +128,7 @@ app.post('/post_game_builder', (req, res) => {
 });
 
 app.get('/:key', function (req, res) {
-  var client = redis.createClient(process.env.REDIS_URL)
+  var client = redis.createClient(config.database.redis)
 
   client.on("error", function (err) {
       console.log("Error " + err);
@@ -203,8 +201,7 @@ app.get('/:key', function (req, res) {
 });
 
 
-var port = process.env.PORT || 8080;
+var port = config.port || 8080; //add a port to config and .env file
 app.listen(port, function() {
-//  console.log('EDOC_RQ is running');
-  console.log('EDOC_RQ is running on http://localhost:' + port);
+  console.log('EMAG_RQ is running on' + config.url + port);
 });
