@@ -8,7 +8,7 @@ const pug = require('pug');
 const bodyParser = require('body-parser');
 const assert = require('assert')
 
-const config = require('./config');
+const config = require('./config.js');
 
 //testing
 const mongoose = require('mongoose');
@@ -203,5 +203,5 @@ app.get('/:key', function (req, res) {
 
 var port = config.port || 8080; //add a port to config and .env file
 app.listen(port, function() {
-  console.log('EMAG_RQ is running on' + config.url + port);
+  console.log('EMAG_RQ is running on ' + config.url + port);
 });
