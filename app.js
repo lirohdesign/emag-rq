@@ -108,7 +108,8 @@ app.get('/', function(req, res){
             res.render('template', {
                 //root_route: ['Welcome to emag-rq. This application is currently under development.','Follow the link below to print the codes and start a game','https://emag-rq.herokuapp.com/print'],
                 request: null,
-                print_url: req.protocol + '://' + req.get('host') + '/print:',
+
+                current_url: req.protocol + '://' + req.get('host'),
                 json_data: game_json
             });
           } else {res.send(JSON.stringify({error : 'Error'}))}

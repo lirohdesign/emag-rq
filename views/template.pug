@@ -12,15 +12,14 @@ html
     if request == null
       h1 This application is currently in testing and development, so don't get too attached to it.
       p
-        //a(href = 'http://localhost:8080/game_builder') Build a Game Here
-        a(href = 'https://emag-rq.herokuapp.com/game_builder') Build a Game Here
+        a(href = current_url + '/game_builder') Build a Game Here
       p if you want to create your own hunt.
       p Or check out one of the hunts that have been created for inspiration:
 
       for x in json_data
         //- add something like (if json_data.privacy = 'public') [privacy field does not exist yet]
         li
-          a(href=print_url+x._id) #{x.game_name}
+          a(href=current_url + '/print:' + x._id) #{x.game_name} 
       p Potential problems you may encounter:
         li Game edits are impossible.
         li Deleting a game is impossible.

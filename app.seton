@@ -1,5 +1,5 @@
-security tokens
-    form validation
+security tokens (changed all tokens, added .env file, reconfigured config.js to read .env, set production or dev in package.json)
+    form validation (added but not tested. It is currently annoying)
 image loading
     promise
     integrate giphy API
