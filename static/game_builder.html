@@ -149,7 +149,7 @@
               init: "S2"
             },
             "#time_allocated": { bind: "time_allocated" },
-            "#photo_link" : { bind: "photo_link", check: /^\S{3}.*$/i, error: "3+ chars please" },
+            "#photo_link" : { bind: "photo_link"},
             "#location": { 
               bind: "location",             
               check:function (data, value, $control) {
@@ -238,8 +238,7 @@
                 <input type="text" id="location" class="w300 mr10 mt0 fs90" placeholder="where are you right now?">\
                 <div class="my-error-tip"></div>\
               </div>\
-              <input type="text" id="photo_link" class="w300 mr10 mt0 fs90" placeholder="you can add a link to a photo clue here">\
-              <div class="my-error-tip"></div><br>\
+              <input type="text" id="photo_link" class="w300 mr10 mt0 fs90" placeholder="you can add a link to a photo clue here"><br>\
               <select id="hint" class="w300">\
                 <option value="hints" selected="">give clues one at at time as hints</option>\
                 <option value="all" disabled>give all clues at once [disabled]</option>\

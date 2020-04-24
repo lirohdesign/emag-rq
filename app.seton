@@ -1,5 +1,8 @@
 security tokens (changed all tokens, added .env file, reconfigured config.js to read .env, set production or dev in package.json)
     form validation (added but not tested. It is currently annoying)
+    work through these suggestions
+        https://medium.com/@nodepractices/were-under-attack-23-node-js-security-best-practices-e33c146cb87d
+        https://expressjs.com/en/advanced/best-practice-security.html
 image loading
     promise
     integrate giphy API
